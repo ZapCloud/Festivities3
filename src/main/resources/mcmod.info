@@ -1,0 +1,16 @@
+[
+{
+  "modid": "festivities3",
+  "name": "Festivities3",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://zapcloudstudios.com/",
+  "updateUrl": "",
+  "authorList": ["eekysam"],
+  "credits": "eekysam",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
