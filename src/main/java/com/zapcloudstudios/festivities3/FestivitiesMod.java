@@ -25,6 +25,10 @@ public class FestivitiesMod
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		instance = this;
+		
+		FestiveBlocks.loadBlocks();
+		
+		FestiveBlocks.registerBlocks();
 	}
 
 	@EventHandler

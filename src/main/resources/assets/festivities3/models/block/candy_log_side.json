@@ -1,0 +1,20 @@
+{
+"textures": {
+    "top": "festivities3:blocks/log_candy_top",
+    "side": "festivities3:blocks/log_candy_side"
+},
+"elements": [ 
+{
+    "from": [ 0, 0, 0 ],
+    "to": [ 16, 16, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#side", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#side", "cullface": "up" },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#top", "cullface": "north" },
+        "south": { "uv": [ 0, 16, 16, 0 ], "texture": "#top", "cullface": "south" },
+        "west":  { "uv": [ 0, 16, 16, 0 ], "texture": "#side", "cullface": "west" },
+        "east":  { "uv": [ 16, 0, 0, 16 ], "texture": "#side", "cullface": "east" }
+    }
+}
+]
+}
