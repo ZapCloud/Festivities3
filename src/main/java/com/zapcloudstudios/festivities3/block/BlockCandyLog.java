@@ -13,19 +13,17 @@ import net.minecraft.world.World;
 
 public class BlockCandyLog extends BlockLog
 {
-	public static final PropertyBool MELT_PROP = PropertyBool.create("melt");
-
 	public BlockCandyLog()
 	{
 		super();
-		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS_PROP, BlockLog.EnumAxis.Y).withProperty(MELT_PROP, Boolean.FALSE));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS_PROP, BlockLog.EnumAxis.Y));
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(MELT_PROP, Boolean.valueOf((meta & 1) > 0)).withProperty(AXIS_PROP, BlockLog.EnumAxis.values()[(meta >> 2) & 3]);
+		return this.getDefaultState().withProperty(AXIS_PROP, BlockLog.EnumAxis.values()[(meta >> 0) & 3]);
 	}
 
 	@Override
@@ -33,14 +31,12 @@ public class BlockCandyLog extends BlockLog
 	{
 		int i = 0;
 		i += ((BlockLog.EnumAxis) state.getValue(AXIS_PROP)).ordinal();
-		i <<= 2;
-		i += ((Boolean) state.getValue(MELT_PROP)).booleanValue() ? 1 : 0;
 		return i;
 	}
 
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { AXIS_PROP, MELT_PROP });
+		return new BlockState(this, new IProperty[] { AXIS_PROP });
 	}
 }

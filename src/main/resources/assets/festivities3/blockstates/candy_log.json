@@ -1,12 +1,8 @@
 {
     "variants": {
-        "axis=y,melt=false":  { "model": "festivities3:candy_log" },
-        "axis=z,melt=false":   { "model": "festivities3:candy_log_side" },
-        "axis=x,melt=false":   { "model": "festivities3:candy_log_side", "y": 90 },
-        "axis=none,melt=false": { "model": "festivities3:candy_log" },
-		"axis=y,melt=true":  { "model": "festivities3:candy_log" },
-        "axis=z,melt=true":   { "model": "festivities3:candy_log_side" },
-        "axis=x,melt=true":   { "model": "festivities3:candy_log_side", "y": 90 },
-        "axis=none,melt=true": { "model": "festivities3:candy_log" }
+        "axis=y":  { "model": "festivities3:candy_log" },
+        "axis=z":   { "model": "festivities3:candy_log_side" },
+        "axis=x":   { "model": "festivities3:candy_log_side", "y": 90 },
+        "axis=none": { "model": "festivities3:candy_log" }
     }
 }

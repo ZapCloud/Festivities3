@@ -34,8 +34,8 @@ public class FestivitiesMod
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		proxy.registerRenderInformation();
-
-		proxy.setupGuiIngameForge();
+		proxy.grabRenders();
+		
+		FestiveBlocks.registerItemRenders(this.proxy);
 	}
 }

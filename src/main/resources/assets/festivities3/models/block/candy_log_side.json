@@ -1,7 +1,8 @@
 {
 "textures": {
     "top": "festivities3:blocks/log_candy_top",
-    "side": "festivities3:blocks/log_candy_side"
+    "side": "festivities3:blocks/log_candy_side",
+	"particle": "#side"
 },
 "elements": [ 
 {
