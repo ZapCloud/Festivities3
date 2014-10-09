@@ -22,6 +22,6 @@ public class ClientProxy extends CommonProxy
 	@Override
     public void setItemModel(Item item, int meta, String model)
     {
-        this.itemRenderer.getItemModelMesher().register(item, meta, new ModelResourceLocation(model, "inventory"));
+        this.itemRenderer.getItemModelMesher().register(item, meta, new ModelResourceLocation(this.addPrefix(model), "inventory"));
     }
 }

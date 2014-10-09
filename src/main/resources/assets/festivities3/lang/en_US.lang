@@ -1,5 +1,8 @@
 tile.candyLog.name=Candy Log
 tile.snowglobe.name=Snowglobe
-
-item.candyLog.name=Candy Log
-item.snowglobe.name=Snowglobe
+tile.snowglobe.default.name=Snowglobe
+tile.snowglobe.portal.name=Portal Snowglobe
+tile.iceBrick.cobble=Broken Ice
+tile.iceBrick.brick=Ice Brick
+tile.iceBrick.cracked=Cracked Ice Brick
+tile.iceBrick.carved=Carved Ice Brick

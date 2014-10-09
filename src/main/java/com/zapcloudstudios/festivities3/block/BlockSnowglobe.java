@@ -72,12 +72,12 @@ public class BlockSnowglobe extends BlockDirectional
 		{
 			w = true;
 		}
-		return this.getDefaultState().withProperty(AGE, placer.func_174811_aO().getOpposite()).withProperty(PORTAL_PROP, (meta & 1) > 0).withProperty(WORLD_PROP, w);
+		return this.getDefaultState().withProperty(AGE, placer.func_174811_aO().getOpposite()).withProperty(PORTAL_PROP, (meta % 2) > 0).withProperty(WORLD_PROP, w);
 	}
 
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(AGE, EnumFacing.getHorizontal((meta >> 0) & 3)).withProperty(PORTAL_PROP, ((meta >> 2) & 1) > 0).withProperty(WORLD_PROP, ((meta >> 3) & 1) > 0);
+		return this.getDefaultState().withProperty(AGE, EnumFacing.getHorizontal((meta >> 0) % 4)).withProperty(PORTAL_PROP, ((meta >> 2) % 2) > 0).withProperty(WORLD_PROP, ((meta >> 3) % 2) > 0);
 	}
 
 	public int getMetaFromState(IBlockState state)

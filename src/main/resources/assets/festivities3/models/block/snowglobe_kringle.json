@@ -1,11 +1,11 @@
 {
 "ambientocclusion": false,
 "textures": {
+	"particle": "festivities3:blocks/snowglobe_front",
     "candy": "festivities3:blocks/snowglobe_candy",
     "base": "festivities3:blocks/snowglobe_base",
     "top": "festivities3:blocks/snowglobe_top",
-    "front": "festivities3:blocks/snowglobe_front",
-	"particle": "#front"
+    "front": "festivities3:blocks/snowglobe_front"
 },
 "elements": [ 
 {

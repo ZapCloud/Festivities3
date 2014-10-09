@@ -1,8 +1,20 @@
 {
     "variants": {
-        "facing=north": { "model": "festivities3:snowglobe_kringle" },
-        "facing=south": { "model": "festivities3:snowglobe_kringle", "y": 180 },
-        "facing=west":  { "model": "festivities3:snowglobe_kringle", "y": 270 },
-        "facing=east":  { "model": "festivities3:snowglobe_kringle", "y": 90 }
+		"facing=north,portal=false,world=false": { "model": "festivities3:snowglobe_kringle" },
+        "facing=south,portal=false,world=false": { "model": "festivities3:snowglobe_kringle", "y": 180 },
+        "facing=west,portal=false,world=false":  { "model": "festivities3:snowglobe_kringle", "y": 270 },
+        "facing=east,portal=false,world=false":  { "model": "festivities3:snowglobe_kringle", "y": 90 },
+        "facing=north,portal=true,world=false": { "model": "festivities3:snowglobe_kringle" },
+        "facing=south,portal=true,world=false": { "model": "festivities3:snowglobe_kringle", "y": 180 },
+        "facing=west,portal=true,world=false":  { "model": "festivities3:snowglobe_kringle", "y": 270 },
+        "facing=east,portal=true,world=false":  { "model": "festivities3:snowglobe_kringle", "y": 90 },
+		"facing=north,portal=false,world=true": { "model": "festivities3:snowglobe_kringle" },
+        "facing=south,portal=false,world=true": { "model": "festivities3:snowglobe_kringle", "y": 180 },
+        "facing=west,portal=false,world=true":  { "model": "festivities3:snowglobe_kringle", "y": 270 },
+        "facing=east,portal=false,world=true":  { "model": "festivities3:snowglobe_kringle", "y": 90 },        
+		"facing=north,portal=true,world=true": { "model": "festivities3:snowglobe_kringle" },
+        "facing=south,portal=true,world=true": { "model": "festivities3:snowglobe_kringle", "y": 180 },
+        "facing=west,portal=true,world=true":  { "model": "festivities3:snowglobe_kringle", "y": 270 },
+        "facing=east,portal=true,world=true":  { "model": "festivities3:snowglobe_kringle", "y": 90 }
     }
 }
