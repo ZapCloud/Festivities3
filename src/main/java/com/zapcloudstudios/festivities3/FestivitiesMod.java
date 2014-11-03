@@ -1,14 +1,12 @@
 package com.zapcloudstudios.festivities3;
 
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod(modid = FestivitiesMod.MODID, version = FestivitiesMod.VERSION, name = "Festivities3")
 public class FestivitiesMod
@@ -25,17 +23,19 @@ public class FestivitiesMod
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		instance = this;
-		
+
 		FestiveBlocks.loadBlocks();
-		
+
 		FestiveBlocks.registerBlocks();
 	}
 
-	@EventHandler
+	@Mod.EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		proxy.grabRenders();
-		
-		FestiveBlocks.registerItemRenders(this.proxy);
+		if (this.proxy instanceof ClientProxy)
+		{
+			proxy.grabRenders();
+			FestiveBlocks.registerItemRenders((ClientProxy) this.proxy);
+		}
 	}
 }

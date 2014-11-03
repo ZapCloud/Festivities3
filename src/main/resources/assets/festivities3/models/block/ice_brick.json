@@ -1,6 +1,0 @@
-{
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "festivities3:blocks/ice_brick"
-    }
-}
