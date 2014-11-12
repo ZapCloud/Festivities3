@@ -2,7 +2,6 @@ package eekysam.festivities.tile;
 
 import java.util.List;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,7 +15,7 @@ import eekysam.festivities.player.PlayerData;
 
 public class TileEntitySnowglobe extends TileEntityFestive
 {
-	public int type = -1;
+	public SnowglobeScene scene = SnowglobeScene.empty;
 
 	private long ticks;
 
@@ -29,14 +28,29 @@ public class TileEntitySnowglobe extends TileEntityFestive
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
-		tag.setShort("scene", (short) this.type);
+		if (this.scene != null || this.scene == SnowglobeScene.empty)
+		{
+			tag.setString("scene", this.scene.texture);
+		}
+		else
+		{
+			tag.setString("scene", "");
+		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
-		this.type = tag.getShort("scene");
+		String tex = tag.getString("scene");
+		if (tex.isEmpty())
+		{
+			this.scene = SnowglobeScene.empty;
+		}
+		else
+		{
+			this.scene = SnowglobeScene.map.get(tex);
+		}
 	}
 
 	@Override
@@ -115,11 +129,5 @@ public class TileEntitySnowglobe extends TileEntityFestive
 	{
 		Vec3 look = player.getLook(1.0F).normalize();
 		return this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.xCoord + 0.5D + look.xCoord * -2, this.yCoord + 0.5D + look.yCoord * -2, this.zCoord + 0.5D + look.zCoord * -2), Vec3.createVectorHelper(player.posX, player.posY + (double) player.getEyeHeight(), player.posZ)) == null;
-	}
-
-	@Deprecated
-	public boolean rayTraceTo(float dist, EntityLivingBase entity)
-	{
-		return false;// entity.rayTrace(dist, 1.0F);
 	}
 }

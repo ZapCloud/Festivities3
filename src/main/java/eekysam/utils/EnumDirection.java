@@ -1,94 +1,28 @@
 package eekysam.utils;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import org.lwjgl.util.vector.Vector3f;
 
 public enum EnumDirection
 {
-	XUp,
-	XDown,
-	YUp,
-	YDown,
-	ZUp,
-	ZDown;
+	XUp(ForgeDirection.EAST),
+	XDown(ForgeDirection.WEST),
+	YUp(ForgeDirection.UP),
+	YDown(ForgeDirection.DOWN),
+	ZUp(ForgeDirection.SOUTH),
+	ZDown(ForgeDirection.NORTH);
 
-	public EnumDirection getOpposite()
+	public final ForgeDirection forge;
+	
+	private EnumDirection(ForgeDirection forge)
 	{
-		switch (this)
-		{
-			case XUp:
-				return XDown;
-			case XDown:
-				return XUp;
-			case YUp:
-				return YDown;
-			case YDown:
-				return YUp;
-			case ZUp:
-				return ZDown;
-			case ZDown:
-				return ZUp;
-		}
-		return null;
-	}
-
-	public EnumDirection getUp()
-	{
-		switch (this)
-		{
-			case XUp:
-				return XUp;
-			case XDown:
-				return XUp;
-			case YUp:
-				return YUp;
-			case YDown:
-				return YUp;
-			case ZUp:
-				return ZUp;
-			case ZDown:
-				return ZUp;
-		}
-		return null;
-	}
-
-	public EnumDirection getDown()
-	{
-		switch (this)
-		{
-			case XUp:
-				return XDown;
-			case XDown:
-				return XDown;
-			case YUp:
-				return YDown;
-			case YDown:
-				return YDown;
-			case ZUp:
-				return ZDown;
-			case ZDown:
-				return ZDown;
-		}
-		return null;
+		this.forge = forge;
 	}
 
 	public Vector3f getVector(float mag)
 	{
-		switch (this)
-		{
-			case XUp:
-				return new Vector3f(1 * mag, 0.0F, 0.0F);
-			case XDown:
-				return new Vector3f(-1 * mag, 0.0F, 0.0F);
-			case YUp:
-				return new Vector3f(0.0F, 1 * mag, 0.0F);
-			case YDown:
-				return new Vector3f(0.0F, -1 * mag, 0.0F);
-			case ZUp:
-				return new Vector3f(0.0F, 0.0F, 1 * mag);
-			case ZDown:
-				return new Vector3f(0.0F, 0.0F, -1 * mag);
-		}
-		return new Vector3f(0.0F, 0.0F, 0.0F);
+		return new Vector3f(this.forge.offsetX * mag, this.forge.offsetY * mag, this.forge.offsetZ * mag);
 	}
 
 	public Vector3f getBadPlaneVector(float u, float v)
@@ -107,7 +41,8 @@ public enum EnumDirection
 				return new Vector3f(u, v, 0.0F);
 			case ZDown:
 				return new Vector3f(u, v, 0.0F);
+			default:
+				return new Vector3f(0.0F, 0.0F, 0.0F);
 		}
-		return new Vector3f(0.0F, 0.0F, 0.0F);
 	}
 }

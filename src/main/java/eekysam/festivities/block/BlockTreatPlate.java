@@ -13,6 +13,7 @@ import eekysam.festivities.Festivities;
 import eekysam.festivities.ITipItem;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntityPlate.PlateFoods;
+import eekysam.utils.Toolbox;
 
 public class BlockTreatPlate extends BlockContainer implements ITipItem
 {
@@ -39,7 +40,7 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
 	@Override
 	public void onBlockClicked(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
 	{
-		TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
+		TileEntityPlate t = (TileEntityPlate) world.getTileEntity(par2, par3, par4);
 		if (t != null)
 		{
 			ItemStack[] items = t.onClear();
@@ -47,7 +48,7 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
 			{
 				if (items[i] != null)
 				{
-					par5EntityPlayer.dropPlayerItem(items[i]);
+					par5EntityPlayer.dropItem(items[i]);
 				}
 			}
 		}
@@ -56,7 +57,7 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
 	@Override
 	public void breakBlock(World world, int par2, int par3, int par4, int par5, int par6)
 	{
-		TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
+		TileEntityPlate t = (TileEntityPlate) world.getTileEntity(par2, par3, par4);
 		if (t != null)
 		{
 			ItemStack[] items = t.onClear();
@@ -81,14 +82,14 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
 		ItemStack itemstack = par5EntityPlayer.inventory.getCurrentItem();
-		
+
 		if (world.isRemote)
 		{
 			return true;
 		}
 		if (itemstack == null)
 		{
-			TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
+			TileEntityPlate t = (TileEntityPlate) world.getTileEntity(par2, par3, par4);
 			ItemStack i = t.dropOneItem();
 			if (i == null)
 			{
@@ -96,22 +97,22 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
 			}
 			else
 			{
-				par5EntityPlayer.dropPlayerItem(i);
+				Toolbox.dropItem(world, i, rand, x, y, z, mincount, maxcount, var, vel)
 				return true;
 			}
 		}
 		else
 		{
-			TileEntityPlate t = (TileEntityPlate) world.getBlockTileEntity(par2, par3, par4);
+			TileEntityPlate t = (TileEntityPlate) world.getTileEntity(par2, par3, par4);
 			PlateFoods food = t.getFood(itemstack);
 			if (food != null)
 			{
 				if (t.addItem(food))
 				{
-					t.onChange();
-					if (!par5EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
+					t.markDirty();;
+					if (!par5EntityPlayer.capabilities.isCreativeMode && itemstack.stackSize > 0)
 					{
-						par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, (ItemStack) null);
+						itemstack.stackSize--;
 					}
 				}
 				return true;
@@ -121,7 +122,7 @@ public class BlockTreatPlate extends BlockContainer implements ITipItem
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World world)
+	public TileEntity createNewTileEntity(World world, int meta)
 	{
 		return new TileEntityPlate();
 	}

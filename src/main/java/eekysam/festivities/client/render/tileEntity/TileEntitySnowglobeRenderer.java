@@ -29,11 +29,11 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 
-		if (globe.type >= 0 && globe.type < SnowglobeScene.list.size())
+		if (globe.scene >= 0 && globe.scene < SnowglobeScene.map.size())
 		{
 			SideDrawFakeShade side = new SideDrawFakeShade(this);
 			side.setDoubleSided();
-			ResourceLocation loc = SnowglobeScene.list.get(globe.type).getResource();
+			ResourceLocation loc = SnowglobeScene.map.get(globe.scene).getResource();
 			side.setTexture(loc.getResourceDomain(), loc.getResourcePath(), 98, 40);
 
 			tess.startDrawingQuads();

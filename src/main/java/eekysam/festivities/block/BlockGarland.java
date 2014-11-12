@@ -20,31 +20,31 @@ public class BlockGarland extends BlockContainer implements ITipItem
 	{
 		super(par2Material);
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
-	
+
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
 	{
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
 	}
-	
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		return null;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	/**
@@ -55,7 +55,7 @@ public class BlockGarland extends BlockContainer implements ITipItem
 		this.setBlockBoundsBasedOnState(par1World, par2, par3, par4);
 		return super.getSelectedBoundingBoxFromPool(par1World, par2, par3, par4);
 	}
-	
+
 	/**
 	 * Updates the blocks bounds based on its current state. Args: world, x, y,
 	 * z
@@ -65,20 +65,20 @@ public class BlockGarland extends BlockContainer implements ITipItem
 	{
 		this.updateGarlandBounds(par1IBlockAccess.getBlockMetadata(par2, par3, par4));
 	}
-	
+
 	/**
 	 * Update the ladder block bounds based on the given metadata value.
 	 */
 	public void updateGarlandBounds(int meta)
 	{
 		meta %= 8;
-		
+
 		int xpos = 8;
 		int ypos = 8;
 		int zpos = 8;
-		
+
 		int dir;
-		
+
 		if (meta < 4)
 		{
 			int side = meta % 4;
@@ -112,7 +112,7 @@ public class BlockGarland extends BlockContainer implements ITipItem
 				ypos = 14;
 			}
 		}
-		
+
 		if (dir == 0)
 		{
 			this.setBlockBounds((xpos - 2) / 16.0F, (ypos - 2) / 16.0F, 0.0F, (xpos + 2) / 16.0F, (ypos + 2) / 16.0F, 1.0F);
@@ -122,27 +122,27 @@ public class BlockGarland extends BlockContainer implements ITipItem
 			this.setBlockBounds(0.0F, (ypos - 2) / 16.0F, (zpos - 2) / 16.0F, 1.0F, (ypos + 2) / 16.0F, (zpos + 2) / 16.0F);
 		}
 	}
-	
+
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] { "Oops...", "Use the garland item", "This is a technical block" };
 	}
-	
+
 	@Override
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
 		return null;
 	}
-	
+
 	@Override
 	public int getRenderType()
 	{
 		return Festivities.blockItemRenderId;
 	}
-	
+
 	@Override
-	public TileEntity createNewTileEntity(World world)
+	public TileEntity createNewTileEntity(World world, int meta)
 	{
 		return new TileEntityGarland();
 	}

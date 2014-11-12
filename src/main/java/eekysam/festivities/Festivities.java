@@ -79,7 +79,7 @@ import eekysam.festivities.tile.TileEntityOrnament;
 import eekysam.festivities.tile.TileEntityPlate;
 import eekysam.festivities.tile.TileEntitySnowMachine;
 import eekysam.festivities.tile.TileEntitySnowglobe;
-import eekysam.utils.Toolbox;
+import eekysam.utils.FestiveUtils;
 
 @Mod(modid = Festivities.ID, name = Festivities.NAME, version = "3." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD)
 public class Festivities
@@ -561,14 +561,14 @@ public class Festivities
 						String[] add = this.getUpdateInfo(line);
 						if (add != null)
 						{
-							info = Toolbox.mergeStringArrays(info, add);
+							info = FestiveUtils.mergeStringArrays(info, add);
 						}
 					}
 				}
 				if (info.length != 0)
 				{
-					msg = Toolbox.mergeStringArrays(msg, new String[] { "", "You are missing out on:" });
-					msg = Toolbox.mergeStringArrays(msg, info);
+					msg = FestiveUtils.mergeStringArrays(msg, new String[] { "", "You are missing out on:" });
+					msg = FestiveUtils.mergeStringArrays(msg, info);
 				}
 			}
 			s.close();
@@ -692,7 +692,7 @@ public class Festivities
 		for (int i = 0; i < tips.length; i++)
 		{
 			String tip = tips[i];
-			String[] tiplines = Toolbox.wrapString(tip, 40);
+			String[] tiplines = FestiveUtils.wrapString(tip, 40);
 			if (tiplines.length > 1 && flag)
 			{
 				info.add("");
