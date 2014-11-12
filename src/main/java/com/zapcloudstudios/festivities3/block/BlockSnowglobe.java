@@ -1,75 +1,115 @@
 package com.zapcloudstudios.festivities3.block;
 
-import java.util.List;
+import java.util.Random;
 
-import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import com.zapcloudstudios.festivities3.client.particle.EntitySnowFX;
+import com.zapcloudstudios.festivities3.tile.SnowglobeScene;
+import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockSnowglobe extends BlockDirectional
+public class BlockSnowGlobe extends BlockFestiveContainer
 {
-	public static enum EnumSnowglobe
+	public BlockSnowGlobe(Material par2Material)
 	{
-		KRINGLE("kringle"),
-		OVERWORLD("over");
-		
-		public static final int number = EnumSnowglobe.values().length;
-		
-		private final String name;
-		
-		EnumSnowglobe(String name)
-		{
-			this.name = name;
-		}
-		
-		public String getName()
-		{
-			return this.name;
-		}
+		super(par2Material);
 	}
-	
-	public BlockSnowglobe()
-	{
-		super(Material.glass);
-		this.setCreativeTab(CreativeTabs.tabDecorations);
-		
-		float a = 1.0F / 16.0F;
-		float b = 15.0F / 16.0F;
-		this.setBlockBounds(a, 0.0F, a, b, 1.0F, b);
-		this.setLightOpacity(1);
-	}
-	
+
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list)
+	public TileEntity createNewTileEntity(World world, int meta)
 	{
-		for (int i = 0; i < EnumSnowglobe.number; i++)
-		{
-			list.add(new ItemStack(itemIn, 1, i));
-		}
+		return new TileEntitySnowglobe();
 	}
-	
+
 	@Override
-	public void onBlockPlacedBy(World world, int X, int Y, int Z, EntityLivingBase player, ItemStack stack)
+	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer player, int par6, float par7, float par8, float par9)
 	{
-		int l = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
-		world.setBlockMetadataWithNotify(X, Y, Z, l + stack.getItemDamage() * EnumSnowglobe.number, 2);
+		TileEntitySnowglobe t = (TileEntitySnowglobe) world.getTileEntity(par2, par3, par4);
+		if (player.getItemInUse() != null)
+		{
+			SnowglobeScene scene = SnowglobeScene.getFromItem(player.getItemInUse());
+			if (scene != null)
+			{
+				t.scene = scene;
+				t.markDirty();
+			}
+		}
+		
+		return true;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
+	{
+		return false;
+	}
+
+	public static int determineOrientation(World world, int x, int y, int z, EntityLivingBase entity)
+	{
+		int l = MathHelper.floor_double((double) (entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		return l == 0 ? 2 : (l == 1 ? 5 : (l == 2 ? 3 : (l == 3 ? 4 : 0)));
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item)
+	{
+		int l = determineOrientation(world, x, y, z, entity);
+		world.setBlockMetadataWithNotify(x, y, z, l, 2);
+	}
+
+	/**
+	 * A randomly called display update to be able to add particles or other
+	 * items for display
+	 */
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random random)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			double X = x + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
+			double Z = z + random.nextFloat() * (12 / 16.0F) + (2 / 16.0F);
+			double Y = y + (15 / 16.0F);
+			EntitySnowFX.spawn(new EntitySnowFX(world, X, Y, Z).setSize(0.004F));
+		}
+	}
+
+	@Override
+	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] { "Look into snowglobe to go to the Kringle!", "Right-Click to randomise the globe's interior" };
+	}
+
+	@Override
+	public String[] getTip(EntityPlayer player, ItemStack stack)
+	{
+		return new String[] { "A magical snowglobe..." };
+	}
 	
-	public boolean isFullCube()
+	@Override
+	public boolean shouldRender3D()
 	{
 		return false;
 	}
