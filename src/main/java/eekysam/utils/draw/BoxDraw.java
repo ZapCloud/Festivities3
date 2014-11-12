@@ -33,13 +33,13 @@ public abstract class BoxDraw
 
 	protected boolean rotUVWorldMapping = false;
 
-	protected IRenderer parent;
+	protected FestivitiesRenderContext parent;
 
 	protected boolean inside = false;
 
 	public Tessellator tess;
 
-	public BoxDraw(IRenderer parent)
+	public BoxDraw(FestivitiesRenderContext parent)
 	{
 		this.parent = parent;
 		this.tess = Tessellator.instance;
@@ -97,7 +97,7 @@ public abstract class BoxDraw
 	{
 		this.textureWidth = width;
 		this.textureHeight = height;
-		this.parent.rendererBindTexture(new ResourceLocation(id, texture));
+		this.parent.bindTexture(new ResourceLocation(id, texture));
 	}
 
 	public void selectV(int v)

@@ -1,6 +1,5 @@
 package eekysam.festivities.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,9 +8,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.ITipItem;
 
-public class BlockCandyLog extends Block implements ITipItem
+public class BlockCandyLog extends BlockFestive
 {
 	@SideOnly(Side.CLIENT)
 	private IIcon dlSide;
@@ -68,15 +66,6 @@ public class BlockCandyLog extends Block implements ITipItem
 	}
 
 	/**
-	 * The type of render function that is called for this block
-	 */
-	@Override
-	public int getRenderType()
-	{
-		return 0;
-	}
-
-	/**
 	 * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z,
 	 * side, hitX, hitY, hitZ, block metadata
 	 */
@@ -104,11 +93,12 @@ public class BlockCandyLog extends Block implements ITipItem
 		return j1 | b0;
 	}
 
+	/**
+	 * From the specified side and block metadata retrieves the blocks texture.
+	 * Args: side, metadata
+	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	/**
-	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
-	 */
 	public IIcon getIcon(int s, int m)
 	{
 		int k = m & 12;

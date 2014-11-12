@@ -1,24 +1,20 @@
 package eekysam.festivities.block;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.Festivities;
-import eekysam.festivities.ITipItem;
-import eekysam.festivities.tile.TileEntityGarland;
 
-public class BlockGarland extends BlockContainer implements ITipItem
+public class BlockGarland extends BlockFestiveComplex
 {
 	public BlockGarland(Material par2Material)
 	{
 		super(par2Material);
+		this.setShouldRender3D(false);
 	}
 
 	@Override
@@ -133,17 +129,5 @@ public class BlockGarland extends BlockContainer implements ITipItem
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
 		return null;
-	}
-
-	@Override
-	public int getRenderType()
-	{
-		return Festivities.blockItemRenderId;
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
-	{
-		return new TileEntityGarland();
 	}
 }

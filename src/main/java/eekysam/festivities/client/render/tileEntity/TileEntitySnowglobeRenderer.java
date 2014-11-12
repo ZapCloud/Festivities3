@@ -12,10 +12,10 @@ import eekysam.festivities.tile.SnowglobeScene;
 import eekysam.festivities.tile.TileEntitySnowglobe;
 import eekysam.utils.EnumDirection;
 import eekysam.utils.draw.BoxDrawBasic;
-import eekysam.utils.draw.IRenderer;
+import eekysam.utils.draw.FestivitiesRenderContext;
 import eekysam.utils.draw.SideDrawFakeShade;
 
-public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer implements IRenderer
+public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer implements FestivitiesRenderContext
 {
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f)
@@ -109,13 +109,13 @@ public class TileEntitySnowglobeRenderer extends TileEntitySpecialRenderer imple
 	}
 
 	@Override
-	public void rendererBindTexture(ResourceLocation loc)
+	public void bindTexture(ResourceLocation loc)
 	{
 		this.bindTexture(loc);
 	}
 
 	@Override
-	public int getAnimNum()
+	public int getTime()
 	{
 		return 0;
 	}

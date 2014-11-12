@@ -2,7 +2,7 @@ package eekysam.utils.draw;
 
 public class BoxDrawBasic extends BoxDraw
 {
-	public BoxDrawBasic(IRenderer parent)
+	public BoxDrawBasic(FestivitiesRenderContext parent)
 	{
 		super(parent);
 	}

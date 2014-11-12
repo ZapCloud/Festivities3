@@ -10,12 +10,12 @@ import org.lwjgl.opengl.GL11;
 import eekysam.festivities.Festivities;
 import eekysam.festivities.tile.TileEntitySnowMachine;
 import eekysam.utils.draw.BoxDrawBasic;
-import eekysam.utils.draw.IRenderer;
+import eekysam.utils.draw.FestivitiesRenderContext;
 
-public class TileEntitySnowMachineRenderer extends TileEntitySpecialRenderer implements IRenderer
+public class TileEntitySnowMachineRenderer extends TileEntitySpecialRenderer implements FestivitiesRenderContext
 {
 	@Override
-	public void rendererBindTexture(ResourceLocation loc)
+	public void bindTexture(ResourceLocation loc)
 	{
 		this.bindTexture(loc);
 	}
@@ -74,7 +74,7 @@ public class TileEntitySnowMachineRenderer extends TileEntitySpecialRenderer imp
 	}
 
 	@Override
-	public int getAnimNum()
+	public int getTime()
 	{
 		return 0;
 	}

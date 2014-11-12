@@ -22,7 +22,7 @@ public abstract class PlaneDraw
 	protected Vector3f[] vects = new Vector3f[2];
 	protected Vector3f[] ivects = new Vector3f[2];
 
-	protected IRenderer parent;
+	protected FestivitiesRenderContext parent;
 	public Tessellator tess;
 
 	protected int textureWidth;
@@ -38,7 +38,7 @@ public abstract class PlaneDraw
 
 	protected boolean doubleSided = false;
 
-	public PlaneDraw(IRenderer parent)
+	public PlaneDraw(FestivitiesRenderContext parent)
 	{
 		this.parent = parent;
 		this.tess = Tessellator.instance;
@@ -103,7 +103,7 @@ public abstract class PlaneDraw
 	{
 		this.textureWidth = width;
 		this.textureHeight = height;
-		this.parent.rendererBindTexture(new ResourceLocation(id, texture));
+		this.parent.bindTexture(new ResourceLocation(id, texture));
 	}
 
 	public void selectV(int v)

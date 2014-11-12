@@ -3,21 +3,17 @@ package eekysam.festivities.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import eekysam.festivities.Festivities;
-import eekysam.festivities.ITipItem;
-import eekysam.festivities.tile.TileEntityOrnament;
 
-public class BlockOrnament extends BlockContainer implements ITipItem
+public class BlockOrnament extends BlockFestiveComplex
 {
 	private boolean clear;
 	public static boolean canSit = false;
@@ -27,15 +23,10 @@ public class BlockOrnament extends BlockContainer implements ITipItem
 	public BlockOrnament(boolean clear)
 	{
 		super(Material.circuits);
+		this.setShouldRender3D(false);
 		this.clear = clear;
 		this.setBlockBounds(3 / 16.0F, 3 / 16.0F, 3 / 16.0F, 13 / 16.0F, 13 / 16.0F, 13 / 16.0F);
 		this.setBlockTextureName(Festivities.ID + ":ornament");
-	}
-	
-	@Override
-	public int getRenderType()
-	{
-		return Festivities.blockItemRenderId;
 	}
 	
 	@Override
@@ -179,12 +170,6 @@ public class BlockOrnament extends BlockContainer implements ITipItem
 			return Festivities.clearOrnament;
 		}
 		return null;
-	}
-	
-	@Override
-	public TileEntity createNewTileEntity(World world, int par2)
-	{
-		return new TileEntityOrnament();
 	}
 	
 	@Override

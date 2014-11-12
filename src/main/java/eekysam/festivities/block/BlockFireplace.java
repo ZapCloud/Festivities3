@@ -2,31 +2,21 @@ package eekysam.festivities.block;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import eekysam.festivities.Festivities;
-import eekysam.festivities.ITipItem;
-import eekysam.festivities.tile.TileEntityFireplace;
 
-public class BlockFireplace extends BlockContainer implements ITipItem
+public class BlockFireplace extends BlockFestiveComplex
 {
 	public BlockFireplace(Material par2Material)
 	{
 		super(par2Material);
 		this.setBlockBounds(1 / 16.0F, 0 / 16.0F, 1 / 16.0F, 15 / 16.0F, 5 / 16.0F, 15 / 16.0F);
-	}
-
-	@Override
-	public int getRenderType()
-	{
-		return Festivities.blockItemRenderId;
 	}
 
 	@Override
@@ -47,17 +37,12 @@ public class BlockFireplace extends BlockContainer implements ITipItem
 		return false;
 	}
 
-	@Override
-	public TileEntity createNewTileEntity(World world)
-	{
-		return new TileEntityFireplace();
-	}
-
+	/**
+	 * A randomly called display update to be able to add particles or other
+	 * items for display
+	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	/**
-	 * A randomly called display update to be able to add particles or other items for display
-	 */
 	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if (par5Random.nextInt(24) == 0)
@@ -94,25 +79,31 @@ public class BlockFireplace extends BlockContainer implements ITipItem
 
 	public boolean canSitAt(World world, int x, int y, int z)
 	{
-		int id = world.getBlockId(x, y - 1, z);
-		if (id == 0)
+		Block block = world.getBlock(x, y - 1, z);
+		if (block.isAir(world, x, y, z))
 		{
 			return false;
 		}
-		if (id == this.blockID)
+		if (block == this)
 		{
 			return false;
 		}
-		return world.doesBlockHaveSolidTopSurface(x, y - 1, z);
+		return world.doesBlockHaveSolidTopSurface(world, x, y - 1, z);
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, int changeId)
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block change)
 	{
 		if (!this.canSitAt(world, x, y, z))
 		{
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			world.setBlockToAir(x, y, z);
 		}
+	}
+	
+	@Override
+	public boolean shouldRender3D()
+	{
+		return true;
 	}
 }

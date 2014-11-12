@@ -2,7 +2,7 @@ package eekysam.utils.draw;
 
 public class SideDrawBasic extends SideDraw
 {
-	public SideDrawBasic(IRenderer parent)
+	public SideDrawBasic(FestivitiesRenderContext parent)
 	{
 		super(parent);
 	}

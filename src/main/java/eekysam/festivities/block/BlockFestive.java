@@ -15,28 +15,34 @@ public class BlockFestive extends Block implements ITipItem
 	{
 		super(material);
 	}
-	
+
 	public BlockFestive setTip(String... tip)
 	{
 		this.tip = tip;
 		return this;
 	}
-	
+
 	public BlockFestive setShiftTip(String... tip)
 	{
 		this.shifttip = tip;
 		return this;
 	}
-	
+
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
 		return this.tip;
 	}
-	
+
 	@Override
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
 		return this.shifttip;
+	}
+	
+	@Override
+	public int getRenderType()
+	{
+		return 0;
 	}
 }

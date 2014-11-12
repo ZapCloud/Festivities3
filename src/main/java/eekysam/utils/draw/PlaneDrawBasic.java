@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class PlaneDrawBasic extends PlaneDraw
 {
-	public PlaneDrawBasic(IRenderer parent)
+	public PlaneDrawBasic(FestivitiesRenderContext parent)
 	{
 		super(parent);
 	}

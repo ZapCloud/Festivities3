@@ -11,33 +11,60 @@ import net.minecraft.world.World;
 
 public class FestiveUtils
 {
-	public static void dropItem(World world, ItemStack itemstack, NBTTagCompound nbtdata, Random rand, double x, double y, double z, float vel)
+	public static ItemStack addData(ItemStack itemstack, NBTTagCompound data)
 	{
-		itemstack.setTagCompound(nbtdata);
-		dropItem(world, itemstack, rand, x, y, z, vel);
+		if (data != null)
+		{
+			itemstack.setTagCompound(data);
+		}
+		return itemstack;
 	}
-
-	public static void dropItem(World world, ItemStack itemstack, Random rand, double x, double y, double z, float vel)
+	
+	public static void dropItem(World world, ItemStack itemstack, Random rand, double x, double y, double z, float velocity)
 	{
 		EntityItem entityitem = new EntityItem(world, x, y, z, itemstack);
 		
-		entityitem.motionX = rand.nextGaussian() * vel;
-		entityitem.motionY = rand.nextGaussian() * vel + 0.2D;
-		entityitem.motionZ = rand.nextGaussian() * vel;
+		entityitem.motionX = rand.nextGaussian() * velocity;
+		entityitem.motionY = rand.nextGaussian() * velocity + 0.2D;
+		entityitem.motionZ = rand.nextGaussian() * velocity;
 		world.spawnEntityInWorld(entityitem);
 	}
 
-	public static ItemStack dropItems(World world, ItemStack itemstack, Random rand, double x, double y, double z, int mincount, int maxcount, float var, float vel)
+	public static void dropItem(World world, ItemStack itemstack, Random rand, int x, int y, int z, float velocity)
+	{
+		dropItem(world, itemstack, rand, x + 0.5D, y + 0.5D, z + 0.5D, velocity);
+	}
+
+	public static void dropItem(World world, ItemStack itemstack, Random rand, int x, int y, int z, float randomoffset, float velocity)
+	{
+		dropItem(world, itemstack, rand, x + 0.5D, y + 0.5D, z + 0.5D, randomoffset, velocity);
+	}
+
+	public static void dropItem(World world, ItemStack itemstack, Random rand, double x, double y, double z, float randomoffset, float velocity)
+	{
+		float off = (1.0F - randomoffset) / 2.0F;
+		x += rand.nextFloat() * randomoffset + off;
+		y += rand.nextFloat() * randomoffset + off;
+		z += rand.nextFloat() * randomoffset + off;
+		dropItem(world, itemstack, rand, x, y, z, velocity);
+	}
+	
+	public static void dropItem(World world, ItemStack itemstack, Random rand, int x, int y, int z, int mincount, int maxcount, float randomoffset, float velocity)
+	{
+		dropItem(world, itemstack, rand, x + 0.5D, y + 0.5D, z + 0.5D, mincount, maxcount, randomoffset, velocity);
+	}
+
+	public static void dropItem(World world, ItemStack itemstack, Random rand, double x, double y, double z, int mincount, int maxcount, float randomoffset, float veclocity)
 	{
 		if (itemstack == null)
 		{
-			return null;
+			return;
 		}
 		ItemStack newstack = itemstack.copy();
-		float off = (1.0F - var) / 2.0F;
-		x += rand.nextFloat() * var + off;
-		y += rand.nextFloat() * var + off;
-		z += rand.nextFloat() * var + off;
+		float off = (1.0F - randomoffset) / 2.0F;
+		x += rand.nextFloat() * randomoffset + off;
+		y += rand.nextFloat() * randomoffset + off;
+		z += rand.nextFloat() * randomoffset + off;
 		while (newstack.stackSize > 0)
 		{
 			int num = rand.nextInt(maxcount - mincount) + mincount;
@@ -48,9 +75,8 @@ public class FestiveUtils
 			}
 			
 			newstack.stackSize -= num;
-			dropItem(world, new ItemStack(newstack.getItem(), num, newstack.getItemDamage()), newstack.getTagCompound(), rand, x, y, z, vel);
+			dropItem(world, addData(new ItemStack(newstack.getItem(), num, newstack.getItemDamage()), newstack.getTagCompound()), rand, x, y, z, veclocity);
 		}
-		return newstack;
 	}
 	
 	public static String[] mergeStringArrays(String[] ar1, String[] ar2)
