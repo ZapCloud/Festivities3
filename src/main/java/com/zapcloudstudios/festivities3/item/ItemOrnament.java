@@ -2,8 +2,6 @@ package com.zapcloudstudios.festivities3.item;
 
 import java.util.List;
 
-import com.zapcloudstudios.festivities3.Festivities;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,6 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import com.zapcloudstudios.festivities3.Festivities;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -20,7 +21,7 @@ public class ItemOrnament extends ItemFestiveBlock
 {
 	private Block block;
 	private boolean clear;
-
+	
 	public static final String[] ornamentColorNames = new String[] { "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white" };
 	public static final String[] ornamentNames = new String[] { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "Silver", "Gray", "Pink", "Lime", "Yellow", "Light Blue", "Magenta", "Orange", "White" };
 	public static final int[] ornamentColors = new int[] { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 11250603, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320 };
@@ -30,7 +31,7 @@ public class ItemOrnament extends ItemFestiveBlock
 	private IIcon coloredIcon;
 	@SideOnly(Side.CLIENT)
 	private IIcon clearIcon;
-
+	
 	public ItemOrnament(Block block, boolean clear)
 	{
 		super(block);
@@ -42,13 +43,14 @@ public class ItemOrnament extends ItemFestiveBlock
 			this.setMaxDamage(0);
 		}
 		this.setCreativeTab(CreativeTabs.tabDecorations);
+		this.setToUseItemTextureMap();
 	}
-
+	
 	public boolean isClear()
 	{
 		return this.clear;
 	}
-
+	
 	/**
 	 * Returns the unlocalized name of this item. This version accepts an
 	 * ItemStack so different stacks can have different names based on their
@@ -67,7 +69,7 @@ public class ItemOrnament extends ItemFestiveBlock
 			return super.getUnlocalizedName() + "." + ornamentColorNames[i];
 		}
 	}
-
+	
 	/**
 	 * returns a list of items with the same ID, but different meta (eg: dye
 	 * returns 16 items)
@@ -88,7 +90,7 @@ public class ItemOrnament extends ItemFestiveBlock
 			}
 		}
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister par1IconRegister)
@@ -103,13 +105,13 @@ public class ItemOrnament extends ItemFestiveBlock
 			this.coloredIcon = par1IconRegister.registerIcon(Festivities.ID + ":ornament" + "_" + "color");
 		}
 	}
-
+	
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta)
 	{
-
+		
 		meta = stack.getItemDamage();
-
+		
 		if (world.setBlock(x, y, z, this.block, meta, 3))
 		{
 			if (world.getBlock(x, y, z) == this.block)
@@ -117,27 +119,27 @@ public class ItemOrnament extends ItemFestiveBlock
 				this.block.onBlockPlacedBy(world, x, y, z, player, stack);
 				this.block.onPostBlockPlaced(world, x, y, z, meta);
 			}
-
+			
 			--stack.stackSize;
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean requiresMultipleRenderPasses()
 	{
 		return !this.clear;
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int par1)
 	{
 		return this.clearIcon;
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	/**
@@ -161,7 +163,7 @@ public class ItemOrnament extends ItemFestiveBlock
 			}
 		}
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int pass)

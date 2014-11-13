@@ -23,14 +23,15 @@ public class BlockSnowGlobe extends BlockFestiveContainer
 	public BlockSnowGlobe(Material par2Material)
 	{
 		super(par2Material);
+		this.setShouldRender3D(true);
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta)
 	{
 		return new TileEntitySnowglobe();
 	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer player, int par6, float par7, float par8, float par9)
 	{
@@ -47,38 +48,38 @@ public class BlockSnowGlobe extends BlockFestiveContainer
 		
 		return true;
 	}
-
+	
 	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
 	}
-
+	
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
 	{
 		return false;
 	}
-
+	
 	public static int determineOrientation(World world, int x, int y, int z, EntityLivingBase entity)
 	{
 		int l = MathHelper.floor_double((double) (entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		return l == 0 ? 2 : (l == 1 ? 5 : (l == 2 ? 3 : (l == 3 ? 4 : 0)));
 	}
-
+	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item)
 	{
 		int l = determineOrientation(world, x, y, z, entity);
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 	}
-
+	
 	/**
 	 * A randomly called display update to be able to add particles or other
 	 * items for display
@@ -95,22 +96,16 @@ public class BlockSnowGlobe extends BlockFestiveContainer
 			EntitySnowFX.spawn(new EntitySnowFX(world, X, Y, Z).setSize(0.004F));
 		}
 	}
-
+	
 	@Override
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] { "Look into snowglobe to go to the Kringle!", "Right-Click to randomise the globe's interior" };
 	}
-
+	
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] { "A magical snowglobe..." };
-	}
-	
-	@Override
-	public boolean shouldRender3D()
-	{
-		return false;
 	}
 }

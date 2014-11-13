@@ -2,13 +2,14 @@ package com.zapcloudstudios.festivities3.item;
 
 import java.util.List;
 
-import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.ITipItem;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.festivities3.ITipItem;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,10 +17,20 @@ public class ItemFestiveBlock extends ItemBlock implements ITipItem
 {
 	private String[] tip = null;
 	private String[] shifttip = null;
-
+	
+	protected String itemIconName = null;
+	
+	private boolean useItemTexture = false;
+	
 	public ItemFestiveBlock(Block block)
 	{
 		super(block);
+	}
+	
+	public ItemFestiveBlock setToUseItemTextureMap()
+	{
+		this.useItemTexture = true;
+		return this;
 	}
 	
 	/**
@@ -37,24 +48,38 @@ public class ItemFestiveBlock extends ItemBlock implements ITipItem
 		}
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getSpriteNumber()
+	{
+		if (this.useItemTexture)
+		{
+			return 1;
+		}
+		else
+		{
+			return super.getSpriteNumber();
+		}
+	}
+	
 	public ItemFestiveBlock setTip(String... tip)
 	{
 		this.tip = tip;
 		return this;
 	}
-
+	
 	public ItemFestiveBlock setShiftTip(String... tip)
 	{
 		this.shifttip = tip;
 		return this;
 	}
-
+	
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
 		return this.tip;
 	}
-
+	
 	@Override
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{

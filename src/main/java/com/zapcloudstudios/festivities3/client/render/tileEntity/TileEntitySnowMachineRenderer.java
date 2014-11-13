@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.client.render.block.TileEntityFestivitiesRenderer;
 import com.zapcloudstudios.festivities3.tile.TileEntitySnowMachine;
 import com.zapcloudstudios.utils.draw.BoxDrawBasic;
 
@@ -29,8 +28,8 @@ public class TileEntitySnowMachineRenderer extends TileEntityFestivitiesRenderer
 	public void renderSnowMachine(TileEntitySnowMachine tile)
 	{
 		Tessellator tess = Tessellator.instance;
-		BoxDrawBasic draw = new BoxDrawBasic(this.context);
-		draw.setTexture(Festivities.ID, "textures/tile/snowMachine.png", 36, 36);
+		BoxDrawBasic draw = new BoxDrawBasic();
+		draw.setTexture(this, Festivities.ID, "textures/tile/snowMachine.png", 36, 36);
 		tess.startDrawingQuads();
 		
 		draw.cube(0, 11, 0, 16, 5, 16);

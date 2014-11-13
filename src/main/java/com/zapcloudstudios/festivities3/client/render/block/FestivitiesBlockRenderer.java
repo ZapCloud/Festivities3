@@ -1,21 +1,20 @@
 package com.zapcloudstudios.festivities3.client.render.block;
 
-import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.item.ItemOrnament;
-import com.zapcloudstudios.utils.draw.BoxDrawBasic;
-import com.zapcloudstudios.utils.draw.FestivitiesRenderContext;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 
+import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.festivities3.item.ItemOrnament;
+import com.zapcloudstudios.utils.draw.BoxDrawBasic;
+
 public class FestivitiesBlockRenderer
 {
-	public static void renderGarland(FestivitiesRenderContext render, int id, int meta, int x, int y, int z)
+	public static void renderGarland(int id, int meta, int x, int y, int z)
 	{
 		Tessellator tess = Tessellator.instance;
 		
-		BoxDrawBasic draw = new BoxDrawBasic(render);
-		draw.setTexture(Festivities.ID, "textures/tile/garland.png", 16, 16);
+		BoxDrawBasic draw = new BoxDrawBasic();
+		// draw.setTexture(Festivities.ID, "textures/tile/garland.png", 16, 16);
 		
 		tess.startDrawingQuads();
 		
@@ -114,11 +113,12 @@ public class FestivitiesBlockRenderer
 		draw.drawAllNormalTextureShape();
 	}
 	
-	public static void renderOrnament(FestivitiesRenderContext render, Block id, int meta, int x, int y, int z)
+	public static void renderOrnament(Block id, int meta, int x, int y, int z)
 	{
 		Tessellator tess = Tessellator.instance;
-		BoxDrawBasic draw = new BoxDrawBasic(render);
-		draw.setTexture(Festivities.ID, "textures/tile/ornament.png", 64, 32);
+		BoxDrawBasic draw = new BoxDrawBasic();
+		// draw.setTexture(Festivities.ID, "textures/tile/ornament.png", 64,
+		// 32);
 		tess.startDrawingQuads();
 		
 		boolean clear = id == Festivities.clearOrnamentBlock && id != Festivities.coloredOrnamentBlock;

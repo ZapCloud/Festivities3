@@ -13,10 +13,12 @@ import com.zapcloudstudios.festivities3.Festivities;
 public class SnowglobeScene
 {
 	static HashMap<String, SnowglobeScene> map = new HashMap<String, SnowglobeScene>();
+
 	public static SnowglobeScene empty = null;
 	public static SnowglobeScene snowTree = new SnowglobeScene("snowWorld", Items.stick, Item.getItemFromBlock(Blocks.log), Item.getItemFromBlock(Blocks.log2), Item.getItemFromBlock(Blocks.planks));
 	public static SnowglobeScene candyWorld = new SnowglobeScene("candyWorld", Item.getItemFromBlock(Festivities.candyLog), Festivities.peppermintStick, Festivities.candyCane);
 	public static SnowglobeScene hillWorld = new SnowglobeScene("hillWorld", Item.getItemFromBlock(Blocks.ice), Item.getItemFromBlock(Festivities.cobbleIce));
+	public static SnowglobeScene testGrid = new SnowglobeScene("grid", Festivities.magicCandy);
 	
 	public String texture;
 	public Item[] items;
@@ -25,7 +27,7 @@ public class SnowglobeScene
 	{
 		this.texture = tex;
 		this.items = items;
-		this.map.put(tex, this);
+		map.put(tex, this);
 	}
 	
 	public String getTexture()

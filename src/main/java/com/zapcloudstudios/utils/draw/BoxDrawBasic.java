@@ -2,158 +2,176 @@ package com.zapcloudstudios.utils.draw;
 
 public class BoxDrawBasic extends BoxDraw
 {
-	public BoxDrawBasic(FestivitiesRenderContext parent)
+	public BoxDrawBasic()
 	{
-		super(parent);
+		super();
 	}
-
+	
+	private float getNormal()
+	{
+		if (this.inside)
+		{
+			return -1.0F;
+		}
+		else
+		{
+			return 1.0F;
+		}
+	}
+	
 	@Override
 	public void XUp()
 	{
-		float u;
-		float v;
+		int u;
+		int v;
+		this.tess.setNormal(this.getNormal(), 0.0F, 0.0F);
 		if (this.rotUVWorldMapping)
 		{
-			u = this.iheight / (float) this.textureWidth;
-			v = this.ilength / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			u = this.height;
+			v = this.length;
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
 		}
 		else
 		{
-			u = this.ilength / (float) this.textureWidth;
-			v = this.iheight / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			u = this.length;
+			v = this.height;
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
 		}
 	}
-
+	
 	@Override
 	public void XDown()
 	{
-		float u;
-		float v;
+		int u;
+		int v;
+		this.tess.setNormal(-this.getNormal(), 0.0F, 0.0F);
 		if (this.rotUVWorldMapping)
 		{
-			u = this.iheight / (float) this.textureWidth;
-			v = this.ilength / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			u = this.height;
+			v = this.length;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
 		}
 		else
 		{
-			u = this.ilength / (float) this.textureWidth;
-			v = this.iheight / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			u = this.length;
+			v = this.height;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
 		}
 	}
-
+	
 	@Override
 	public void YUp()
 	{
-		float u;
-		float v;
+		int u;
+		int v;
+		this.tess.setNormal(0.0F, this.getNormal(), 0.0F);
 		if (this.rotUVWorldMapping)
 		{
-			u = this.ilength / (float) this.textureWidth;
-			v = this.iwidth / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV + v);
+			u = this.length;
+			v = this.width;
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV + v);
 		}
 		else
 		{
-			u = this.iwidth / (float) this.textureWidth;
-			v = this.ilength / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u, this.textureV);
+			u = this.width;
+			v = this.length;
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u, this.textureV);
 		}
 	}
-
+	
 	@Override
 	public void YDown()
 	{
-		float u;
-		float v;
+		int u;
+		int v;
+		this.tess.setNormal(0.0F, -this.getNormal(), 0.0F);
 		if (this.rotUVWorldMapping)
 		{
-			u = this.ilength / (float) this.textureWidth;
-			v = this.iwidth / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU, this.textureV + v);
+			u = this.length;
+			v = this.width;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU, this.textureV + v);
 		}
 		else
 		{
-			u = this.iwidth / (float) this.textureWidth;
-			v = this.ilength / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV);
+			u = this.width;
+			v = this.length;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV);
 		}
 	}
-
+	
 	@Override
 	public void ZUp()
 	{
-		float u;
-		float v;
+		int u;
+		int v;
+		this.tess.setNormal(0.0F, 0.0F, this.getNormal());
 		if (this.rotUVWorldMapping)
 		{
-			u = this.iheight / (float) this.textureWidth;
-			v = this.iwidth / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			u = this.height;
+			v = this.width;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
 		}
 		else
 		{
-			u = this.iwidth / (float) this.textureWidth;
-			v = this.iheight / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			u = this.width;
+			v = this.height;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.length, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
 		}
 	}
-
+	
 	@Override
 	public void ZDown()
 	{
-		float u;
-		float v;
+		int u;
+		int v;
+		this.tess.setNormal(0.0F, 0.0F, -this.getNormal());
 		if (this.rotUVWorldMapping)
 		{
-			u = this.iheight / (float) this.textureWidth;
-			v = this.iwidth / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV + v);
+			u = this.height;
+			v = this.width;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV + v);
 		}
 		else
 		{
-			u = this.iwidth / (float) this.textureWidth;
-			v = this.iheight / (float) this.textureHeight;
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV + v);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u, this.textureV);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV + v);
+			u = this.width;
+			v = this.height;
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU, this.textureV + v);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u, this.textureV);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u, this.textureV + v);
 		}
 	}
 }

@@ -2,11 +2,11 @@ package com.zapcloudstudios.utils.draw;
 
 public class SideDrawBasic extends SideDraw
 {
-	public SideDrawBasic(FestivitiesRenderContext parent)
+	public SideDrawBasic()
 	{
-		super(parent);
+		super();
 	}
-
+	
 	@Override
 	public void draw()
 	{
@@ -32,17 +32,17 @@ public class SideDrawBasic extends SideDraw
 				return;
 		}
 	}
-
+	
 	protected void XUp()
 	{
-		float u2;
-		float v2;
-		float u1 = 0;
-		float v1 = 0;
+		int u2;
+		int v2;
+		int u1 = 0;
+		int v1 = 0;
 		if (this.rotUVWorldMapping)
 		{
-			u2 = this.iheight / (float) this.textureWidth;
-			v2 = this.iwidth / (float) this.textureHeight;
+			u2 = this.height;
+			v2 = this.width;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -53,15 +53,15 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
 		}
 		else
 		{
-			u2 = this.iwidth / (float) this.textureWidth;
-			v2 = this.iheight / (float) this.textureHeight;
+			u2 = this.width;
+			v2 = this.height;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -72,23 +72,23 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
 		}
 	}
-
+	
 	protected void XDown()
 	{
-		float u2;
-		float v2;
-		float u1 = 0;
-		float v1 = 0;
+		int u2;
+		int v2;
+		int u1 = 0;
+		int v1 = 0;
 		if (this.rotUVWorldMapping)
 		{
-			u2 = this.iheight / (float) this.textureWidth;
-			v2 = this.iwidth / (float) this.textureHeight;
+			u2 = this.height;
+			v2 = this.width;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -99,15 +99,15 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
 		}
 		else
 		{
-			u2 = this.iwidth / (float) this.textureWidth;
-			v2 = this.iheight / (float) this.textureHeight;
+			u2 = this.width;
+			v2 = this.height;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -118,23 +118,23 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos + this.width, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.width, this.textureU + u2, this.textureV + v2);
 		}
 	}
-
+	
 	protected void YUp()
 	{
-		float u2;
-		float v2;
-		float u1 = 0;
-		float v1 = 0;
+		int u2;
+		int v2;
+		int u1 = 0;
+		int v1 = 0;
 		if (this.rotUVWorldMapping)
 		{
-			u2 = this.iheight / (float) this.textureWidth;
-			v2 = this.iwidth / (float) this.textureHeight;
+			u2 = this.height;
+			v2 = this.width;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -145,15 +145,15 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
 		}
 		else
 		{
-			u2 = this.iwidth / (float) this.textureWidth;
-			v2 = this.iheight / (float) this.textureHeight;
+			u2 = this.width;
+			v2 = this.height;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -164,23 +164,23 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
 		}
 	}
-
+	
 	protected void YDown()
 	{
-		float u2;
-		float v2;
-		float u1 = 0;
-		float v1 = 0;
+		int u2;
+		int v2;
+		int u1 = 0;
+		int v1 = 0;
 		if (this.rotUVWorldMapping)
 		{
-			u2 = this.iheight / (float) this.textureWidth;
-			v2 = this.iwidth / (float) this.textureHeight;
+			u2 = this.height;
+			v2 = this.width;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -191,15 +191,15 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
 		}
 		else
 		{
-			u2 = this.iwidth / (float) this.textureWidth;
-			v2 = this.iheight / (float) this.textureHeight;
+			u2 = this.width;
+			v2 = this.height;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -210,23 +210,23 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos + this.height, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos + this.height, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
 		}
 	}
-
+	
 	protected void ZUp()
 	{
-		float u2;
-		float v2;
-		float u1 = 0;
-		float v1 = 0;
+		int u2;
+		int v2;
+		int u1 = 0;
+		int v1 = 0;
 		if (this.rotUVWorldMapping)
 		{
-			u2 = this.iheight / (float) this.textureWidth;
-			v2 = this.iwidth / (float) this.textureHeight;
+			u2 = this.height;
+			v2 = this.width;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -237,15 +237,15 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
 		}
 		else
 		{
-			u2 = this.iwidth / (float) this.textureWidth;
-			v2 = this.iheight / (float) this.textureHeight;
+			u2 = this.width;
+			v2 = this.height;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -256,23 +256,23 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
 		}
 	}
-
+	
 	protected void ZDown()
 	{
-		float u2;
-		float v2;
-		float u1 = 0;
-		float v1 = 0;
+		int u2;
+		int v2;
+		int u1 = 0;
+		int v1 = 0;
 		if (this.rotUVWorldMapping)
 		{
-			u2 = this.iheight / (float) this.textureWidth;
-			v2 = this.iwidth / (float) this.textureHeight;
+			u2 = this.height;
+			v2 = this.width;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -283,15 +283,15 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
 		}
 		else
 		{
-			u2 = this.iwidth / (float) this.textureWidth;
-			v2 = this.iheight / (float) this.textureHeight;
+			u2 = this.width;
+			v2 = this.height;
 			if (this.flipU)
 			{
 				u1 = u2;
@@ -302,10 +302,10 @@ public class SideDrawBasic extends SideDraw
 				v1 = v2;
 				v2 = 0;
 			}
-			this.tess.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
-			this.tess.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u2, this.textureV + v1);
-			this.tess.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos, this.zpos, this.textureU + u1, this.textureV + v2);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, this.zpos, this.textureU + u1, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, this.zpos, this.textureU + u2, this.textureV + v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, this.zpos, this.textureU + u2, this.textureV + v2);
 		}
 	}
 }

@@ -1,69 +1,53 @@
 package com.zapcloudstudios.festivities3.client.render.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
-import org.lwjgl.opengl.GL11;
-
-import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.festivities3.block.BlockFireplace;
 import com.zapcloudstudios.utils.draw.BoxDrawBasic;
-import com.zapcloudstudios.utils.draw.FestivitiesRenderContext;
 
 public class RenderBlockFireplace extends RenderBlockFestivites
 {
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, RenderBlocks renderer)
 	{
-		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-		this.renderFireplace(this.context, 0, 0, 0);
-		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+		this.renderFireplace(0, 0, 0);
 	}
-
+	
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer)
 	{
-		this.renderFireplace(this.context, x, y, z);
+		this.renderFireplace(x, y, z);
 		return true;
 	}
-
-	private static void renderFireplace(FestivitiesRenderContext render, int x, int y, int z)
+	
+	private static void renderFireplace(int x, int y, int z)
 	{
-		Tessellator tess = Tessellator.instance;
-		BoxDrawBasic draw = new BoxDrawBasic(render);
-		draw.setTexture(Festivities.ID, "textures/tile/fireplace.png", 16, 32);
-		tess.startDrawingQuads();
+		BoxDrawBasic draw = new BoxDrawBasic();
 		
-		draw.cube(1, 0, 1, 14, 5, 14);
-		draw.selectUV(0, 8);
-		draw.faceIn();
-		draw.drawSidesSameTexture();
-		
-		tess.draw();
-		tess.startDrawingQuads();
-		
-		draw.faceOut();
+		draw.setTexture(BlockFireplace.floor);
 		
 		draw.cube(1, 0, 1, 14, 1, 14);
 		draw.selectUV(0, 13);
 		draw.YDown();
 		draw.YUp();
 		
-		tess.draw();
-		tess.startDrawingQuads();
+		draw.setTexture(BlockFireplace.detail);
 		
-		draw.setTexture(Festivities.ID, "textures/tile/burnlog.png", 8, 14);
+		int a = (int) (Minecraft.getSystemTime() / 200);
 		
-		int a = render.getTime() / 200;
+		drawLog(draw, 5, 2, 4, 2, (a + 1) % 4);
+		drawLog(draw, 9, 2, 4, 2, (a + 2) % 4);
+		drawLog(draw, 4, 4, 7, 0, (a + 0) % 4);
 		
-		drawLog(draw, 5, 2, 4, 2, a);// (a + 1) % 4);
-		drawLog(draw, 9, 2, 4, 2, a);// (a + 2) % 4);
-		drawLog(draw, 4, 4, 7, 0, a);// (a + 0) % 4);
-		
-		tess.draw();
+		draw.cube(1, 0, 1, 14, 5, 14);
+		draw.selectUV(0, 8);
+		draw.faceIn();
+		draw.drawSidesSameTexture();
 	}
-
+	
 	private static void drawLog(BoxDrawBasic draw, int x, int y, int z, int dir, int anim)
 	{
 		dir = dir % 3;

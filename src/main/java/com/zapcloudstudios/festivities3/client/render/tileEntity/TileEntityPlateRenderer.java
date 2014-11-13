@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.client.render.block.TileEntityFestivitiesRenderer;
 import com.zapcloudstudios.festivities3.tile.TileEntityPlate;
 import com.zapcloudstudios.festivities3.tile.TileEntityPlate.PlateFoods;
 import com.zapcloudstudios.utils.draw.BoxDrawBasic;
@@ -16,19 +15,19 @@ public class TileEntityPlateRenderer extends TileEntityFestivitiesRenderer
 	public static final short[] cookieXPos = new short[] { 6, 7, 2, 4, 10, 5, 8, 2, 3, 5, 3, 10, 9, 5, 10, 10, 7, 7, 1, 3 };
 	public static final short[] cookieYPos = new short[] { 0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 0, 0, 1, 1, 2, 0, 2, 3, 1, 2 };
 	public static final short[] cookieZPos = new short[] { 4, 8, 7, 6, 3, 1, 3, 3, 3, 5, 11, 7, 7, 10, 5, 10, 8, 6, 9, 8 };
-
+	
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
-
+		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		this.render((TileEntityPlate) tileentity);
 		GL11.glPopMatrix();
 	}
-
+	
 	public void render(TileEntityPlate tile)
 	{
 		Tessellator t = Tessellator.instance;
@@ -65,94 +64,57 @@ public class TileEntityPlateRenderer extends TileEntityFestivitiesRenderer
 				pieAt++;
 			}
 		}
-
-		BoxDrawBasic draw = new BoxDrawBasic(this.context);
-		draw.setTexture(Festivities.ID, "textures/tile/dish.png", 64, 32);
-		t.startDrawingQuads();
-
-		draw.cube(0, 0, 0, 16, 3, 16);
-		draw.selectUV(0, 0);
-		draw.YUp();
-		draw.selectUV(16, 0);
-		draw.YDown();
-		draw.selectUV(32, 0);
-		draw.XUp();
-		draw.selectUV(32, 3);
-		draw.ZUp();
-		draw.selectUV(32, 6);
-		draw.XDown();
-		draw.selectUV(32, 9);
-		draw.ZDown();
-
-		draw.cube(1, 1, 1, 14, 2, 14);
-		draw.faceIn();
-		draw.selectUV(0, 16);
-		draw.YDown();
-		draw.selectUV(14, 16);
-		draw.XUp();
-		draw.selectUV(14, 18);
-		draw.ZUp();
-		draw.selectUV(14, 20);
-		draw.XDown();
-		draw.selectUV(14, 22);
-		draw.ZDown();
-
-		t.draw();
 	}
-
+	
 	public void renderFiggy(int x, int y, int z)
 	{
-		BoxDrawBasic draw = new BoxDrawBasic(this.context);
+		BoxDrawBasic draw = new BoxDrawBasic();
 		Tessellator t = Tessellator.instance;
-		draw.setTexture(Festivities.ID, "textures/tile/plate_figgy.png", 24, 11);
+		draw.setTexture(this, Festivities.ID, "textures/tile/plate_figgy.png", 24, 11);
 		t.startDrawingQuads();
-
+		
 		draw.setPos(x, y, z);
 		draw.cube(6, 5, 6);
 		draw.selectUV(0, 0);
 		draw.drawAllLeftJustTextureShape(true);
-
+		
 		draw.setPos(x + 3, y + 6, z + 3);
 		draw.cube(1, 1, 1);
 		draw.selectUV(12, 4);
 		draw.drawAllNormalTextureShape();
-
+		
 		draw.setPos(x + 3, y + 5, z + 2);
 		draw.drawAllNormalTextureShape();
-
+		
 		draw.setPos(x + 2, y + 5, z + 3);
 		draw.drawAllNormalTextureShape();
-
-		float u = (16) / 24.0F;
-		float v = (3) / 11.0F;
-		float U = (3) / 24.0F;
-		float V = (3) / 11.0F;
-		float leafx = (3 + x) / 16.0F;
-		float leafy = (5.5F + y) / 16.0F;
-		float leafz = (3 + z) / 16.0F;
-		float X = (3) / 16.0F;
-		float Z = (3) / 16.0F;
-
-		t.addVertexWithUV(leafx, leafy, leafz, u, v + V);
-		t.addVertexWithUV(leafx + X, leafy, leafz, u, v);
-		t.addVertexWithUV(leafx + X, leafy, leafz + Z, u + U, v);
-		t.addVertexWithUV(leafx, leafy, leafz + Z, u + U, v + V);
-
+		
+		float leafx = 3 + x;
+		float leafy = 5.5F + y;
+		float leafz = 3 + z;
+		float X = 3;
+		float Z = 3;
+		
+		draw.addVertexWithUV(leafx, leafy, leafz, 16, 6);
+		draw.addVertexWithUV(leafx + X, leafy, leafz, 16, 3);
+		draw.addVertexWithUV(leafx + X, leafy, leafz + Z, 19, 3);
+		draw.addVertexWithUV(leafx, leafy, leafz + Z, 19, 6);
+		
 		t.draw();
 	}
-
-	public void renderPie(int x, int y, int z, String texture)
+	
+	public void renderPie(int x, int y, int z, String type)
 	{
-		BoxDrawBasic draw = new BoxDrawBasic(this.context);
+		BoxDrawBasic draw = new BoxDrawBasic();
 		Tessellator t = Tessellator.instance;
-		draw.setTexture(Festivities.ID, "textures/tile/plate_pie_" + texture + ".png", 32, 16);
+		draw.setTexture(this, Festivities.ID, "textures/tile/plate_pie_" + type + ".png", 32, 16);
 		t.startDrawingQuads();
-
+		
 		draw.setPos(x, y, z);
 		draw.cube(8, 4, 8);
 		draw.selectUV(0, 4);
 		draw.drawAllLeftJustTextureShape(false);
-
+		
 		draw.setPos(x + 1, y + 3, z + 1);
 		draw.cube(6, 1, 6);
 		draw.faceIn();
@@ -160,10 +122,10 @@ public class TileEntityPlateRenderer extends TileEntityFestivitiesRenderer
 		draw.drawSidesGroupedTexture();
 		draw.selectUV(16, 6);
 		draw.YDown();
-
+		
 		t.draw();
 	}
-
+	
 	public void renderCookie(int x, int y, int z, PlateFoods type, int texture)
 	{
 		int t = -1;
@@ -189,12 +151,12 @@ public class TileEntityPlateRenderer extends TileEntityFestivitiesRenderer
 		}
 		this.renderCookie(x, y, z, t, texture);
 	}
-
+	
 	public void renderCookie(int x, int y, int z, int type, int texture)
 	{
-		BoxDrawBasic draw = new BoxDrawBasic(this.context);
+		BoxDrawBasic draw = new BoxDrawBasic();
 		Tessellator t = Tessellator.instance;
-		draw.setTexture(Festivities.ID, "textures/tile/plate_cookie.png", 16, 16);
+		draw.setTexture(this, Festivities.ID, "textures/tile/plate_cookie.png", 16, 16);
 		t.startDrawingQuads();
 		draw.setPos(x, y, z);
 		draw.selectUV(type * 3, texture * 3);

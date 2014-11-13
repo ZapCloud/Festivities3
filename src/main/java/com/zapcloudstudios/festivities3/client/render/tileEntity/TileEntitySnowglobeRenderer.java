@@ -2,12 +2,10 @@ package com.zapcloudstudios.festivities3.client.render.tileEntity;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.client.render.block.TileEntityFestivitiesRenderer;
 import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
 import com.zapcloudstudios.utils.EnumDirection;
 import com.zapcloudstudios.utils.draw.BoxDrawBasic;
@@ -29,10 +27,9 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 		
 		if (globe.scene != null)
 		{
-			SideDrawBasic side = new SideDrawBasic(this.context);
+			SideDrawBasic side = new SideDrawBasic();
 			side.setDoubleSided();
-			ResourceLocation loc = globe.scene.getResource();
-			side.setTexture(loc.getResourceDomain(), loc.getResourcePath(), 98, 40);
+			side.setTexture(this, globe.scene.getResource(), 98, 40);
 			
 			tess.startDrawingQuads();
 			
@@ -64,8 +61,8 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 		}
 		else
 		{
-			SideDrawBasic side = new SideDrawBasic(this.context);
-			side.setTexture(Festivities.ID, "textures/snowglobe/base.png", 14, 14);
+			SideDrawBasic side = new SideDrawBasic();
+			side.setTexture(this, Festivities.ID, "textures/snowglobe/base.png", 14, 14);
 			tess.startDrawingQuads();
 			
 			side.side(EnumDirection.YUp, 14, 14, 1, 2, 1);
@@ -75,8 +72,8 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 			tess.draw();
 		}
 		
-		BoxDrawBasic draw = new BoxDrawBasic(this.context);
-		draw.setTexture(Festivities.ID, "textures/snowglobe/globe.png", 64, 32);
+		BoxDrawBasic draw = new BoxDrawBasic();
+		draw.setTexture(this, Festivities.ID, "textures/snowglobe/globe.png", 64, 32);
 		tess.startDrawingQuads();
 		
 		draw.cube(0, 0, 0, 16, 3, 16);

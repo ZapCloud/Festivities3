@@ -2,8 +2,6 @@ package com.zapcloudstudios.festivities3.item;
 
 import java.util.List;
 
-import com.zapcloudstudios.festivities3.Festivities;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,22 +11,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import com.zapcloudstudios.festivities3.Festivities;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemGarland extends ItemFestiveBlock
 {
 	private Block block;
-
+	
 	private IIcon[] icons = new IIcon[2];
-
+	
 	public ItemGarland(Block block)
 	{
 		super(block);
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
+		this.setToUseItemTextureMap();
 	}
-
+	
 	/**
 	 * Gets an icon index based on an item's damage value
 	 */
@@ -39,7 +41,7 @@ public class ItemGarland extends ItemFestiveBlock
 		int j = MathHelper.clamp_int(par1, 0, 15);
 		return this.icons[j];
 	}
-
+	
 	/**
 	 * returns a list of items with the same ID, but different meta (eg: dye
 	 * returns 16 items)
@@ -53,7 +55,7 @@ public class ItemGarland extends ItemFestiveBlock
 			par3List.add(new ItemStack(par1, 1, j));
 		}
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister par1IconRegister)
@@ -93,7 +95,7 @@ public class ItemGarland extends ItemFestiveBlock
 		{
 			meta += 0;
 		}
-
+		
 		if (world.setBlock(x, y, z, this.block, meta, 3))
 		{
 			if (world.getBlock(x, y, z) == this.block)

@@ -4,11 +4,14 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.zapcloudstudios.festivities3.Festivities;
 import com.zapcloudstudios.festivities3.client.render.block.RenderBlockFireplace;
 
 import cpw.mods.fml.relauncher.Side;
@@ -16,11 +19,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockFireplace extends BlockFestiveComplex
 {
+	public static IIcon floor;
+	public static IIcon detail;
+	
 	public BlockFireplace(Material par2Material)
 	{
 		super(par2Material);
 		this.setBlockBounds(1 / 16.0F, 0 / 16.0F, 1 / 16.0F, 15 / 16.0F, 5 / 16.0F, 15 / 16.0F);
 		this.setRenderer(RenderBlockFireplace.class);
+		this.setBlockTextureName(Festivities.ID + ":fireplace");
 	}
 	
 	@Override
@@ -39,6 +46,21 @@ public class BlockFireplace extends BlockFestiveComplex
 	public boolean renderAsNormalBlock()
 	{
 		return false;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int s, int m)
+	{
+		return detail;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg)
+	{
+		this.floor = reg.registerIcon(this.getTextureName() + "_floor");
+		this.detail = reg.registerIcon(this.getTextureName() + "_detail");
 	}
 	
 	/**
@@ -104,7 +126,7 @@ public class BlockFireplace extends BlockFestiveComplex
 			world.setBlockToAir(x, y, z);
 		}
 	}
-
+	
 	@Override
 	public boolean shouldRender3D()
 	{

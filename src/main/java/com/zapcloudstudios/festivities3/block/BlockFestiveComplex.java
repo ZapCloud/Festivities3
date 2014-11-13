@@ -1,16 +1,22 @@
 package com.zapcloudstudios.festivities3.block;
 
+import net.minecraft.block.material.Material;
+
+import com.zapcloudstudios.festivities3.Festivities;
 import com.zapcloudstudios.festivities3.client.IRenderableBlock;
 import com.zapcloudstudios.festivities3.client.render.block.RenderBlockFestivites;
 
-import net.minecraft.block.material.Material;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockFestiveComplex extends BlockFestive implements IRenderableBlock
+public abstract class BlockFestiveComplex extends BlockFestive implements IRenderableBlock
 {
 	private RenderBlockFestivites render;
 	private Class<? extends RenderBlockFestivites> renderClass = null;
-
+	
 	private boolean shouldRender3D = true;
+	
+	private String itemTexture = null;
 	
 	public BlockFestiveComplex(Material material)
 	{
@@ -36,6 +42,19 @@ public class BlockFestiveComplex extends BlockFestive implements IRenderableBloc
 	}
 	
 	@Override
+	public int getRenderType()
+	{
+		if (this.shouldRender3D())
+		{
+			return Festivities.block3dItemRenderId;
+		}
+		else
+		{
+			return Festivities.block2dItemRenderId;
+		}
+	}
+	
+	@Override
 	public RenderBlockFestivites getRendererInstance()
 	{
 		if (this.render == null)
@@ -49,7 +68,7 @@ public class BlockFestiveComplex extends BlockFestive implements IRenderableBloc
 				}
 				catch (InstantiationException | IllegalAccessException e)
 				{
-
+					
 				}
 			}
 		}
@@ -60,5 +79,18 @@ public class BlockFestiveComplex extends BlockFestive implements IRenderableBloc
 	public boolean shouldRender3D()
 	{
 		return this.shouldRender3D;
+	}
+	
+	public BlockFestive setBlockItemTextureName(String name)
+	{
+		this.itemTexture = name;
+		return this;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public String getItemIconName()
+	{
+		return this.itemTexture;
 	}
 }

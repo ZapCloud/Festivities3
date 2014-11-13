@@ -2,8 +2,6 @@ package com.zapcloudstudios.festivities3.block;
 
 import java.util.Random;
 
-import com.zapcloudstudios.festivities3.Festivities;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +11,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.zapcloudstudios.festivities3.Festivities;
 
 public class BlockOrnament extends BlockFestiveComplex
 {
@@ -162,7 +162,7 @@ public class BlockOrnament extends BlockFestiveComplex
 	{
 		return meta;
 	}
-
+	
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune)
 	{
@@ -170,7 +170,10 @@ public class BlockOrnament extends BlockFestiveComplex
 		{
 			return Festivities.clearOrnament;
 		}
-		return null;
+		else
+		{
+			return Festivities.coloredOrnament;
+		}
 	}
 	
 	@Override
