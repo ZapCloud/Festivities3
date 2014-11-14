@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -16,7 +15,6 @@ import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -25,9 +23,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 
 import org.lwjgl.input.Keyboard;
 
@@ -41,7 +36,6 @@ import com.zapcloudstudios.festivities3.block.BlockSnowMachine;
 import com.zapcloudstudios.festivities3.block.BlockTreatPlate;
 import com.zapcloudstudios.festivities3.command.CommandHome;
 import com.zapcloudstudios.festivities3.command.CommandKringle;
-import com.zapcloudstudios.festivities3.debugutils.PerlinTest;
 import com.zapcloudstudios.festivities3.events.EventHooks;
 import com.zapcloudstudios.festivities3.item.ItemFestive;
 import com.zapcloudstudios.festivities3.item.ItemFestiveBlock;
@@ -75,40 +69,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class Festivities
 {
 	public static final String ID = "festivities3";
-	public static final String NAME = "Christmas Festivities Mod 2";
-	public static final String CHANNEL = "festivities3";
+	public static final String NAME = "Christmas Festivities Mod 3";
+	public static final String CHANNEL = ID;
 	
-	public static final String CHATNAME = "Festivities3";
+	public static final String CHATNAME = ID;
 	
-	public static final String PLAYERDATA = "festivities3";
+	public static final String PLAYERDATA = ID;
 	
 	public static final int MAJOR = 0;
 	public static final int MINOR = 0;
 	public static final int BUILD = 0;
 	
-	public static final boolean DEBUG = false;
-	
-	public static final boolean TESTVERSION = false;
-	public static final String[] TESTMSG = new String[] { "Christmas Festivities Mod 3", "Version " + "3." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD + " is a TEST version!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
-	public static final String[] TESTMSGDATED = new String[] { "This a TEST version of the Christmas Festivities Mod 2!", "You will experience bugs and unfinished features.", "Download a proper release when possible." };
-	public static final String[] MSG = new String[] { "Christmas Festivities Mod 3", "Version " + "3." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "", "Try with \"Not Enough Items\"", "", "Use \"/santa\" to exchange the item you are holding with someone else across the world!" };
-	public static final String[] MSGDATED = new String[] {};
-	
 	public static final int kringleId = 3;
-	
-	public static final int santacooldowntime = 100;
-	
-	private int itemId = 7600;
-	private int blockId = 2400;
-	private int entityId = 0;
-	private int globealEntityId = 360;
-	
-	public Configuration config;
-	
-	private boolean advancedBlockConfig = false;
-	private boolean advancedItemConfig = false;
-	
-	private List<String> usedversions = new ArrayList<String>();
 	
 	protected static HashMap<Integer, Integer> oldidsmap = new HashMap<Integer, Integer>();
 	protected static HashMap<Integer, Integer> newidsmap = new HashMap<Integer, Integer>();
@@ -172,31 +144,6 @@ public class Festivities
 	{
 		instance = this;
 		
-		this.config = new Configuration(event.getSuggestedConfigurationFile());
-		this.config.load();
-		
-		ConfigCategory versions = this.config.getCategory("usedverions");
-		String ver = "3." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD;
-		Iterator<String> verit = versions.keySet().iterator();
-		while (verit.hasNext())
-		{
-			String key = verit.next();
-			if (versions.get(key).getBoolean(true))
-			{
-				this.usedversions.add(key);
-			}
-		}
-		versions.put(ver, new Property(ver, "true", Property.Type.BOOLEAN));
-		versions.setComment("For tracking versions used in the past. Do not change.");
-		
-		this.advancedBlockConfig = this.config.get(Configuration.CATEGORY_GENERAL, "useSpecificBlockIDs", this.advancedBlockConfig, "If this is false the mod will use ids incrementing up from defaultBlockIdStart. If this is true, the mod will use the specified id. If no id is specified, the mod will use the id the block would have had if defaultBlockIdStart was false. Changing this to true and restarting is required to generate the block id configs.").getBoolean(this.advancedBlockConfig);
-		this.advancedItemConfig = this.config.get(Configuration.CATEGORY_GENERAL, "useSpecificItemIDs", this.advancedItemConfig, "If this is false the mod will use ids incrementing up from defaultItemIdStart. If this is true, the mod will use the specified id. If no id is specified, the mod will use the id the item would have had if defaultItemIdStart was false. Changing this to true and restarting is required to generate the item id configs.").getBoolean(this.advancedItemConfig);
-		
-		this.blockId = this.config.get(Configuration.CATEGORY_GENERAL, "defaultBlockIdStart", this.blockId).getInt();
-		this.itemId = this.config.get(Configuration.CATEGORY_GENERAL, "defaultItemIdStart", this.itemId).getInt();
-		
-		this.globealEntityId = this.config.get(Configuration.CATEGORY_GENERAL, "defaultEntityIdStart", this.globealEntityId).getInt();
-		
 		magicCandy = new ItemFestive().setTip("You probibly shouldn't eat this...").setShiftTip("All purpose test item").setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(Festivities.miscTab);
 		this.registerItem(magicCandy, "magicCandy");
 		
@@ -229,16 +176,16 @@ public class Festivities
 		bluePie = new ItemFoodFestive(8, 0.3F, false).setTip("Mmmm, sweet").setShiftTip("Can be displayed on a treat plate", "Pumpkin pies also work").setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(Festivities.foodTab);
 		this.registerItem(bluePie, "bluPie");
 		
-		clearOrnamentBlock = new BlockOrnament(true).setBlockName("clearOrnamentBlock").setCreativeTab(Festivities.decorTab);
+		clearOrnamentBlock = new BlockOrnament(true).setBlockName("ornament").setCreativeTab(Festivities.decorTab);
 		this.registerBlockWithoutItem(clearOrnamentBlock, "clearOrnament");
 		
-		coloredOrnamentBlock = new BlockOrnament(false).setBlockName("coloredOrnamentBlock").setCreativeTab(Festivities.decorTab);
+		coloredOrnamentBlock = new BlockOrnament(false).setBlockName("ornament").setCreativeTab(Festivities.decorTab);
 		this.registerBlockWithoutItem(coloredOrnamentBlock, "coloredOrnament");
 		
-		clearOrnament = new ItemOrnament(clearOrnamentBlock, true).setTip("A glass decoration for your tree!").setShiftTip("Right-Click to place", "Needs a block to sit or hang on").setUnlocalizedName("ornament").setCreativeTab(Festivities.decorTab);
+		clearOrnament = new ItemOrnament(clearOrnamentBlock, true).setTip("A glass decoration for your tree!").setShiftTip("Right-Click to place", "Needs a block to sit or hang on");
 		this.registerItem(clearOrnament, "clearOrnament");
 		
-		coloredOrnament = new ItemOrnament(coloredOrnamentBlock, false).setTip("A colorful decoration for your tree!").setShiftTip("Right-Click to place", "Needs a block to sit or hang on").setUnlocalizedName("ornament").setCreativeTab(Festivities.decorTab);
+		coloredOrnament = new ItemOrnament(coloredOrnamentBlock, false).setTip("A colorful decoration for your tree!").setShiftTip("Right-Click to place", "Needs a block to sit or hang on");
 		this.registerItem(coloredOrnament, "coloredOrnament");
 		
 		fireplace = new BlockFireplace(Material.rock).setBlockName("fireplace").setLightLevel(1.0F).setCreativeTab(Festivities.decorTab);
@@ -299,8 +246,6 @@ public class Festivities
 		this.miscTab.setIcon(magicCandy);
 		
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
-		
-		this.config.save();
 	}
 	
 	@EventHandler
@@ -336,42 +281,9 @@ public class Festivities
 		GameRegistry.registerItem(item, name);
 	}
 	
-	protected int nextItemID()
-	{
-		return ++this.itemId;
-	}
-	
-	protected int nextBlockID()
-	{
-		return ++this.blockId;
-	}
-	
-	protected int nextEntityID()
-	{
-		return this.entityId++;
-	}
-	
-	protected int nextGlobalEntityId()
-	{
-		do
-		{
-			this.globealEntityId++;
-		}
-		while (EntityList.getStringFromID(this.globealEntityId) != null);
-		
-		return this.globealEntityId;
-	}
-	
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
-		if (this.DEBUG)
-		{
-			PerlinTest perlinTest = new PerlinTest(System.currentTimeMillis(), 8, 0.5F);
-			perlinTest.makeWorld();
-			perlinTest.saveImg("test.png", 750, 750);
-		}
-		
 		BiomeGenKringle.registerBiomes(130);
 		
 		this.proxy.registerRenderers();

@@ -1,0 +1,46 @@
+item.candyCane.name=Candy Cane
+item.figgy.name=Figgy Pudding
+item.bluPie.name=Blueberry Pie
+item.peppermintStick.name=Peppermint Stick
+
+item.morecookies.sugar.name=Sugar Cookie
+item.morecookies.choc.name=Chocolate Cookie
+item.morecookies.sprink.name=Cookie with Sprinkles
+item.morecookies.candy.name=Peppermint Cookie
+
+item.holly.name=Holly
+item.berries.name=Seasonal Fruit
+item.flake.name=Snow Flake
+item.ginger.name=Ginger Root
+item.magicCandy.name=Magic Candy
+
+tile.snowglobe.name=Snowglobe
+tile.treatplate.name=Treat Plate
+tile.fireplace.name=Fireplace
+tile.snowMachine.name=Snow Machine
+
+tile.ornament.clear.name=Ornament
+tile.ornament.black.name=Black Ornament
+tile.ornament.red.name=Red Ornament
+tile.ornament.green.name=Green Ornament
+tile.ornament.brown.name=Brown Ornament
+tile.ornament.blue.name=Blue Ornament
+tile.ornament.purple.name=Purple Ornament
+tile.ornament.cyan.name=Cyan Ornament
+tile.ornament.silver.name=Light Gray Ornament
+tile.ornament.gray.name=Gray Ornament
+tile.ornament.pink.name=Pink Ornament
+tile.ornament.lime.name=Light Green Ornament
+tile.ornament.yellow.name=Yellow Ornament
+tile.ornament.lightBlue.name=Light Blue Ornament
+tile.ornament.magenta.name=Magenta Ornament
+tile.ornament.orange.name=Orange Ornament
+tile.ornament.white.name=White Ornament
+
+tile.candyLog.name=Peppermint Log
+tile.iceBrick.name=Ice Brick
+tile.iceBrickCarved.name=Carved Ice Brick
+tile.iceBrickCracked.name=Cracked Ice Brick
+tile.cobbleIce.name=Cobble Ice
+tile.candyPlanks.name=Peppermint Planks
+tile.gingerbreadBlock.name=Gingerbread
