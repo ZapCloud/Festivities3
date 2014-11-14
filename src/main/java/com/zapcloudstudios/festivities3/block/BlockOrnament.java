@@ -5,9 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -288,17 +286,5 @@ public class BlockOrnament extends BlockFestiveComplex
 		{
 			return Festivities.coloredOrnament;
 		}
-	}
-	
-	@Override
-	public String[] getTip(EntityPlayer player, ItemStack stack)
-	{
-		return new String[] { "Oops...", "Use the ornament item", "This is a technical block" };
-	}
-	
-	@Override
-	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
-	{
-		return null;
 	}
 }

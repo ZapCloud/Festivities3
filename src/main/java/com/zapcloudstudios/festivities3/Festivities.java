@@ -1,28 +1,28 @@
 package com.zapcloudstudios.festivities3;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigCategory;
@@ -59,16 +59,14 @@ import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
 import com.zapcloudstudios.utils.FestiveUtils;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -305,6 +303,24 @@ public class Festivities
 		this.config.save();
 	}
 	
+	@EventHandler
+	public void onPostInit(FMLPostInitializationEvent event)
+	{
+		TextureManager manage = Minecraft.getMinecraft().renderEngine;
+		try
+		{
+			ITextureObject blocks = manage.getTexture(TextureMap.locationBlocksTexture);
+			ITextureObject items = manage.getTexture(TextureMap.locationItemsTexture);
+			
+			ImageIO.write(FestiveUtils.getImageFromGLTexture(blocks.getGlTextureId()), "png", new File("blockMap.png"));
+			ImageIO.write(FestiveUtils.getImageFromGLTexture(items.getGlTextureId()), "png", new File("itemMap.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	protected void registerBlock(Block block, String name)
 	{
 		GameRegistry.registerBlock(block, this.blockItem, name);
@@ -424,178 +440,6 @@ public class Festivities
 		event.registerServerCommand(new CommandHome());
 	}
 	
-	@EventHandler
-	public void serverStarted(FMLServerStartedEvent event)
-	{
-		Side side = FMLCommonHandler.instance().getEffectiveSide();
-		if (side == Side.SERVER)
-		{
-			String[] warn = this.getUpdateWarning();
-			if (warn != null)
-			{
-				this.SendGloabalChat(MinecraftServer.getServer().getConfigurationManager(), warn);
-			}
-			else
-			{
-				this.SendGloabalChat(MinecraftServer.getServer().getConfigurationManager(), this.MSG);
-			}
-		}
-	}
-	
-	public static void SendChat(EntityPlayer player, String msg)
-	{
-		if (msg != null)
-		{
-			player.addChatMessage(new ChatComponentTranslation("chat.type.announcement", new Object[] { CHATNAME, msg }));
-		}
-	}
-	
-	public static void SendChat(EntityPlayer player, String[] msg)
-	{
-		String s = "";
-		if (msg != null)
-		{
-			for (int i = 0; i < msg.length; i++)
-			{
-				s += msg[i];
-				if (i < msg.length - 1)
-				{
-					s += "\n";
-				}
-			}
-		}
-		SendChat(player, s);
-	}
-	
-	public static void SendGlobalChat(ServerConfigurationManager server, String msg)
-	{
-		if (msg != null)
-		{
-			server.sendChatMsg(new ChatComponentTranslation("chat.type.announcement", new Object[] { CHATNAME, msg }));
-		}
-	}
-	
-	public static void SendGloabalChat(ServerConfigurationManager server, String[] msg)
-	{
-		String s = "";
-		if (msg != null)
-		{
-			for (int i = 0; i < msg.length; i++)
-			{
-				s += msg[i];
-				if (i < msg.length - 1)
-				{
-					s += "\n";
-				}
-			}
-			SendGlobalChat(server, s);
-		}
-	}
-	
-	public String[] getUpdateWarning()
-	{
-		String[] msg = null;
-		try
-		{
-			URL url = new URL("https://dl.dropboxusercontent.com/u/22114490/Christmas%20Festivities%20Mod%202/jars/version.txt");
-			Scanner s = new Scanner(url.openStream());
-			String line = s.nextLine();
-			
-			if (this.isOutOfDate(line))
-			{
-				msg = new String[] { "Christmas Festivities Mod 2 is out of date", "Current Version: " + "2." + Festivities.MAJOR + "." + Festivities.MINOR + "." + Festivities.BUILD, "Newest Version: " + line };
-				String[] info = new String[0];
-				while (s.hasNextLine())
-				{
-					line = s.nextLine();
-					if (line.startsWith("?"))
-					{
-						String[] add = this.getUpdateInfo(line);
-						if (add != null)
-						{
-							info = FestiveUtils.mergeStringArrays(info, add);
-						}
-					}
-				}
-				if (info.length != 0)
-				{
-					msg = FestiveUtils.mergeStringArrays(msg, new String[] { "", "You are missing out on:" });
-					msg = FestiveUtils.mergeStringArrays(msg, info);
-				}
-			}
-			s.close();
-		}
-		catch (IOException ex)
-		{
-		}
-		return msg;
-	}
-	
-	public String[] getUpdateInfo(String line)
-	{
-		String[] ln = line.split(" ");
-		String v = ln[0];
-		v = v.replaceFirst("\\?", "");
-		v = v.trim();
-		String msg = "";
-		if (this.isOutOfDate(v))
-		{
-			for (int i = 1; i < ln.length; i++)
-			{
-				if (i > 1)
-				{
-					msg += " ";
-				}
-				msg += ln[i];
-			}
-			return new String[] { msg };
-		}
-		return null;
-	}
-	
-	public boolean isOutOfDate(String version)
-	{
-		String[] nums = version.split("\\.");
-		for (int i = 0; i < nums.length; i++)
-		{
-			int n = Integer.parseInt(nums[i]);
-			System.out.println(n);
-			if (i == 0 && n > 2)
-			{
-				return true;
-			}
-			if (i == 0 && n < 2)
-			{
-				return false;
-			}
-			if (i == 1 && n > this.MAJOR)
-			{
-				return true;
-			}
-			if (i == 1 && n < this.MAJOR)
-			{
-				return false;
-			}
-			if (i == 2 && n > this.MINOR)
-			{
-				return true;
-			}
-			if (i == 2 && n < this.MINOR)
-			{
-				return false;
-			}
-			if (i == 3 && n > this.BUILD)
-			{
-				return true;
-			}
-			if (i == 3 && n < this.BUILD)
-			{
-				return false;
-			}
-		}
-		return false;
-	}
-	
 	public static PlayerData getPlayerData(EntityPlayerMP player)
 	{
 		return (PlayerData) player.getExtendedProperties(PLAYERDATA);
@@ -663,18 +507,5 @@ public class Festivities
 				flag = true;
 			}
 		}
-	}
-	
-	public void registerEntity(Class<? extends Entity> entityClass, String entityName, int backgroundEggColour, int foregroundEggColour, String displayname)
-	{
-		EntityRegistry.registerModEntity(entityClass, entityName, this.nextEntityID(), this, 80, 3, true);
-		int id = this.nextGlobalEntityId();
-		EntityList.IDtoClassMapping.put(id, entityClass);
-		EntityList.entityEggs.put(id, new EntityEggInfo(id, backgroundEggColour, foregroundEggColour));
-	}
-	
-	public void registerEntity(Class<? extends Entity> entityClass, String entityName)
-	{
-		EntityRegistry.registerModEntity(entityClass, entityName, this.nextEntityID(), this, 80, 3, true);
 	}
 }

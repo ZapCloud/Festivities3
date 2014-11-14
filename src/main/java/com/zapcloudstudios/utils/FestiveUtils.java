@@ -1,7 +1,9 @@
 package com.zapcloudstudios.utils;
 
+import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.item.EntityItem;
@@ -10,8 +12,50 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import org.lwjgl.opengl.GL11;
+
 public class FestiveUtils
 {
+	public static byte[] getBytesFromGLTexture(int textureid, int width, int height)
+	{
+		byte[] pixels = new byte[width * height * 4];
+		ByteBuffer buffer = ByteBuffer.allocateDirect(pixels.length).order(ByteOrder.nativeOrder());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureid);
+		GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+		buffer.get(pixels);
+		return pixels;
+	}
+	
+	public static int[] convertBytesRGBAToIntsARGB(byte[] bytes)
+	{
+		int[] ints = new int[bytes.length / 4];
+		for (int i = 0; i < ints.length; i++)
+		{
+			int j = i * 4;
+			int r = bytes[j] & 0xFF;
+			int g = bytes[j + 1] & 0xFF;
+			int b = bytes[j + 2] & 0xFF;
+			int a = bytes[j + 3] & 0xFF;
+			ints[i] = (a << 24) | (r << 16) | (g << 8) | b;
+		}
+		return ints;
+	}
+	
+	public static int[] getIntsFromGLTexture(int textureid, int width, int height)
+	{
+		return convertBytesRGBAToIntsARGB(getBytesFromGLTexture(textureid, width, height));
+	}
+	
+	public static BufferedImage getImageFromGLTexture(int textureid)
+	{
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureid);
+		int width = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
+		int height = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
+		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		img.setRGB(0, 0, width, height, getIntsFromGLTexture(textureid, width, height), 0, width);
+		return img;
+	}
+	
 	public static int getDyeColor(int meta)
 	{
 		return ItemDye.field_150922_c[meta];
@@ -103,27 +147,10 @@ public class FestiveUtils
 		}
 	}
 	
-	public static String[] mergeStringArrays(String[] ar1, String[] ar2)
-	{
-		String[] ar = new String[ar1.length + ar2.length];
-		int j = 0;
-		for (int i = 0; i < ar1.length; i++)
-		{
-			ar[j] = ar1[i];
-			j++;
-		}
-		for (int i = 0; i < ar2.length; i++)
-		{
-			ar[j] = ar2[i];
-			j++;
-		}
-		return ar;
-	}
-	
 	public static String[] wrapString(String string, int chars)
 	{
 		String[] words = string.split(" ");
-		List<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<String>();
 		String line = "";
 		
 		for (int i = 0; i < words.length; i++)

@@ -1,9 +1,5 @@
 package com.zapcloudstudios.festivities3.events;
 
-import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.client.player.PlayerClientData;
-import com.zapcloudstudios.festivities3.player.PlayerData;
-
 import net.minecraft.block.BlockFlower;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +12,11 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+
+import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.festivities3.client.player.PlayerClientData;
+import com.zapcloudstudios.festivities3.player.PlayerData;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHooks
@@ -23,9 +24,9 @@ public class EventHooks
 	@SubscribeEvent
 	public void onEntityJoin(EntityJoinWorldEvent event)
 	{
-
+		
 	}
-
+	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event)
 	{
@@ -40,7 +41,7 @@ public class EventHooks
 			player.registerExtendedProperties(Festivities.PLAYERDATA, new PlayerClientData());
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void getOffsetFOV(FOVUpdateEvent event)
 	{
@@ -57,27 +58,27 @@ public class EventHooks
 		}
 		event.newfov = fov;
 	}
-
+	
 	@SubscribeEvent
 	public void entityUpdateEvent(LivingUpdateEvent event)
 	{
 		EntityLivingBase entity = event.entityLiving;
-
+		
 		if (entity.ticksExisted % 5 == 0 && entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-
+			
 			PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
-
+			
 			if (data.santaCooldown > 0)
 			{
 				data.santaCooldown -= 5;
 			}
-
+			
 			data.testTimeOut(player.worldObj.getWorldTime());
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void onBlockHarvest(HarvestDropsEvent event)
 	{

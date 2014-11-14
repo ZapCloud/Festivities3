@@ -41,10 +41,17 @@ public class ItemFestiveBlock extends ItemBlock implements ITipItem
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List info, boolean advanced)
 	{
-		Block block = Block.getBlockFromItem(stack.getItem());
-		if (block instanceof ITipItem)
+		if (this.tip == null)
 		{
-			Festivities.addInformation((ITipItem) block, stack, player, info, advanced);
+			Block block = Block.getBlockFromItem(stack.getItem());
+			if (block instanceof ITipItem)
+			{
+				Festivities.addInformation((ITipItem) block, stack, player, info, advanced);
+			}
+		}
+		else
+		{
+			Festivities.addInformation(this, stack, player, info, advanced);
 		}
 	}
 	
