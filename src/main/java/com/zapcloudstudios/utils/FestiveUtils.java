@@ -5,12 +5,33 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class FestiveUtils
 {
+	public static int getDyeColor(int meta)
+	{
+		return ItemDye.field_150922_c[meta];
+	}
+	
+	public static int getDyeR(int meta)
+	{
+		return (getDyeColor(meta) >> 16) & 0xFF;
+	}
+	
+	public static int getDyeG(int meta)
+	{
+		return (getDyeColor(meta) >> 8) & 0xFF;
+	}
+	
+	public static int getDyeB(int meta)
+	{
+		return (getDyeColor(meta) >> 0) & 0xFF;
+	}
+	
 	public static ItemStack addData(ItemStack itemstack, NBTTagCompound data)
 	{
 		if (data != null)

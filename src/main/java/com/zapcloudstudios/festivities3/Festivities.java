@@ -36,7 +36,6 @@ import com.zapcloudstudios.festivities3.block.BlockFestive;
 import com.zapcloudstudios.festivities3.block.BlockFireplace;
 import com.zapcloudstudios.festivities3.block.BlockGarland;
 import com.zapcloudstudios.festivities3.block.BlockOrnament;
-import com.zapcloudstudios.festivities3.block.BlockPresent;
 import com.zapcloudstudios.festivities3.block.BlockSnowGlobe;
 import com.zapcloudstudios.festivities3.block.BlockSnowMachine;
 import com.zapcloudstudios.festivities3.block.BlockTreatPlate;
@@ -54,7 +53,6 @@ import com.zapcloudstudios.festivities3.kringle.WorldProviderKringle;
 import com.zapcloudstudios.festivities3.kringle.biome.BiomeGenKringle;
 import com.zapcloudstudios.festivities3.player.PlayerData;
 import com.zapcloudstudios.festivities3.tile.TileEntityGarland;
-import com.zapcloudstudios.festivities3.tile.TileEntityOrnament;
 import com.zapcloudstudios.festivities3.tile.TileEntityPlate;
 import com.zapcloudstudios.festivities3.tile.TileEntitySnowMachine;
 import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
@@ -214,7 +212,7 @@ public class Festivities
 		this.registerBlock(snowglobe, "snowglobe");
 		GameRegistry.registerTileEntity(TileEntitySnowglobe.class, "snowglobe");
 		
-		treatplate = new BlockTreatPlate(Material.glass).setBlockItemTextureName(Festivities.ID + ":treatplate").setCreativeTab(Festivities.blockTab).setBlockName("treatplate");
+		treatplate = new BlockTreatPlate(Material.glass).setBlockItemTextureName(Festivities.ID + ":treatplate").setCreativeTab(Festivities.decorTab).setBlockName("treatplate");
 		this.registerBlock(treatplate, "treatplate");
 		GameRegistry.registerTileEntity(TileEntityPlate.class, "treatplate");
 		
@@ -233,10 +231,10 @@ public class Festivities
 		bluePie = new ItemFoodFestive(8, 0.3F, false).setTip("Mmmm, sweet").setShiftTip("Can be displayed on a treat plate", "Pumpkin pies also work").setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(Festivities.foodTab);
 		this.registerItem(bluePie, "bluPie");
 		
-		clearOrnamentBlock = new BlockOrnament(true).setBlockName("clearOrnamentBlock");
+		clearOrnamentBlock = new BlockOrnament(true).setBlockName("clearOrnamentBlock").setCreativeTab(Festivities.decorTab);
 		this.registerBlockWithoutItem(clearOrnamentBlock, "clearOrnament");
 		
-		coloredOrnamentBlock = new BlockOrnament(false).setBlockName("coloredOrnamentBlock");
+		coloredOrnamentBlock = new BlockOrnament(false).setBlockName("coloredOrnamentBlock").setCreativeTab(Festivities.decorTab);
 		this.registerBlockWithoutItem(coloredOrnamentBlock, "coloredOrnament");
 		
 		clearOrnament = new ItemOrnament(clearOrnamentBlock, true).setTip("A glass decoration for your tree!").setShiftTip("Right-Click to place", "Needs a block to sit or hang on").setUnlocalizedName("ornament").setCreativeTab(Festivities.decorTab);
@@ -245,9 +243,7 @@ public class Festivities
 		coloredOrnament = new ItemOrnament(coloredOrnamentBlock, false).setTip("A colorful decoration for your tree!").setShiftTip("Right-Click to place", "Needs a block to sit or hang on").setUnlocalizedName("ornament").setCreativeTab(Festivities.decorTab);
 		this.registerItem(coloredOrnament, "coloredOrnament");
 		
-		GameRegistry.registerTileEntity(TileEntityOrnament.class, "ornament");
-		
-		fireplace = new BlockFireplace(Material.rock).setBlockName("fireplace").setLightLevel(1.0F).setCreativeTab(Festivities.blockTab);
+		fireplace = new BlockFireplace(Material.rock).setBlockName("fireplace").setLightLevel(1.0F).setCreativeTab(Festivities.decorTab);
 		this.registerBlock(fireplace, "fireplace");
 		
 		iceBrick = new BlockFestive(Material.rock).setTip("Doesn't shatter!").setBlockName("iceBrick").setBlockTextureName(Festivities.ID + ":icebrick").setCreativeTab(Festivities.blockTab);
@@ -262,7 +258,7 @@ public class Festivities
 		cobbleIce = new BlockFestive(Material.rock).setTip("Not as slippery").setBlockName("cobbleIce").setBlockTextureName(Festivities.ID + ":cobbleice").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(cobbleIce, "cobbleIce");
 		
-		snowMachine = new BlockSnowMachine(Material.rock).setBlockItemTextureName(Festivities.ID + ":snowMachine").setBlockName("snowMachine").setCreativeTab(Festivities.blockTab);
+		snowMachine = new BlockSnowMachine(Material.rock).setBlockItemTextureName(Festivities.ID + ":snowMachine").setBlockName("snowMachine").setCreativeTab(Festivities.decorTab);
 		this.registerBlock(snowMachine, "snowMachine");
 		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
 		
@@ -287,12 +283,6 @@ public class Festivities
 		
 		ginger = new ItemFestive().setTip("Don't eat it raw!").setUnlocalizedName("ginger").setTextureName(Festivities.ID + ":ginger").setCreativeTab(Festivities.matTab);
 		this.registerItem(ginger, "ginger");
-		
-		greenPresent = new BlockPresent().setBlockName("greenPresent").setBlockTextureName(Festivities.ID + ":green_present").setCreativeTab(Festivities.decorTab);
-		this.registerBlock(greenPresent, "greenPresent");
-		
-		redPresent = new BlockPresent().setBlockName("redPresent").setBlockTextureName(Festivities.ID + ":red_present").setCreativeTab(Festivities.decorTab);
-		this.registerBlock(redPresent, "redPresent");
 		
 		// mintLeaf = new
 		// ItemMintPlant().setTip("Green and Minty!").setShiftTip("Right-Click to place").setUnlocalizedName("mintLeaf").setTextureName(Festivities.ID

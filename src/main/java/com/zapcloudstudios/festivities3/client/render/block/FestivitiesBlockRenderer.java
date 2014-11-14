@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 
 import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.item.ItemOrnament;
 import com.zapcloudstudios.utils.draw.BoxDrawBasic;
 
 public class FestivitiesBlockRenderer
@@ -147,7 +146,7 @@ public class FestivitiesBlockRenderer
 		}
 		else
 		{
-			tess.setColorOpaque_I(ItemOrnament.ornamentColors[meta]);
+			// tess.setColorOpaque_I(ItemOrnament.ornamentColors[meta]);
 			
 			draw.selectUV(20, 0);
 			draw.YUp();

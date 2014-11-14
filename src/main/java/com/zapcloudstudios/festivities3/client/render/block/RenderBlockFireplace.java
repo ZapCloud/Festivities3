@@ -2,6 +2,7 @@ package com.zapcloudstudios.festivities3.client.render.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
 import com.zapcloudstudios.festivities3.block.BlockFireplace;
@@ -18,12 +19,14 @@ public class RenderBlockFireplace extends RenderBlockFestivites
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer)
 	{
+		Tessellator.instance.addTranslation(x, y, z);
 		this.tess.draw();
 		this.tess.startDrawingQuads();
 		this.doWorldBrightness(world, x, y, z, block);
 		this.renderFireplace(x, y, z);
 		this.tess.draw();
 		this.tess.startDrawingQuads();
+		Tessellator.instance.addTranslation(-x, -y, -z);
 		return true;
 	}
 	

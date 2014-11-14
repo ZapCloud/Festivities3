@@ -7,12 +7,14 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.utils.FestiveUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,9 +24,6 @@ public class ItemOrnament extends ItemFestiveBlock
 	private Block block;
 	private boolean clear;
 	
-	public static final String[] ornamentColorNames = new String[] { "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white" };
-	public static final String[] ornamentNames = new String[] { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "Silver", "Gray", "Pink", "Lime", "Yellow", "Light Blue", "Magenta", "Orange", "White" };
-	public static final int[] ornamentColors = new int[] { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 11250603, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320 };
 	@SideOnly(Side.CLIENT)
 	private IIcon baseIcon;
 	@SideOnly(Side.CLIENT)
@@ -42,7 +41,6 @@ public class ItemOrnament extends ItemFestiveBlock
 			this.setHasSubtypes(true);
 			this.setMaxDamage(0);
 		}
-		this.setCreativeTab(CreativeTabs.tabDecorations);
 		this.setToUseItemTextureMap();
 	}
 	
@@ -66,7 +64,7 @@ public class ItemOrnament extends ItemFestiveBlock
 		else
 		{
 			int i = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
-			return super.getUnlocalizedName() + "." + ornamentColorNames[i];
+			return super.getUnlocalizedName() + "." + ItemDye.field_150923_a[i];
 		}
 	}
 	
@@ -181,7 +179,7 @@ public class ItemOrnament extends ItemFestiveBlock
 			else
 			{
 				int i = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
-				return this.ornamentColors[i];
+				return FestiveUtils.getDyeColor(i);
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package com.zapcloudstudios.festivities3.client.render.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
 import com.zapcloudstudios.festivities3.block.BlockTreatPlate;
@@ -18,8 +19,10 @@ public class RenderBlockPlate extends RenderBlockFestivites
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer)
 	{
+		Tessellator.instance.addTranslation(x, y, z);
 		this.doWorldBrightness(world, x, y, z, block);
 		this.drawPlate();
+		Tessellator.instance.addTranslation(-x, -y, -z);
 		return true;
 	}
 	

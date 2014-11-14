@@ -4,30 +4,144 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.festivities3.client.render.block.RenderBlockOrnament;
+import com.zapcloudstudios.utils.FestiveUtils;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockOrnament extends BlockFestiveComplex
 {
-	private boolean clear;
+	public final boolean isClear;
 	public static boolean canSit = false;
 	public static boolean hangAny = true;
 	public static boolean doHang = true;
+	
+	public static final String[] faces = new String[] { "top", "bottom", "front", "side" };
+	public static final String[] types = new String[] { "clear", "color", "detail" };
+	
+	public static IIcon icons[] = new IIcon[12];
 	
 	public BlockOrnament(boolean clear)
 	{
 		super(Material.circuits);
 		this.setShouldRender3D(false);
-		this.clear = clear;
+		this.isClear = clear;
 		this.setBlockBounds(3 / 16.0F, 3 / 16.0F, 3 / 16.0F, 13 / 16.0F, 13 / 16.0F, 13 / 16.0F);
 		this.setBlockTextureName(Festivities.ID + ":ornament");
+		this.setRenderer(RenderBlockOrnament.class);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta)
+	{
+		int i = 0;
+		if (!this.isClear)
+		{
+			i += 4;
+		}
+		if (i == 0)
+		{
+			i += 1;
+		}
+		else if (i != 1)
+		{
+			i += 3;
+		}
+		return icons[i];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z)
+	{
+		if (this.isClear)
+		{
+			return 0xFFFFFF;
+		}
+		return FestiveUtils.getDyeColor(world.getBlockMetadata(x, y, z));
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
+	{
+		int i = 0;
+		if (!this.isClear)
+		{
+			i += 4;
+		}
+		if (side == 0)
+		{
+			i += 1;
+		}
+		else if (side != 1)
+		{
+			long poshash = (long) (x * 3129871) ^ (long) y * 116129781L ^ (long) z;
+			poshash = poshash * poshash * 42317861L + poshash * 11L;
+			int dir = (int) (poshash >> 16 & 3L);
+			if (dir == side - 2)
+			{
+				i += 2;
+			}
+			else
+			{
+				i += 3;
+			}
+		}
+		return icons[i];
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public IIcon getDetailIcon(IBlockAccess world, int x, int y, int z, int side)
+	{
+		int i = 8;
+		if (side == 0)
+		{
+			i += 1;
+		}
+		else if (side != 1)
+		{
+			long poshash = (long) (x * 3129871) ^ (long) y * 116129781L ^ (long) z;
+			poshash = poshash * poshash * 42317861L + poshash * 11L;
+			int dir = (int) (poshash >> 16 & 3L);
+			if (dir == side - 2)
+			{
+				i += 2;
+			}
+			else
+			{
+				i += 3;
+			}
+		}
+		return icons[i];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg)
+	{
+		int i = 0;
+		for (String t : types)
+		{
+			for (String f : faces)
+			{
+				icons[i] = reg.registerIcon(this.getTextureName() + "_" + t + "_" + f);
+				i++;
+			}
+		}
 	}
 	
 	@Override
@@ -38,7 +152,7 @@ public class BlockOrnament extends BlockFestiveComplex
 	
 	public boolean isClear()
 	{
-		return this.clear;
+		return this.isClear;
 	}
 	
 	@Override
@@ -50,7 +164,7 @@ public class BlockOrnament extends BlockFestiveComplex
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
 	{
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -147,7 +261,7 @@ public class BlockOrnament extends BlockFestiveComplex
 	@Override
 	public int getDamageValue(World world, int x, int y, int z)
 	{
-		if (this.clear)
+		if (this.isClear)
 		{
 			return 0;
 		}
@@ -166,7 +280,7 @@ public class BlockOrnament extends BlockFestiveComplex
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune)
 	{
-		if (this.clear)
+		if (this.isClear)
 		{
 			return Festivities.clearOrnament;
 		}

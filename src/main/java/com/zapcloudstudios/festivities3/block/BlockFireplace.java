@@ -28,6 +28,7 @@ public class BlockFireplace extends BlockFestiveComplex
 		this.setBlockBounds(1 / 16.0F, 0 / 16.0F, 1 / 16.0F, 15 / 16.0F, 5 / 16.0F, 15 / 16.0F);
 		this.setRenderer(RenderBlockFireplace.class);
 		this.setBlockTextureName(Festivities.ID + ":fireplace");
+		this.setShouldRender3D(true);
 	}
 	
 	@Override
@@ -125,11 +126,5 @@ public class BlockFireplace extends BlockFestiveComplex
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			world.setBlockToAir(x, y, z);
 		}
-	}
-	
-	@Override
-	public boolean shouldRender3D()
-	{
-		return true;
 	}
 }

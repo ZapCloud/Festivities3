@@ -39,9 +39,7 @@ public class RenderBlockFestivitiesHandler implements ISimpleBlockRenderingHandl
 		RenderBlockFestivites render = this.getRender(block);
 		if (render != null)
 		{
-			Tessellator.instance.addTranslation(x, y, z);
 			render.renderWorldBlock(world, x, y, z, block, renderer);
-			Tessellator.instance.addTranslation(-x, -y, -z);
 		}
 		return false;
 	}
