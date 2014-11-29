@@ -2,9 +2,9 @@
 {
   "modid": "festivities3",
   "name": "Festivities3",
-  "description": "",
+  "description": "",  
   "version": "${version}",
-  "mcversion": "${mcversion}",
+  "mcversion": "${mc_version}",
   "url": "http://zapcloudstudios.com/",
   "updateUrl": "",
   "authorList": ["eekysam"],

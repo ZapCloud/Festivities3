@@ -21,14 +21,29 @@ buildscript
 }
 
 apply plugin: 'forge'
+apply plugin: 'java'
 
-version = "1.0"
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+ext.configFile = file "build.properties"
+
+//Load config file
+configFile.withReader 
+{
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}}"
+
 group= "com.zapcloudstudios.festivities3"
 archivesBaseName = "festivities3"
 
 minecraft 
 {
-    version = "1.7.10-10.13.2.1230"
+    version = "${config.version.minecraft}-${config.version.forge}"
     runDir = "eclipse"
 }
 
@@ -38,9 +53,9 @@ dependencies
 }
 
 processResources
-{
-    // For developing textures only
-    exclude '**/*.pdn'
+{	
+	inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 	
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) 
@@ -48,12 +63,13 @@ processResources
         include 'mcmod.info'
         
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version, 'mc_version':project.minecraft.version
     }
         
-    // copy everything else, thats not the mcmod.info
+    // copy everything else
     from(sourceSets.main.resources.srcDirs) 
 	{
+		exclude '**/*.pdn'
         exclude 'mcmod.info'
     }
 }
