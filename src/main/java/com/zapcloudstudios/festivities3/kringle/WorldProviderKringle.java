@@ -1,13 +1,15 @@
 package com.zapcloudstudios.festivities3.kringle;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldType;
+import net.minecraft.world.chunk.IChunkProvider;
+
 import com.zapcloudstudios.festivities3.Festivities;
 import com.zapcloudstudios.festivities3.kringle.biome.WorldChunkManagerKringle;
 import com.zapcloudstudios.festivities3.kringle.gen.ChunkProviderKringle;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.chunk.IChunkProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,9 +18,7 @@ public class WorldProviderKringle extends WorldProvider
 	@Override
 	public void registerWorldChunkManager()
 	{
-		WorldChunkManagerKringle k = new WorldChunkManagerKringle();
-		k.makeNoise(this.getSeed());
-		this.worldChunkMgr = k;
+		this.worldChunkMgr = new WorldChunkManagerKringle(this.worldObj.getSeed(), WorldType.DEFAULT);
 		this.dimensionId = Festivities.kringleId;
 	}
 	

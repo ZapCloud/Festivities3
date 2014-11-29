@@ -1,19 +1,10 @@
 package com.zapcloudstudios.festivities3.kringle.biome;
 
-import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.CUSTOM;
-import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.LAKE;
-import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.TREE;
 import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.COAL;
 import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.DIAMOND;
 import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.GOLD;
 
 import java.util.Random;
-
-import com.zapcloudstudios.festivities3.kringle.Kringle;
-import com.zapcloudstudios.festivities3.kringle.gen.feature.WorldGenChristmasTree;
-import com.zapcloudstudios.festivities3.kringle.gen.feature.WorldGenIce;
-import com.zapcloudstudios.festivities3.kringle.gen.feature.WorldGenPeppermintArch;
-import com.zapcloudstudios.festivities3.kringle.gen.feature.WorldGenPeppermintPole;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -25,6 +16,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
+
+import com.zapcloudstudios.festivities3.kringle.Kringle;
+import com.zapcloudstudios.festivities3.kringle.gen.feature.WorldGenChristmasTree;
+import com.zapcloudstudios.festivities3.kringle.gen.feature.WorldGenPeppermintArch;
+import com.zapcloudstudios.festivities3.kringle.gen.feature.WorldGenPeppermintPole;
 
 public class KringleDecorator extends BiomeDecorator
 {
@@ -97,56 +93,53 @@ public class KringleDecorator extends BiomeDecorator
 		{
 			++trees;
 		}
-		
-		doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z, TREE);
-		for (int i = 0; doGen && i < trees; ++i)
-		{
-			x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-			z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-			WorldGenerator worldgenerator = biome.func_150567_a(this.randomGenerator);
-			worldgenerator.setScale(1.0D, 1.0D, 1.0D);
-			worldgenerator.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
-		}
-		
-		doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z, LAKE);
-		if (doGen && this.generateLakes)
-		{
-			for (int i = 0; i < 50; ++i)
-			{
-				x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-				y = this.randomGenerator.nextInt(this.randomGenerator.nextInt(120) + 8);
-				z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-				(new WorldGenIce(Blocks.ice)).generate(this.currentWorld, this.randomGenerator, x, y, z);
-			}
-		}
-		
-		doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z, CUSTOM);
-		for (int i = 0; doGen && i < this.peppermintPolesPerChunk; ++i)
-		{
-			x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-			y = this.randomGenerator.nextInt(128);
-			z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-			this.peppermintPoleGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
-		}
-		
-		doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z, CUSTOM);
-		for (int i = 0; doGen && i < this.christmasTreesPerChunk; ++i)
-		{
-			x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-			y = this.randomGenerator.nextInt(128);
-			z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-			this.christmasTreeGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
-		}
-		
-		doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z, CUSTOM);
-		for (int i = 0; doGen && i < this.peppermintArchPerChunk; ++i)
-		{
-			x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-			y = this.randomGenerator.nextInt(128);
-			z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-			this.peppermintArchGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
-		}
-		
+		/*
+		 * doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator,
+		 * this.chunk_X, this.chunk_Z, TREE); for (int i = 0; doGen && i <
+		 * trees; ++i) { x = this.chunk_X + this.randomGenerator.nextInt(16) +
+		 * 8; z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
+		 * WorldGenerator worldgenerator =
+		 * biome.func_150567_a(this.randomGenerator);
+		 * worldgenerator.setScale(1.0D, 1.0D, 1.0D);
+		 * worldgenerator.generate(this.currentWorld, this.randomGenerator, x,
+		 * this.currentWorld.getHeightValue(x, z), z); }
+		 * 
+		 * doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator,
+		 * this.chunk_X, this.chunk_Z, LAKE); if (doGen && this.generateLakes) {
+		 * for (int i = 0; i < 50; ++i) { x = this.chunk_X +
+		 * this.randomGenerator.nextInt(16) + 8; y =
+		 * this.randomGenerator.nextInt(this.randomGenerator.nextInt(120) + 8);
+		 * z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8; (new
+		 * WorldGenIce(Blocks.ice)).generate(this.currentWorld,
+		 * this.randomGenerator, x, y, z); } }
+		 * 
+		 * doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator,
+		 * this.chunk_X, this.chunk_Z, CUSTOM); for (int i = 0; doGen && i <
+		 * this.peppermintPolesPerChunk; ++i) { x = this.chunk_X +
+		 * this.randomGenerator.nextInt(16) + 8; y =
+		 * this.randomGenerator.nextInt(128); z = this.chunk_Z +
+		 * this.randomGenerator.nextInt(16) + 8;
+		 * this.peppermintPoleGen.generate(this.currentWorld,
+		 * this.randomGenerator, x, y, z); }
+		 * 
+		 * doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator,
+		 * this.chunk_X, this.chunk_Z, CUSTOM); for (int i = 0; doGen && i <
+		 * this.christmasTreesPerChunk; ++i) { x = this.chunk_X +
+		 * this.randomGenerator.nextInt(16) + 8; y =
+		 * this.randomGenerator.nextInt(128); z = this.chunk_Z +
+		 * this.randomGenerator.nextInt(16) + 8;
+		 * this.christmasTreeGen.generate(this.currentWorld,
+		 * this.randomGenerator, x, y, z); }
+		 * 
+		 * doGen = TerrainGen.decorate(this.currentWorld, this.randomGenerator,
+		 * this.chunk_X, this.chunk_Z, CUSTOM); for (int i = 0; doGen && i <
+		 * this.peppermintArchPerChunk; ++i) { x = this.chunk_X +
+		 * this.randomGenerator.nextInt(16) + 8; y =
+		 * this.randomGenerator.nextInt(128); z = this.chunk_Z +
+		 * this.randomGenerator.nextInt(16) + 8;
+		 * this.peppermintArchGen.generate(this.currentWorld,
+		 * this.randomGenerator, x, y, z); }
+		 */
 		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z));
 	}
 	

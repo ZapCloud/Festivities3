@@ -1,64 +1,83 @@
 package com.zapcloudstudios.festivities3.kringle.biome;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.crash.CrashReport;
+import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.util.ReportedException;
 import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.BiomeCache;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
+import net.minecraft.world.gen.layer.GenLayer;
+import net.minecraft.world.gen.layer.IntCache;
+
+import com.zapcloudstudios.festivities3.kringle.gen.layer.KringleGenLayer;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class WorldChunkManagerKringle extends WorldChunkManager
 {
-	protected BiomePerlin plantNoise;
-	protected BiomePerlin candyNoise;
-
+	private GenLayer genBiomes;
+	/** A GenLayer containing the indices into BiomeGenBase.biomeList[] */
+	private GenLayer biomeIndexLayer;
+	/** The BiomeCache object for this world. */
+	private BiomeCache biomeCache;
+	/** A list of biomes that the player can spawn in. */
+	private List<BiomeGenBase> biomesToSpawnIn;
+	
 	private float kringleTemp = 0.0F;
 	private float kringleHumid = 0.5F;
-
+	
 	public WorldChunkManagerKringle()
 	{
-
+		this.biomeCache = new BiomeCache(this);
+		this.biomesToSpawnIn = new ArrayList();
+		this.biomesToSpawnIn.addAll(BiomeGenKringle.kringleBiomes);
 	}
-
-	@Override
-	public BiomeGenBase getBiomeGenAt(int x, int y)
+	
+	public WorldChunkManagerKringle(long seed, WorldType worldType)
 	{
-		float plant = this.plantNoise.getValue(x, y);
-		float candy = this.candyNoise.getValue(x, y);
-		return BiomeGenKringle.getBiome(plant, candy);
+		this();
+		GenLayer[] agenlayer = KringleGenLayer.makeTheWorld(seed, worldType);
+		agenlayer = this.getModdedBiomeGenerators(worldType, seed, agenlayer);
+		this.genBiomes = agenlayer[0];
+		this.biomeIndexLayer = agenlayer[1];
 	}
-
+	
 	@Override
-	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
+	public List<BiomeGenBase> getBiomesToSpawnIn()
 	{
-		if (par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5)
-		{
-			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
-		}
-
-		float[] plant = this.plantNoise.getGrid(null, par2, par3, par4, par5);
-		float[] candy = this.candyNoise.getGrid(null, par2, par3, par4, par5);
-
-		int l = par4 * par5;
-
-		for (int i = 0; i < l; i++)
-		{
-			par1ArrayOfBiomeGenBase[i] = BiomeGenKringle.getBiome(plant[i], candy[i]);
-		}
-
-		return par1ArrayOfBiomeGenBase;
+		return this.biomesToSpawnIn;
 	}
-
+	
+	/**
+	 * Returns the BiomeGenBase related to the x, z position on the world.
+	 */
+	@Override
+	public BiomeGenBase getBiomeGenAt(int x, int z)
+	{
+		return this.biomeCache.getBiomeGenAt(x, z);
+	}
+	
+	public WorldChunkManagerKringle(World world)
+	{
+		this(world.getSeed(), world.getWorldInfo().getTerrainType());
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getTemperatureAtHeight(float p_76939_1_, int p_76939_2_)
 	{
 		return this.kringleTemp;
 	}
-
+	
 	@Override
 	public float[] getRainfall(float[] par1ArrayOfFloat, int par2, int par3, int par4, int par5)
 	{
@@ -66,58 +85,174 @@ public class WorldChunkManagerKringle extends WorldChunkManager
 		{
 			par1ArrayOfFloat = new float[par4 * par5];
 		}
-
+		
 		Arrays.fill(par1ArrayOfFloat, 0, par4 * par5, this.kringleHumid);
 		return par1ArrayOfFloat;
 	}
-
+	
 	@Override
-	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
+	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
 	{
+		IntCache.resetIntCache();
+		
 		if (par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5)
 		{
 			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
 		}
-
-		float[] plant = this.plantNoise.getGrid(null, par2, par3, par4, par5);
-		float[] candy = this.candyNoise.getGrid(null, par2, par3, par4, par5);
-
-		int l = par4 * par5;
-
-		for (int i = 0; i < par4; i++)
+		
+		int[] aint = this.genBiomes.getInts(par2, par3, par4, par5);
+		
+		try
 		{
-			for (int j = 0; j < par5; j++)
+			for (int i = 0; i < par4 * par5; ++i)
 			{
-				par1ArrayOfBiomeGenBase[i * par5 + j] = BiomeGenKringle.getBiome(plant[i + j * par4], candy[i + j * par4]);
+				par1ArrayOfBiomeGenBase[i] = BiomeGenBase.getBiome(aint[i]);
+			}
+			
+			return par1ArrayOfBiomeGenBase;
+		}
+		catch (Throwable throwable)
+		{
+			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Invalid Biome id");
+			CrashReportCategory crashreportcategory = crashreport.makeCategory("RawBiomeBlock");
+			crashreportcategory.addCrashSection("biomes[] size", Integer.valueOf(par1ArrayOfBiomeGenBase.length));
+			crashreportcategory.addCrashSection("x", Integer.valueOf(par2));
+			crashreportcategory.addCrashSection("z", Integer.valueOf(par3));
+			crashreportcategory.addCrashSection("w", Integer.valueOf(par4));
+			crashreportcategory.addCrashSection("h", Integer.valueOf(par5));
+			throw new ReportedException(crashreport);
+		}
+	}
+	
+	/**
+	 * Returns biomes to use for the blocks and loads the other data like
+	 * temperature and humidity onto the WorldChunkManager Args: oldBiomeList,
+	 * x, z, width, depth
+	 */
+	@Override
+	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] oldBiomeList, int x, int z, int width, int depth)
+	{
+		return this.getBiomeGenAt(oldBiomeList, x, z, width, depth, true);
+	}
+	
+	/**
+	 * Return a list of biomes for the specified blocks. Args: listToReuse, x,
+	 * y, width, length, cacheFlag (if false, don't check biomeCache to avoid
+	 * infinite loop in BiomeCacheBlock)
+	 */
+	@Override
+	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] listToReuse, int x, int y, int width, int length, boolean cacheFlag)
+	{
+		IntCache.resetIntCache();
+		
+		if (listToReuse == null || listToReuse.length < width * length)
+		{
+			listToReuse = new BiomeGenBase[width * length];
+		}
+		
+		if (cacheFlag && width == 16 && length == 16 && (x & 15) == 0 && (y & 15) == 0)
+		{
+			BiomeGenBase[] abiomegenbase1 = this.biomeCache.getCachedBiomes(x, y);
+			System.arraycopy(abiomegenbase1, 0, listToReuse, 0, width * length);
+			return listToReuse;
+		}
+		else
+		{
+			int[] aint = this.biomeIndexLayer.getInts(x, y, width, length);
+			
+			for (int i = 0; i < width * length; ++i)
+			{
+				listToReuse[i] = BiomeGenBase.getBiome(aint[i]);
+			}
+			return listToReuse;
+		}
+	}
+	
+	/**
+	 * checks given Chunk's Biomes against List of allowed ones
+	 */
+	@Override
+	@SuppressWarnings("rawtypes")
+	public boolean areBiomesViable(int x, int y, int z, List par4List)
+	{
+		IntCache.resetIntCache();
+		int l = x - z >> 2;
+		int i1 = y - z >> 2;
+		int j1 = x + z >> 2;
+		int k1 = y + z >> 2;
+		int l1 = j1 - l + 1;
+		int i2 = k1 - i1 + 1;
+		int[] aint = this.genBiomes.getInts(l, i1, l1, i2);
+		
+		try
+		{
+			for (int j2 = 0; j2 < l1 * i2; ++j2)
+			{
+				BiomeGenBase biomegenbase = BiomeGenBase.getBiome(aint[j2]);
+				
+				if (!par4List.contains(biomegenbase))
+				{
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		catch (Throwable throwable)
+		{
+			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Invalid Biome id");
+			CrashReportCategory crashreportcategory = crashreport.makeCategory("Layer");
+			crashreportcategory.addCrashSection("Layer", this.genBiomes.toString());
+			crashreportcategory.addCrashSection("x", Integer.valueOf(x));
+			crashreportcategory.addCrashSection("z", Integer.valueOf(y));
+			crashreportcategory.addCrashSection("radius", Integer.valueOf(z));
+			crashreportcategory.addCrashSection("allowed", par4List);
+			throw new ReportedException(crashreport);
+		}
+	}
+	
+	/**
+	 * Finds a valid position within a range, that is in one of the listed
+	 * biomes. Searches {par1,par2} +-par3 blocks. Strongly favors positive y
+	 * positions.
+	 */
+	@Override
+	@SuppressWarnings("rawtypes")
+	public ChunkPosition findBiomePosition(int x, int y, int z, List par4List, Random random)
+	{
+		IntCache.resetIntCache();
+		int l = x - z >> 2;
+		int i1 = y - z >> 2;
+		int j1 = x + z >> 2;
+		int k1 = y + z >> 2;
+		int l1 = j1 - l + 1;
+		int i2 = k1 - i1 + 1;
+		int[] aint = this.genBiomes.getInts(l, i1, l1, i2);
+		ChunkPosition chunkposition = null;
+		int j2 = 0;
+		
+		for (int k2 = 0; k2 < l1 * i2; ++k2)
+		{
+			int l2 = l + k2 % l1 << 2;
+			int i3 = i1 + k2 / l1 << 2;
+			BiomeGenBase biomegenbase = BiomeGenBase.getBiome(aint[k2]);
+			
+			if (par4List.contains(biomegenbase) && (chunkposition == null || random.nextInt(j2 + 1) == 0))
+			{
+				chunkposition = new ChunkPosition(l2, 0, i3);
+				++j2;
 			}
 		}
-
-		return par1ArrayOfBiomeGenBase;
+		
+		return chunkposition;
 	}
-
+	
+	/**
+	 * Calls the WorldChunkManager's biomeCache.cleanupCache()
+	 */
 	@Override
-	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5, boolean par6)
+	public void cleanupCache()
 	{
-		return this.loadBlockGeneratorData(par1ArrayOfBiomeGenBase, par2, par3, par4, par5);
-	}
-
-	@Override
-	public ChunkPosition findBiomePosition(int par1, int par2, int par3, List par4List, Random par5Random)
-	{
-		return null;
-	}
-
-	@Override
-	public boolean areBiomesViable(int par1, int par2, int par3, List par4List)
-	{
-		return true;
-	}
-
-	public void makeNoise(long seed)
-	{
-		this.candyNoise = new BiomePerlin(seed, 1, 8, 0.5F);
-		this.candyNoise.makeWorld();
-		this.plantNoise = new BiomePerlin(seed, 2, 8, 0.5F);
-		this.plantNoise.makeWorld();
+		this.biomeCache.cleanupCache();
 	}
 }
