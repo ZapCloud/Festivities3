@@ -2,19 +2,10 @@ package com.zapcloudstudios.utils.draw;
 
 import com.zapcloudstudios.utils.EnumDirection;
 
-public abstract class SideDraw extends DrawBase
+public abstract class SideDraw extends SimpleDraw
 {
-	protected int xpos;
-	protected int ypos;
-	protected int zpos;
-	
-	protected int textureU;
-	protected int textureV;
-	
 	protected int width = 0;
 	protected int height = 0;
-	
-	protected boolean rotUVWorldMapping = false;
 	
 	protected boolean doubleSided = false;
 	
@@ -30,37 +21,23 @@ public abstract class SideDraw extends DrawBase
 		this.doubleSided = doubleSided;
 	}
 	
-	public void setRotUVWorldMapping(boolean rot)
+	@Override
+	public void forwardTo(DrawBase to)
 	{
-		this.rotUVWorldMapping = rot;
+		super.forwardTo(to);
+		if (to instanceof SideDraw)
+		{
+			SideDraw sideto = (SideDraw) to;
+			sideto.width = this.width;
+			sideto.height = this.height;
+			sideto.doubleSided = this.doubleSided;
+			sideto.dir = this.dir;
+		}
 	}
 	
 	public void setDoubleSided()
 	{
 		this.setDoubleSided(true);
-	}
-	
-	public void setPos(int x, int y, int z)
-	{
-		this.xpos = x;
-		this.ypos = y;
-		this.zpos = z;
-	}
-	
-	public void selectV(int v)
-	{
-		this.textureV = v;
-	}
-	
-	public void selectU(int u)
-	{
-		this.textureU = u;
-	}
-	
-	public void selectUV(int u, int v)
-	{
-		this.textureU = u;
-		this.textureV = v;
 	}
 	
 	public abstract void draw();

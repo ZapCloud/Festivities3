@@ -1,30 +1,18 @@
 package com.zapcloudstudios.utils.draw;
 
-public abstract class BoxDraw extends DrawBase
+import com.zapcloudstudios.utils.EnumDirection;
+
+public abstract class BoxDraw extends SimpleDraw
 {
-	protected int xpos;
-	protected int ypos;
-	protected int zpos;
-	
 	protected int width;
 	protected int height;
 	protected int length;
-	
-	protected int textureU;
-	protected int textureV;
-	
-	protected boolean rotUVWorldMapping = false;
 	
 	protected boolean inside = false;
 	
 	public BoxDraw()
 	{
 		super();
-	}
-	
-	public void setRotUVWorldMapping(boolean rot)
-	{
-		this.rotUVWorldMapping = rot;
 	}
 	
 	public void faceOut()
@@ -35,13 +23,6 @@ public abstract class BoxDraw extends DrawBase
 	public void faceIn()
 	{
 		this.inside = true;
-	}
-	
-	public void setPos(int x, int y, int z)
-	{
-		this.xpos = x;
-		this.ypos = y;
-		this.zpos = z;
 	}
 	
 	public void cube(int x, int y, int z, int width, int height, int length)
@@ -57,20 +38,43 @@ public abstract class BoxDraw extends DrawBase
 		this.length = length;
 	}
 	
-	public void selectV(int v)
+	@Override
+	public void forwardTo(DrawBase to)
 	{
-		this.textureV = v;
+		super.forwardTo(to);
+		if (to instanceof BoxDraw)
+		{
+			BoxDraw boxto = (BoxDraw) to;
+			boxto.width = this.width;
+			boxto.height = this.height;
+			boxto.length = this.length;
+			boxto.inside = this.inside;
+		}
 	}
 	
-	public void selectU(int u)
+	public void drawSide(EnumDirection dir)
 	{
-		this.textureU = u;
-	}
-	
-	public void selectUV(int u, int v)
-	{
-		this.textureU = u;
-		this.textureV = v;
+		switch (dir)
+		{
+			case XUp:
+				this.XUp();
+				break;
+			case XDown:
+				this.XDown();
+				break;
+			case YUp:
+				this.YUp();
+				break;
+			case YDown:
+				this.YDown();
+				break;
+			case ZUp:
+				this.ZUp();
+				break;
+			case ZDown:
+				this.ZDown();
+				break;
+		}
 	}
 	
 	public abstract void XUp();

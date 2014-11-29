@@ -25,6 +25,18 @@ public abstract class DrawBase
 		this.tess = Tessellator.instance;
 	}
 	
+	public void forwardTo(DrawBase to)
+	{
+		to.domainX = this.domainX;
+		to.domainY = this.domainY;
+		to.domainZ = this.domainZ;
+		to.flipU = this.flipU;
+		to.flipV = this.flipV;
+		to.icon = this.icon;
+		to.textureDomainU = this.textureDomainU;
+		to.textureDomainV = this.textureDomainV;
+	}
+	
 	public void addVertexWithUV(double x, double y, double z, int u, int v)
 	{
 		double U = u;

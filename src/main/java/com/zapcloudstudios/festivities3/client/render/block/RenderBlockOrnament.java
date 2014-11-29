@@ -4,10 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import com.zapcloudstudios.festivities3.block.BlockOrnament;
+import com.zapcloudstudios.utils.EnumDirection;
+import com.zapcloudstudios.utils.draw.SideDraw;
+import com.zapcloudstudios.utils.draw.SideDrawBasic;
 
 public class RenderBlockOrnament extends RenderBlockFestivites
 {
@@ -62,9 +66,28 @@ public class RenderBlockOrnament extends RenderBlockFestivites
 		renderer.overrideBlockBounds(min, min, min, max, max, max);
 		renderer.renderStandardBlock(block, x, y, z);
 		detailRender.overrideBlockBounds(min, min, min, max, max, max);
+		detailRender.setRenderFromInside(false);
+		detailRender.renderStandardBlock(block, x, y, z);
+		detailRender.setRenderFromInside(true);
 		detailRender.renderStandardBlock(block, x, y, z);
 		renderer.renderAllFaces = false;
 		renderer.unlockBlockBounds();
+		
+		Tessellator.instance.addTranslation(x, y, z);
+		this.doWorldBrightness(world, x, y, z, block);
+		
+		SideDraw draw = new SideDrawBasic();
+		draw.setDoubleSided();
+		draw.setTexture(BlockOrnament.hookIcon);
+		draw.selectUV(0, 0);
+		draw.side(EnumDirection.XUp, 6, 6, 8, 13, 5);
+		draw.draw();
+		draw.selectUV(6, 3);
+		draw.side(EnumDirection.ZUp, 6, 3, 5, 13, 8);
+		draw.draw();
+		
+		Tessellator.instance.addTranslation(-x, -y, -z);
+		
 		return true;
 	}
 }

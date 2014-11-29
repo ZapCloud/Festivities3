@@ -11,46 +11,37 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCandyLog extends BlockFestive
 {
-	@SideOnly(Side.CLIENT)
 	private IIcon dlSide;
-	@SideOnly(Side.CLIENT)
 	private IIcon urSide;
-	@SideOnly(Side.CLIENT)
 	private IIcon drSide;
-	@SideOnly(Side.CLIENT)
 	private IIcon ulSide;
-	@SideOnly(Side.CLIENT)
 	private IIcon rEnd;
-	@SideOnly(Side.CLIENT)
 	private IIcon lEnd;
-
+	
 	public BlockCandyLog()
 	{
 		super(Material.wood);
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	protected IIcon getSideIcon(int l, int d)
 	{
-		if (d == -2)
+		switch (d)
 		{
-			return this.urSide;
+			case -2:
+				return this.urSide;
+			case -1:
+				return this.drSide;
+			case 1:
+				return this.dlSide;
+			case 2:
+				return this.ulSide;
+			default:
+				return null;
 		}
-		if (d == -1)
-		{
-			return this.drSide;
-		}
-		if (d == 1)
-		{
-			return this.dlSide;
-		}
-		if (d == 2)
-		{
-			return this.ulSide;
-		}
-		return null;
+		
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	protected IIcon getEndIcon(int l, int d)
 	{
@@ -58,23 +49,19 @@ public class BlockCandyLog extends BlockFestive
 		{
 			return this.rEnd;
 		}
-		if (d == 1)
+		else if (d == 1)
 		{
 			return this.lEnd;
 		}
 		return null;
 	}
-
-	/**
-	 * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z,
-	 * side, hitX, hitY, hitZ, block metadata
-	 */
+	
 	@Override
 	public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
 	{
 		int j1 = par9 & 3;
 		byte b0 = 0;
-
+		
 		switch (par5)
 		{
 			case 0:
@@ -89,21 +76,17 @@ public class BlockCandyLog extends BlockFestive
 			case 5:
 				b0 = 4;
 		}
-
+		
 		return j1 | b0;
 	}
-
-	/**
-	 * From the specified side and block metadata retrieves the blocks texture.
-	 * Args: side, metadata
-	 */
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int s, int m)
 	{
 		int k = m & 12;
 		int l = m & 3;
-
+		
 		if (k == 0)
 		{
 			if (s == 0 || s == 1)
@@ -114,61 +97,43 @@ public class BlockCandyLog extends BlockFestive
 		}
 		if (k == 4)
 		{
-			if (s == 4)
+			switch (s)
 			{
-				return this.getEndIcon(l, -1);
-			}
-			if (s == 5)
-			{
-				return this.getEndIcon(l, 1);
-			}
-			if (s == 0)
-			{
-				return this.getSideIcon(l, -2);
-			}
-			if (s == 1)
-			{
-				return this.getSideIcon(l, 1);
-			}
-			if (s == 2)
-			{
-				return this.getSideIcon(l, 2);
-			}
-			if (s == 3)
-			{
-				return this.getSideIcon(l, 1);
+				case 4:
+					return this.getEndIcon(l, -1);
+				case 5:
+					return this.getEndIcon(l, 1);
+				case 0:
+					return this.getSideIcon(l, -2);
+				case 1:
+					return this.getSideIcon(l, 1);
+				case 2:
+					return this.getSideIcon(l, 2);
+				case 3:
+					return this.getSideIcon(l, 1);
 			}
 		}
 		if (k == 8)
 		{
-			if (s == 2)
+			switch (s)
 			{
-				return this.getEndIcon(l, 1);
-			}
-			if (s == 3)
-			{
-				return this.getEndIcon(l, -1);
-			}
-			if (s == 0)
-			{
-				return this.getSideIcon(l, 2);
-			}
-			if (s == 1)
-			{
-				return this.getSideIcon(l, -2);
-			}
-			if (s == 4)
-			{
-				return this.getSideIcon(l, 2);
-			}
-			if (s == 5)
-			{
-				return this.getSideIcon(l, 1);
+				case 2:
+					return this.getEndIcon(l, 1);
+				case 3:
+					return this.getEndIcon(l, -1);
+				case 0:
+					return this.getSideIcon(l, 2);
+				case 1:
+					return this.getSideIcon(l, -2);
+				case 4:
+					return this.getSideIcon(l, 2);
+				case 5:
+					return this.getSideIcon(l, 1);
 			}
 		}
 		return null;
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
@@ -180,13 +145,13 @@ public class BlockCandyLog extends BlockFestive
 		this.rEnd = reg.registerIcon(this.getTextureName() + "_Rend");
 		this.lEnd = reg.registerIcon(this.getTextureName() + "_Lend");
 	}
-
+	
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
 		return new String[] { "Strong and delicious!" };
 	}
-
+	
 	@Override
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{

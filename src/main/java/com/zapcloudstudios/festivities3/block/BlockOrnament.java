@@ -30,6 +30,7 @@ public class BlockOrnament extends BlockFestiveComplex
 	public static final String[] types = new String[] { "clear", "color", "detail" };
 	
 	public static IIcon icons[] = new IIcon[12];
+	public static IIcon hookIcon;
 	
 	public BlockOrnament(boolean clear)
 	{
@@ -87,7 +88,7 @@ public class BlockOrnament extends BlockFestiveComplex
 		}
 		else if (side != 1)
 		{
-			long poshash = (long) (x * 3129871) ^ (long) y * 116129781L ^ (long) z;
+			long poshash = x * 3129871 ^ y * 116129781L ^ z;
 			poshash = poshash * poshash * 42317861L + poshash * 11L;
 			int dir = (int) (poshash >> 16 & 3L);
 			if (dir == side - 2)
@@ -112,7 +113,7 @@ public class BlockOrnament extends BlockFestiveComplex
 		}
 		else if (side != 1)
 		{
-			long poshash = (long) (x * 3129871) ^ (long) y * 116129781L ^ (long) z;
+			long poshash = x * 3129871 ^ y * 116129781L ^ z;
 			poshash = poshash * poshash * 42317861L + poshash * 11L;
 			int dir = (int) (poshash >> 16 & 3L);
 			if (dir == side - 2)
@@ -140,6 +141,7 @@ public class BlockOrnament extends BlockFestiveComplex
 				i++;
 			}
 		}
+		hookIcon = reg.registerIcon(this.getTextureName() + "_hook");
 	}
 	
 	@Override
