@@ -43,14 +43,6 @@ public abstract class DrawBase
 		double V = v;
 		U /= this.textureDomainU;
 		V /= this.textureDomainV;
-		if (this.flipU)
-		{
-			U = 1.0D - U;
-		}
-		if (this.flipV)
-		{
-			V = 1.0D - V;
-		}
 		if (this.icon != null)
 		{
 			U = this.icon.getInterpolatedU(U * 16);
@@ -88,10 +80,27 @@ public abstract class DrawBase
 		this.setTexture(bind, new ResourceLocation(resourceDomain, resourcePath), usize, vsize);
 	}
 	
+	public void setTexture(ITextureBinder bind, ResourceLocation loc)
+	{
+		bind.bindTexture(loc);
+	}
+	
+	public void setTexture(ITextureBinder bind, ResourceLocation loc, IIcon icon)
+	{
+		this.setTexture(icon);
+		bind.bindTexture(loc);
+	}
+	
+	public void setTexture(ITextureBinder bind, ResourceLocation loc, IIcon icon, int usize, int vsize)
+	{
+		this.setTexture(icon, usize, vsize);
+		bind.bindTexture(loc);
+	}
+	
 	public void setTexture(ITextureBinder bind, ResourceLocation loc, int usize, int vsize)
 	{
 		this.setTextureDomain(usize, vsize);
-		bind.bindTexture(loc);
+		this.setTexture(bind, loc);
 	}
 	
 	public void setFlip(boolean u, boolean v)

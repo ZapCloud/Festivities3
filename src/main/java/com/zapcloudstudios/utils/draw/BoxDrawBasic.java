@@ -22,8 +22,30 @@ public class BoxDrawBasic extends BoxDraw
 	@Override
 	public void XUp()
 	{
-		int u;
-		int v;
+		int u1 = this.textureU;
+		int v1 = this.textureV;
+		int u2;
+		int v2;
+		if (this.rotUVWorldMapping)
+		{
+			u2 = u1 + this.height;
+			v2 = v1 + this.length;
+		}
+		else
+		{
+			u2 = u1 + this.length;
+			v2 = v1 + this.height;
+		}
+		if (this.flipU)
+		{
+			u1 = u2;
+			u2 = this.textureU;
+		}
+		if (this.flipV)
+		{
+			v1 = v2;
+			v2 = this.textureV;
+		}
 		this.tess.setNormal(this.getNormal(), 0.0F, 0.0F);
 		int z1;
 		int z2;
@@ -39,29 +61,47 @@ public class BoxDrawBasic extends BoxDraw
 		}
 		if (this.rotUVWorldMapping)
 		{
-			u = this.height;
-			v = this.length;
-			this.addVertexWithUV(this.xpos + this.width, this.ypos, z1, this.textureU + u, this.textureV);
-			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z1, this.textureU, this.textureV);
-			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z2, this.textureU, this.textureV + v);
-			this.addVertexWithUV(this.xpos + this.width, this.ypos, z2, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, z1, u2, v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z1, u1, v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z2, u1, v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, z2, u2, v2);
 		}
 		else
 		{
-			u = this.length;
-			v = this.height;
-			this.addVertexWithUV(this.xpos + this.width, this.ypos, z1, this.textureU, this.textureV + v);
-			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z1, this.textureU, this.textureV);
-			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z2, this.textureU + u, this.textureV);
-			this.addVertexWithUV(this.xpos + this.width, this.ypos, z2, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, z1, u1, v2);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z1, u1, v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos + this.height, z2, u2, v1);
+			this.addVertexWithUV(this.xpos + this.width, this.ypos, z2, u2, v2);
 		}
 	}
 	
 	@Override
 	public void XDown()
 	{
-		int u;
-		int v;
+		int u1 = this.textureU;
+		int v1 = this.textureV;
+		int u2;
+		int v2;
+		if (this.rotUVWorldMapping)
+		{
+			u2 = u1 + this.height;
+			v2 = v1 + this.length;
+		}
+		else
+		{
+			u2 = u1 + this.length;
+			v2 = v1 + this.height;
+		}
+		if (this.flipU)
+		{
+			u1 = u2;
+			u2 = this.textureU;
+		}
+		if (this.flipV)
+		{
+			v1 = v2;
+			v2 = this.textureV;
+		}
 		this.tess.setNormal(-this.getNormal(), 0.0F, 0.0F);
 		int z1;
 		int z2;
@@ -77,29 +117,47 @@ public class BoxDrawBasic extends BoxDraw
 		}
 		if (this.rotUVWorldMapping)
 		{
-			u = this.height;
-			v = this.length;
-			this.addVertexWithUV(this.xpos, this.ypos, z1, this.textureU + u, this.textureV);
-			this.addVertexWithUV(this.xpos, this.ypos + this.height, z1, this.textureU, this.textureV);
-			this.addVertexWithUV(this.xpos, this.ypos + this.height, z2, this.textureU, this.textureV + v);
-			this.addVertexWithUV(this.xpos, this.ypos, z2, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos, this.ypos, z1, u2, v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, z1, u1, v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, z2, u1, v2);
+			this.addVertexWithUV(this.xpos, this.ypos, z2, u2, v2);
 		}
 		else
 		{
-			u = this.length;
-			v = this.height;
-			this.addVertexWithUV(this.xpos, this.ypos, z1, this.textureU, this.textureV + v);
-			this.addVertexWithUV(this.xpos, this.ypos + this.height, z1, this.textureU, this.textureV);
-			this.addVertexWithUV(this.xpos, this.ypos + this.height, z2, this.textureU + u, this.textureV);
-			this.addVertexWithUV(this.xpos, this.ypos, z2, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(this.xpos, this.ypos, z1, u1, v2);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, z1, u1, v1);
+			this.addVertexWithUV(this.xpos, this.ypos + this.height, z2, u2, v1);
+			this.addVertexWithUV(this.xpos, this.ypos, z2, u2, v2);
 		}
 	}
 	
 	@Override
 	public void YUp()
 	{
-		int u;
-		int v;
+		int u1 = this.textureU;
+		int v1 = this.textureV;
+		int u2;
+		int v2;
+		if (this.rotUVWorldMapping)
+		{
+			u2 = u1 + this.length;
+			v2 = v1 + this.width;
+		}
+		else
+		{
+			u2 = u1 + this.width;
+			v2 = v1 + this.length;
+		}
+		if (this.flipU)
+		{
+			u1 = u2;
+			u2 = this.textureU;
+		}
+		if (this.flipV)
+		{
+			v1 = v2;
+			v2 = this.textureV;
+		}
 		this.tess.setNormal(0.0F, this.getNormal(), 0.0F);
 		int x1;
 		int x2;
@@ -115,29 +173,47 @@ public class BoxDrawBasic extends BoxDraw
 		}
 		if (this.rotUVWorldMapping)
 		{
-			u = this.length;
-			v = this.width;
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, this.textureU, this.textureV + v);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, u1, v1);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, u2, v1);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, u2, v2);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, u1, v2);
 		}
 		else
 		{
-			u = this.width;
-			v = this.length;
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, this.textureU + u, this.textureV);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, u1, v1);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, u1, v2);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, u2, v2);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, u2, v1);
 		}
 	}
 	
 	@Override
 	public void YDown()
 	{
-		int u;
-		int v;
+		int u1 = this.textureU;
+		int v1 = this.textureV;
+		int u2;
+		int v2;
+		if (this.rotUVWorldMapping)
+		{
+			u2 = u1 + this.length;
+			v2 = v1 + this.width;
+		}
+		else
+		{
+			u2 = u1 + this.width;
+			v2 = v1 + this.length;
+		}
+		if (this.flipU)
+		{
+			u1 = u2;
+			u2 = this.textureU;
+		}
+		if (this.flipV)
+		{
+			v1 = v2;
+			v2 = this.textureV;
+		}
 		this.tess.setNormal(0.0F, -this.getNormal(), 0.0F);
 		int x1;
 		int x2;
@@ -153,29 +229,47 @@ public class BoxDrawBasic extends BoxDraw
 		}
 		if (this.rotUVWorldMapping)
 		{
-			u = this.length;
-			v = this.width;
-			this.addVertexWithUV(x1, this.ypos, this.zpos, this.textureU, this.textureV);
-			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos, this.zpos, this.textureU, this.textureV + v);
+			this.addVertexWithUV(x1, this.ypos, this.zpos, u1, v1);
+			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, u2, v1);
+			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, u2, v2);
+			this.addVertexWithUV(x2, this.ypos, this.zpos, u1, v2);
 		}
 		else
 		{
-			u = this.width;
-			v = this.length;
-			this.addVertexWithUV(x1, this.ypos, this.zpos, this.textureU, this.textureV);
-			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos, this.zpos, this.textureU + u, this.textureV);
+			this.addVertexWithUV(x1, this.ypos, this.zpos, u1, v1);
+			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, u1, v2);
+			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, u2, v2);
+			this.addVertexWithUV(x2, this.ypos, this.zpos, u2, v1);
 		}
 	}
 	
 	@Override
 	public void ZUp()
 	{
-		int u;
-		int v;
+		int u1 = this.textureU;
+		int v1 = this.textureV;
+		int u2;
+		int v2;
+		if (this.rotUVWorldMapping)
+		{
+			u2 = u1 + this.height;
+			v2 = v1 + this.width;
+		}
+		else
+		{
+			u2 = u1 + this.width;
+			v2 = v1 + this.height;
+		}
+		if (this.flipU)
+		{
+			u1 = u2;
+			u2 = this.textureU;
+		}
+		if (this.flipV)
+		{
+			v1 = v2;
+			v2 = this.textureV;
+		}
 		this.tess.setNormal(0.0F, 0.0F, this.getNormal());
 		int x1;
 		int x2;
@@ -191,29 +285,47 @@ public class BoxDrawBasic extends BoxDraw
 		}
 		if (this.rotUVWorldMapping)
 		{
-			u = this.height;
-			v = this.width;
-			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, u2, v1);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, u1, v1);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, u1, v2);
+			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, u2, v2);
 		}
 		else
 		{
-			u = this.width;
-			v = this.height;
-			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, this.textureU, this.textureV + v);
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, this.textureU, this.textureV);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, this.textureU + u, this.textureV);
-			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(x1, this.ypos, this.zpos + this.length, u1, v2);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos + this.length, u1, v1);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos + this.length, u2, v1);
+			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, u2, v2);
 		}
 	}
 	
 	@Override
 	public void ZDown()
 	{
-		int u;
-		int v;
+		int u1 = this.textureU;
+		int v1 = this.textureV;
+		int u2;
+		int v2;
+		if (this.rotUVWorldMapping)
+		{
+			u2 = u1 + this.height;
+			v2 = v1 + this.width;
+		}
+		else
+		{
+			u2 = u1 + this.width;
+			v2 = v1 + this.height;
+		}
+		if (this.flipU)
+		{
+			u1 = u2;
+			u2 = this.textureU;
+		}
+		if (this.flipV)
+		{
+			v1 = v2;
+			v2 = this.textureV;
+		}
 		this.tess.setNormal(0.0F, 0.0F, -this.getNormal());
 		int x1;
 		int x2;
@@ -229,21 +341,17 @@ public class BoxDrawBasic extends BoxDraw
 		}
 		if (this.rotUVWorldMapping)
 		{
-			u = this.height;
-			v = this.width;
-			this.addVertexWithUV(x1, this.ypos, this.zpos, this.textureU + u, this.textureV);
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, this.textureU, this.textureV + v);
-			this.addVertexWithUV(x2, this.ypos, this.zpos, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(x1, this.ypos, this.zpos, u2, v1);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, u1, v1);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, u1, v2);
+			this.addVertexWithUV(x2, this.ypos, this.zpos, u2, v2);
 		}
 		else
 		{
-			u = this.width;
-			v = this.height;
-			this.addVertexWithUV(x1, this.ypos, this.zpos, this.textureU, this.textureV + v);
-			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, this.textureU, this.textureV);
-			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, this.textureU + u, this.textureV);
-			this.addVertexWithUV(x2, this.ypos, this.zpos, this.textureU + u, this.textureV + v);
+			this.addVertexWithUV(x1, this.ypos, this.zpos, u1, v2);
+			this.addVertexWithUV(x1, this.ypos + this.height, this.zpos, u1, v1);
+			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, u2, v1);
+			this.addVertexWithUV(x2, this.ypos, this.zpos, u2, v2);
 		}
 	}
 }

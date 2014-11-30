@@ -16,7 +16,7 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 	public int hvar;
 	public int runs;
 	public boolean cane;
-
+	
 	public WorldGenPeppermintArch(int minHeight, int heightvariance, int minWidth, int widthvariance, int runs, boolean cane)
 	{
 		this.minHeight = minHeight;
@@ -26,18 +26,18 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 		this.runs = runs;
 		this.cane = cane;
 	}
-
+	
 	public boolean placeCandyLog(World world, int x, int y, int z, int meta)
 	{
 		Block id = world.getBlock(x, y, z);
 		if (id.isReplaceable(world, x, y, z))
 		{
-			world.setBlock(x, y, z, Festivities.candyLog, 0, meta);
+			world.setBlock(x, y, z, Festivities.candyLog, meta, 0);
 			return true;
 		}
 		return false;
 	}
-
+	
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
@@ -46,24 +46,24 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 			int X1 = x + random.nextInt(8) - random.nextInt(8);
 			int Y1 = y + random.nextInt(8) - random.nextInt(8);
 			int Z1 = z + random.nextInt(8) - random.nextInt(8);
-
+			
 			if (this.canGrow(world, X1, Y1, Z1))
 			{
 				int h = this.minHeight + random.nextInt(this.hvar);
 				int h1 = (int) (h * 0.6F);
 				int h2 = h - h1;
-
+				
 				double theta = random.nextFloat() * Math.PI * 2;
-
+				
 				int X2 = X1 + (int) ((random.nextInt(this.wvar * 2) + this.minWidth) * Math.cos(theta));
 				int Z2 = Z1 + (int) ((random.nextInt(this.wvar * 2) + this.minWidth) * Math.cos(theta));
 				int Y2 = Y1;
-
+				
 				for (int i = 0; i < h1; i++)
 				{
 					this.placeCandyLog(world, X1, Y1 + i, Z1, 0);
 				}
-
+				
 				if (!this.cane)
 				{
 					int i = h1;
@@ -72,10 +72,10 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 						i--;
 					}
 				}
-
+				
 				Y1 += h1;
 				Y2 += h1;
-
+				
 				int dx = X2 - X1;
 				int dz = Z2 - Z1;
 				float ls = dx * dx + dz * dz;
@@ -83,7 +83,7 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 				int zs = Integer.signum(dz);
 				dx *= xs;
 				dz *= zs;
-
+				
 				int X = 0;
 				int Z = 0;
 				while (dx != 0 && dz != 0)
@@ -92,7 +92,7 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 					f = (float) (Math.sqrt(f)) * 2 - 1;
 					float F = (float) Math.sqrt(1 - f * f);
 					F *= h2;
-
+					
 					int meta;
 					if (f < -0.5F || f > 0.5F)
 					{
@@ -106,9 +106,9 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 					{
 						meta = 8;
 					}
-
+					
 					this.placeCandyLog(world, X + X1, Y1 + (int) F, Z + Z1, meta);
-
+					
 					if (dx >= dz)
 					{
 						dx--;
@@ -120,13 +120,13 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 						Z += zs;
 					}
 				}
-
+				
 				return true;
 			}
 		}
 		return false;
 	}
-
+	
 	public boolean canGrow(World world, int x, int y, int z)
 	{
 		boolean flag = true;

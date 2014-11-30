@@ -20,12 +20,8 @@ public class RenderBlockFireplace extends RenderBlockFestivites
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer)
 	{
 		Tessellator.instance.addTranslation(x, y, z);
-		this.tess.draw();
-		this.tess.startDrawingQuads();
 		this.doWorldBrightness(world, x, y, z, block);
 		this.renderFireplace(x, y, z);
-		this.tess.draw();
-		this.tess.startDrawingQuads();
 		Tessellator.instance.addTranslation(-x, -y, -z);
 		return true;
 	}

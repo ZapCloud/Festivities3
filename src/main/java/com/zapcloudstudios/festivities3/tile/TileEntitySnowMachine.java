@@ -2,8 +2,6 @@ package com.zapcloudstudios.festivities3.tile;
 
 import java.util.Random;
 
-import com.zapcloudstudios.festivities3.client.particle.EntitySnowFX;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -13,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import com.zapcloudstudios.festivities3.client.particle.EntitySnowFX;
 
 public class TileEntitySnowMachine extends TileEntityFestive
 {
@@ -72,9 +70,9 @@ public class TileEntitySnowMachine extends TileEntityFestive
 				{
 					this.tickCount = 0;
 				}
-
+				
 				boolean flag = false;
-
+				
 				if (myStack.getItem() == Item.getItemFromBlock(Blocks.ice))
 				{
 					this.snowCount += myStack.stackSize * iceSnow;
@@ -90,7 +88,7 @@ public class TileEntitySnowMachine extends TileEntityFestive
 					this.snowCount += myStack.stackSize * blockSnow;
 					flag = true;
 				}
-
+				
 				if (flag && !player.capabilities.isCreativeMode)
 				{
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
@@ -245,7 +243,6 @@ public class TileEntitySnowMachine extends TileEntityFestive
 		return y;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public void spawnFX(Random rand)
 	{
 		float den = this.getSnowDensity();
@@ -262,7 +259,7 @@ public class TileEntitySnowMachine extends TileEntityFestive
 			float xvel = this.jetx * jetangle;
 			float zvel = this.jetz * jetangle;
 			float yvel = jetvel * (rand.nextFloat() * 0.1F + 0.95F);
-			EntitySnowFX.spawn(new EntitySnowFX(this.worldObj, X, Y, Z, xvel, yvel, zvel).setSize(0.01F).setMult(0.985F).setGrav(0.002F));
+			EntitySnowFX.spawn(new EntitySnowFX(this.worldObj, X, Y, Z, xvel, yvel, zvel).setMult(0.985F).setGrav(0.05F));
 		}
 	}
 }

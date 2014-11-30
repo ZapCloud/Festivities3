@@ -5,6 +5,8 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
+import org.lwjgl.opengl.GL11;
+
 import com.zapcloudstudios.festivities3.client.IRenderableBlock;
 import com.zapcloudstudios.festivities3.client.render.block.RenderBlockFestivites;
 
@@ -27,9 +29,11 @@ public class RenderBlockFestivitiesHandler implements ISimpleBlockRenderingHandl
 		RenderBlockFestivites render = this.getRender(block);
 		if (render != null)
 		{
-			Tessellator.instance.addTranslation(-0.5F, -0.5F, -0.5F);
+			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+			Tessellator.instance.startDrawingQuads();
 			render.renderInventoryBlock(block, metadata, renderer);
-			Tessellator.instance.addTranslation(0.5F, 0.5F, 0.5F);
+			Tessellator.instance.draw();
+			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		}
 	}
 	

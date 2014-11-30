@@ -21,31 +21,25 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 	public static BiomeGenKringle kringleChristmasForest;
 	public static BiomeGenKringle kringleForest;
 	public static BiomeGenKringle kringlePeaks;
-
+	
 	public float candy;
 	public float plant;
-
+	
 	public static List<BiomeGenKringle> kringleBiomes = new ArrayList<BiomeGenKringle>();
-
+	
 	public static void registerBiomes(int base)
 	{
 		kringlePlains = (BiomeGenKringle) new BiomeGenKringlePlains(base + 1, 0.75F, 0.3F).setBiomeName("Plains").setHeight(new Height(0.1F, 0.3F));
-		// GameRegistry.addBiome(kringlePlains);
 		kringleIce = (BiomeGenKringle) new BiomeGenKringleIce(base + 2, 0.1F, 0.2F).setBiomeName("Ice").setHeight(new Height(0.05F, 0.1F));
-		// GameRegistry.addBiome(kringleIce);
 		kringleMountains = (BiomeGenKringle) new BiomeGenKringleMountains(base + 3, 0.4F, 0.7F).setBiomeName("Mountains").setHeight(new Height(0.3F, 0.9F));
-		// GameRegistry.addBiome(kringleMountains);
 		kringleChristmasForest = (BiomeGenKringle) new BiomeGenKringleChristmasForest(base + 4, 0.6F, 0.7F).setBiomeName("Christmas Forest").setHeight(new Height(0.3F, 0.6F));
-		// GameRegistry.addBiome(kringleChristmasForrest);
 		kringleForest = (BiomeGenKringle) new BiomeGenKringleForest(base + 5, 0.2F, 0.9F).setBiomeName("Forest").setHeight(new Height(0.4F, 0.6F));
-		// GameRegistry.addBiome(kringleForrest);
 		kringlePeaks = (BiomeGenKringle) new BiomeGenKringlePeaks(base + 6, 0.2F, 0.4F).setBiomeName("Peaks").setHeight(new Height(0.1F, 1.3F));
-		// GameRegistry.addBiome(kringlePeaks);
 	}
-
+	
 	public Block topBlock;
 	public Block fillerBlock;
-
+	
 	public BiomeGenKringle(int id, float candy, float plant)
 	{
 		super(id);
@@ -58,24 +52,24 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 		this.spawnableCreatureList.clear();
 		this.spawnableWaterCreatureList.clear();
 		this.spawnableCaveCreatureList.clear();
-
+		
 		this.topBlock = Blocks.snow;
 		this.fillerBlock = Blocks.snow;
-
+		
 		this.kringleBiomes.add(this);
 	}
-
+	
 	public KringleDecorator getDecorator()
 	{
 		return (KringleDecorator) this.theBiomeDecorator;
 	}
-
+	
 	@Override
 	public BiomeDecorator createBiomeDecorator()
 	{
 		return new KringleDecorator();
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	/**
@@ -87,7 +81,7 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 		float v = temp * 0.2F - 0.1F;
 		return Color.getHSBColor(0.6F, 0.8F + s, 0.27F + v).getRGB();
 	}
-
+	
 	/**
 	 * Returns true if the biome have snowfall instead a normal rain.
 	 */
@@ -96,7 +90,7 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 	{
 		return true;
 	}
-
+	
 	/**
 	 * Return true if the biome supports lightning bolt spawn, either by have
 	 * the bolts enabled and have rain enabled.
@@ -106,7 +100,7 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 	{
 		return false;
 	}
-
+	
 	/**
 	 * Checks to see if the rainfall level of the biome is extremely high
 	 */
@@ -115,45 +109,45 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 	{
 		return false;
 	}
-
+	
 	@Override
 	public void decorate(World world, Random rand, int chunkX, int chunkZ)
 	{
 		super.decorate(world, rand, chunkX, chunkZ);
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBiomeGrassColor(int x, int y, int z)
 	{
 		return Color.getHSBColor(0.55F, 0.1F, 1.0F).getRGB();
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBiomeFoliageColor(int x, int y, int z)
 	{
 		return super.getBiomeFoliageColor(x, y, z);
 	}
-
+	
 	@Override
 	public BiomeDecorator getModdedBiomeDecorator(BiomeDecorator original)
 	{
 		return original;
 	}
-
+	
 	@Override
 	public int getWaterColorMultiplier()
 	{
 		return super.getWaterColorMultiplier();
 	}
-
+	
 	@Override
 	public BiomeGenBase setBiomeName(String name)
 	{
 		return super.setBiomeName("Kringle " + name);
 	}
-
+	
 	public static BiomeGenKringle getBiome(float plant, float candy)
 	{
 		plant /= 2;
