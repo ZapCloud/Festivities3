@@ -2,12 +2,12 @@ package com.zapcloudstudios.festivities3.kringle.gen.feature;
 
 import java.util.Random;
 
-import com.zapcloudstudios.festivities3.Festivities;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+
+import com.zapcloudstudios.festivities3.Festivities;
 
 public class WorldGenChristmasTree extends WorldGenerator implements WorldGenFestive
 {
@@ -82,9 +82,9 @@ public class WorldGenChristmasTree extends WorldGenerator implements WorldGenFes
 			{
 				world.setBlock(x, y + i, z, Blocks.leaves, 5, 2);
 			}
-			if (i >= trunk)
+			if (i == trunk - 1)
 			{
-				int w = (int) ((treeHeight - i + trunk) * inslope);
+				int w = (int) (treeHeight * inslope);
 				int wa = w + 1;
 				int ws = w * w;
 				int was = wa * wa;
@@ -94,16 +94,34 @@ public class WorldGenChristmasTree extends WorldGenerator implements WorldGenFes
 					{
 						if (ws > j * j + k * k)
 						{
+							if ((j != 0 || k != 0) && random.nextFloat() < 0.1F)
+							{
+								world.setBlock(x + j, y + i, z + k, Festivities.coloredOrnamentBlock, random.nextInt(16), 2);
+							}
+						}
+					}
+				}
+			}
+			else if (i >= trunk)
+			{
+				int w = (int) ((treeHeight - i + trunk) * inslope);
+				int wplusone = w + 1;
+				for (int j = -wplusone; j <= wplusone; j++)
+				{
+					for (int k = -wplusone; k <= wplusone; k++)
+					{
+						if (w * w > j * j + k * k)
+						{
 							if (j != 0 || k != 0)
 							{
 								world.setBlock(x + j, y + i, z + k, Blocks.leaves, 5, 2);
 							}
 						}
-						else if (was > j * j + k * k)
+						else if (wplusone * wplusone > j * j + k * k)
 						{
 							if ((j != 0 && j != -1 && j != 1) || (k != 0 && k != -1 && k != 1))
 							{
-								if (random.nextFloat() < 0.1F)
+								if (random.nextFloat() < 0.1F && Math.abs(j) != Math.abs(k))
 								{
 									world.setBlock(x + j, y + i, z + k, Festivities.coloredOrnamentBlock, random.nextInt(16), 2);
 								}

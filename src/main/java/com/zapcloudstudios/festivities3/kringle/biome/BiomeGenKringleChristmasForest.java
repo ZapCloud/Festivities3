@@ -7,18 +7,19 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenTaiga1;
 import net.minecraft.world.gen.feature.WorldGenTaiga2;
 
-public class BiomeGenKringleForrest extends BiomeGenKringle
+public class BiomeGenKringleChristmasForest extends BiomeGenKringle
 {
-	public BiomeGenKringleForrest(int id, float candy, float plant)
+	public BiomeGenKringleChristmasForest(int id, float candy, float plant)
 	{
 		super(id, candy, plant);
 
 		this.topBlock = Blocks.grass;
 		this.fillerBlock = Blocks.dirt;
 
-		this.getDecorator().peppermintPolesPerChunk = 4;
-		this.getDecorator().treesPerChunk = 4;
-		this.getDecorator().christmasTreesPerChunk = 1;
+		this.getDecorator().peppermintPolesPerChunk = 6;
+		this.getDecorator().peppermintCanePerChunk = 6;
+		this.getDecorator().treesPerChunk = 1;
+		this.getDecorator().christmasTreesPerChunk = 10;
 	}
 
 	@Override

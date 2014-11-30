@@ -18,8 +18,8 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 	public static BiomeGenKringle kringlePlains;
 	public static BiomeGenKringle kringleIce;
 	public static BiomeGenKringle kringleMountains;
-	public static BiomeGenKringle kringleChristmasForrest;
-	public static BiomeGenKringle kringleForrest;
+	public static BiomeGenKringle kringleChristmasForest;
+	public static BiomeGenKringle kringleForest;
 	public static BiomeGenKringle kringlePeaks;
 
 	public float candy;
@@ -35,9 +35,9 @@ public abstract class BiomeGenKringle extends BiomeGenBase
 		// GameRegistry.addBiome(kringleIce);
 		kringleMountains = (BiomeGenKringle) new BiomeGenKringleMountains(base + 3, 0.4F, 0.7F).setBiomeName("Mountains").setHeight(new Height(0.3F, 0.9F));
 		// GameRegistry.addBiome(kringleMountains);
-		kringleChristmasForrest = (BiomeGenKringle) new BiomeGenKringleChristmasForrest(base + 4, 0.6F, 0.7F).setBiomeName("Christmas Forrest").setHeight(new Height(0.3F, 0.6F));
+		kringleChristmasForest = (BiomeGenKringle) new BiomeGenKringleChristmasForest(base + 4, 0.6F, 0.7F).setBiomeName("Christmas Forest").setHeight(new Height(0.3F, 0.6F));
 		// GameRegistry.addBiome(kringleChristmasForrest);
-		kringleForrest = (BiomeGenKringle) new BiomeGenKringleForrest(base + 5, 0.2F, 0.9F).setBiomeName("Forrest").setHeight(new Height(0.4F, 0.6F));
+		kringleForest = (BiomeGenKringle) new BiomeGenKringleForest(base + 5, 0.2F, 0.9F).setBiomeName("Forest").setHeight(new Height(0.4F, 0.6F));
 		// GameRegistry.addBiome(kringleForrest);
 		kringlePeaks = (BiomeGenKringle) new BiomeGenKringlePeaks(base + 6, 0.2F, 0.4F).setBiomeName("Peaks").setHeight(new Height(0.1F, 1.3F));
 		// GameRegistry.addBiome(kringlePeaks);

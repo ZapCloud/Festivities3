@@ -2,11 +2,11 @@ package com.zapcloudstudios.festivities3.kringle.gen.feature;
 
 import java.util.Random;
 
-import com.zapcloudstudios.festivities3.Festivities;
-
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+
+import com.zapcloudstudios.festivities3.Festivities;
 
 public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFestive
 {
@@ -15,98 +15,118 @@ public class WorldGenPeppermintArch extends WorldGenerator implements WorldGenFe
 	public int wvar;
 	public int hvar;
 	public int runs;
-	
-	public WorldGenPeppermintArch(int minHeight, int heightvariance, int minWidth, int widthvariance, int runs)
+	public boolean cane;
+
+	public WorldGenPeppermintArch(int minHeight, int heightvariance, int minWidth, int widthvariance, int runs, boolean cane)
 	{
 		this.minHeight = minHeight;
 		this.hvar = heightvariance;
 		this.minWidth = minWidth;
 		this.wvar = widthvariance;
 		this.runs = runs;
+		this.cane = cane;
 	}
-	
+
+	public boolean placeCandyLog(World world, int x, int y, int z, int meta)
+	{
+		Block id = world.getBlock(x, y, z);
+		if (id.isReplaceable(world, x, y, z))
+		{
+			world.setBlock(x, y, z, Festivities.candyLog, 0, meta);
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
 		for (int t = 0; t < this.runs; t++)
 		{
 			int X1 = x + random.nextInt(8) - random.nextInt(8);
-			int Y = y + random.nextInt(8) - random.nextInt(8);
+			int Y1 = y + random.nextInt(8) - random.nextInt(8);
 			int Z1 = z + random.nextInt(8) - random.nextInt(8);
-			
-			if (this.canGrow(world, X1, Y, Z1))
+
+			if (this.canGrow(world, X1, Y1, Z1))
 			{
-				int X2 = X1 + random.nextInt(this.minWidth * 2) - this.minWidth + random.nextInt(this.wvar * 2) - this.wvar;
-				int Z2 = Z1 + random.nextInt(this.minWidth * 2) - this.minWidth + random.nextInt(this.wvar * 2) - this.wvar;
-				
 				int h = this.minHeight + random.nextInt(this.hvar);
-				
-				for (int i = 0; i < h; i++)
+				int h1 = (int) (h * 0.6F);
+				int h2 = h - h1;
+
+				double theta = random.nextFloat() * Math.PI * 2;
+
+				int X2 = X1 + (int) ((random.nextInt(this.wvar * 2) + this.minWidth) * Math.cos(theta));
+				int Z2 = Z1 + (int) ((random.nextInt(this.wvar * 2) + this.minWidth) * Math.cos(theta));
+				int Y2 = Y1;
+
+				for (int i = 0; i < h1; i++)
 				{
-					world.setBlock(X1, Y + i, Z1, Festivities.candyLog, 0, 2);
+					this.placeCandyLog(world, X1, Y1 + i, Z1, 0);
 				}
-				
-				int dy = Y + h;
-				while (true)
+
+				if (!this.cane)
 				{
-					Block id = world.getBlock(X2, dy, Z2);
-					if (!id.isReplaceable(world, X2, dy--, Z2))
+					int i = h1;
+					while (this.placeCandyLog(world, X2, Y2 + i, Z2, 0))
 					{
-						break;
+						i--;
+					}
+				}
+
+				Y1 += h1;
+				Y2 += h1;
+
+				int dx = X2 - X1;
+				int dz = Z2 - Z1;
+				float ls = dx * dx + dz * dz;
+				int xs = Integer.signum(dx);
+				int zs = Integer.signum(dz);
+				dx *= xs;
+				dz *= zs;
+
+				int X = 0;
+				int Z = 0;
+				while (dx != 0 && dz != 0)
+				{
+					float f = (dx * dx + dz * dz) / ls;
+					f = (float) (Math.sqrt(f)) * 2 - 1;
+					float F = (float) Math.sqrt(1 - f * f);
+					F *= h2;
+
+					int meta;
+					if (f < -0.5F || f > 0.5F)
+					{
+						meta = 0;
+					}
+					else if (dx >= dz)
+					{
+						meta = 4;
 					}
 					else
 					{
-						world.setBlock(X2, dy, Z2, Festivities.candyLog, 0, 2);
+						meta = 8;
 					}
-					dy--;
-				}
-				
-				int i = 0;
-				int j = 0;
-				int toi = X2 - X1;
-				int toj = Z2 - Z1;
-				
-				while (true)
-				{
-					if (Math.abs(i) >= Math.abs(toi) && Math.abs(j) >= Math.abs(toj))
+
+					this.placeCandyLog(world, X + X1, Y1 + (int) F, Z + Z1, meta);
+
+					if (dx >= dz)
 					{
-						break;
-					}
-					
-					if (Math.abs(i / (float) toi) > Math.abs(j / (float) toj))
-					{
-						world.setBlock(X1 + i, Y + h, Z1 + j, Festivities.candyLog, 8, 2);
-						if (toj < 0)
-						{
-							j--;
-						}
-						else
-						{
-							
-							j++;
-						}
+						dx--;
+						X += xs;
 					}
 					else
 					{
-						world.setBlock(X1 + i, Y + h, Z1 + j, Festivities.candyLog, 4, 2);
-						if (toi < 0)
-						{
-							i--;
-						}
-						else
-						{
-							
-							i++;
-						}
+						dz--;
+						Z += zs;
 					}
 				}
-				
+
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean canGrow(World world, int x, int y, int z)
 	{
 		boolean flag = true;

@@ -1,13 +1,13 @@
 package com.zapcloudstudios.festivities3.kringle;
 
-import com.zapcloudstudios.festivities3.Festivities;
-import com.zapcloudstudios.festivities3.player.PlayerData;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
+
+import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.festivities3.player.PlayerData;
 
 public class KringleTeleporter extends Teleporter
 {
@@ -27,7 +27,7 @@ public class KringleTeleporter extends Teleporter
 			dat.globey = (int) y;
 			dat.globez = (int) z;
 			entity.fallDistance = -1000.0F;
-			entity.setPosition(5000, 200, 5000);
+			entity.setPosition(x, 200, z);
 		}
 		else
 		{

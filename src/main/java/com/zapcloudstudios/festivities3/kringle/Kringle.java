@@ -9,4 +9,19 @@ public class Kringle
 	{
 		return Blocks.stone;
 	}
+
+	public static Block getIce()
+	{
+		return Blocks.ice;
+	}
+
+	public static Block getSnowLayer()
+	{
+		return Blocks.snow_layer;
+	}
+
+	public static Block getSnow()
+	{
+		return Blocks.snow;
+	}
 }
