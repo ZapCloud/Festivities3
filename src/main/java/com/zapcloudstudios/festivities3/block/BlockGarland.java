@@ -6,6 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import com.zapcloudstudios.festivities3.client.render.block.RenderBlockGarland;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -15,6 +18,7 @@ public class BlockGarland extends BlockFestiveComplex
 	{
 		super(par2Material);
 		this.setShouldRender3D(false);
+		this.setRenderer(RenderBlockGarland.class);
 	}
 
 	@Override
@@ -67,55 +71,51 @@ public class BlockGarland extends BlockFestiveComplex
 	 */
 	public void updateGarlandBounds(int meta)
 	{
-		meta %= 8;
+		meta &= 7;
 
 		int xpos = 8;
 		int ypos = 8;
 		int zpos = 8;
 
-		int dir;
+		int dir = meta & 1;
 
-		if (meta < 4)
+		if ((meta & 4) == 0)
 		{
-			int side = meta % 4;
-			dir = side / 2;
-			switch (side)
+			switch (meta & 3)
 			{
 				case 0:
-					xpos = 2;
+					xpos = 13;
 					break;
 				case 1:
-					xpos = 14;
+					zpos = 13;
 					break;
 				case 2:
-					zpos = 2;
+					xpos = 3;
 					break;
 				case 3:
-					zpos = 14;
+					zpos = 3;
 					break;
 			}
 		}
 		else
 		{
-			meta = meta % 4;
-			dir = meta % 2;
-			if (meta < 2)
+			if ((meta & 2) == 0)
 			{
-				ypos = 2;
+				ypos = 13;
 			}
 			else
 			{
-				ypos = 14;
+				ypos = 3;
 			}
 		}
 
 		if (dir == 0)
 		{
-			this.setBlockBounds((xpos - 2) / 16.0F, (ypos - 2) / 16.0F, 0.0F, (xpos + 2) / 16.0F, (ypos + 2) / 16.0F, 1.0F);
+			this.setBlockBounds((xpos - 3) / 16.0F, (ypos - 3) / 16.0F, 0.0F, (xpos + 3) / 16.0F, (ypos + 3) / 16.0F, 1.0F);
 		}
 		else
 		{
-			this.setBlockBounds(0.0F, (ypos - 2) / 16.0F, (zpos - 2) / 16.0F, 1.0F, (ypos + 2) / 16.0F, (zpos + 2) / 16.0F);
+			this.setBlockBounds(0.0F, (ypos - 3) / 16.0F, (zpos - 3) / 16.0F, 1.0F, (ypos + 3) / 16.0F, (zpos + 3) / 16.0F);
 		}
 	}
 

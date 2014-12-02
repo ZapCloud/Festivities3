@@ -23,14 +23,14 @@ public class ItemOrnament extends ItemFestiveBlock
 {
 	private Block block;
 	private boolean clear;
-	
+
 	@SideOnly(Side.CLIENT)
 	private IIcon baseIcon;
 	@SideOnly(Side.CLIENT)
 	private IIcon coloredIcon;
 	@SideOnly(Side.CLIENT)
 	private IIcon clearIcon;
-	
+
 	public ItemOrnament(Block block, boolean clear)
 	{
 		super(block);
@@ -43,12 +43,12 @@ public class ItemOrnament extends ItemFestiveBlock
 		}
 		this.setToUseItemTextureMap();
 	}
-	
+
 	public boolean isClear()
 	{
 		return this.clear;
 	}
-	
+
 	/**
 	 * Returns the unlocalized name of this item. This version accepts an
 	 * ItemStack so different stacks can have different names based on their
@@ -67,7 +67,7 @@ public class ItemOrnament extends ItemFestiveBlock
 			return super.getUnlocalizedName() + "." + ItemDye.field_150923_a[i];
 		}
 	}
-	
+
 	/**
 	 * returns a list of items with the same ID, but different meta (eg: dye
 	 * returns 16 items)
@@ -88,7 +88,7 @@ public class ItemOrnament extends ItemFestiveBlock
 			}
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister par1IconRegister)
@@ -103,13 +103,12 @@ public class ItemOrnament extends ItemFestiveBlock
 			this.coloredIcon = par1IconRegister.registerIcon(Festivities.ID + ":ornament" + "_" + "color");
 		}
 	}
-	
+
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta)
 	{
-		
 		meta = stack.getItemDamage();
-		
+
 		if (world.setBlock(x, y, z, this.block, meta, 3))
 		{
 			if (world.getBlock(x, y, z) == this.block)
@@ -117,27 +116,27 @@ public class ItemOrnament extends ItemFestiveBlock
 				this.block.onBlockPlacedBy(world, x, y, z, player, stack);
 				this.block.onPostBlockPlaced(world, x, y, z, meta);
 			}
-			
+
 			--stack.stackSize;
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean requiresMultipleRenderPasses()
 	{
 		return !this.clear;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int par1)
 	{
 		return this.clearIcon;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	/**
@@ -161,7 +160,7 @@ public class ItemOrnament extends ItemFestiveBlock
 			}
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int pass)

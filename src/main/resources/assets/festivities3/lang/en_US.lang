@@ -19,6 +19,9 @@ tile.treatplate.name=Treat Plate
 tile.fireplace.name=Fireplace
 tile.snowMachine.name=Snow Machine
 
+tile.garland.spruce.name=Garland
+tile.garland.bell.name=Garland
+
 tile.ornament.clear.name=Ornament
 tile.ornament.black.name=Black Ornament
 tile.ornament.red.name=Red Ornament
