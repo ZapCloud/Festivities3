@@ -21,6 +21,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -36,6 +37,7 @@ import com.zapcloudstudios.festivities3.command.CommandKringle;
 import com.zapcloudstudios.festivities3.events.EventHooks;
 import com.zapcloudstudios.festivities3.item.ItemFestive;
 import com.zapcloudstudios.festivities3.item.ItemFestiveBlock;
+import com.zapcloudstudios.festivities3.item.ItemFlake;
 import com.zapcloudstudios.festivities3.item.ItemFoodFestive;
 import com.zapcloudstudios.festivities3.item.ItemGarland;
 import com.zapcloudstudios.festivities3.item.ItemMoreCookies;
@@ -43,6 +45,7 @@ import com.zapcloudstudios.festivities3.item.ItemOrnament;
 import com.zapcloudstudios.festivities3.kringle.WorldProviderKringle;
 import com.zapcloudstudios.festivities3.kringle.biome.BiomeGenKringle;
 import com.zapcloudstudios.festivities3.player.PlayerData;
+import com.zapcloudstudios.festivities3.tile.SnowglobeScene;
 import com.zapcloudstudios.festivities3.tile.TileEntityGarland;
 import com.zapcloudstudios.festivities3.tile.TileEntityPlate;
 import com.zapcloudstudios.festivities3.tile.TileEntitySnowMachine;
@@ -96,12 +99,13 @@ public class Festivities
 	public static Item figgy;
 	public static Item coloredOrnament;
 	public static Item clearOrnament;
-	public static Item flake;
 	public static Item peppermintStick;
 	public static Item garland;
 	public static Item ginger;
 	public static Item mintOil;
 	public static Item mintLeaf;
+
+	public static Item flake;
 	// public static Item WeWishYouAMerryChristmas;
 
 	public static Block candyLog;
@@ -143,7 +147,7 @@ public class Festivities
 	{
 		instance = this;
 
-		magicCandy = new ItemFestive().setTip("You probibly shouldn't eat this...").setShiftTip("All purpose test item").setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(Festivities.miscTab);
+		magicCandy = new ItemFestive().setTip("You probibly shouldn't eat this...").setShiftTip("Used to get to the Kringle", "Right-Click a snowglobe", "Not available in survival, yet").setUnlocalizedName("magicCandy").setTextureName(Festivities.ID + ":magicCandy").setCreativeTab(Festivities.miscTab);
 		this.registerItem(magicCandy, "magicCandy");
 
 		candyCane = new ItemFoodFestive(2, 0.1F, false).setTip("The meaning of Christmas...").setUnlocalizedName("candyCane").setTextureName(Festivities.ID + ":candyCane").setCreativeTab(Festivities.foodTab);
@@ -166,10 +170,10 @@ public class Festivities
 		figgy = new ItemFoodFestive(4, 0.6F, false).setTip("Never tried it").setShiftTip("Can be displayed on a treat plate", "Stacks on plate twice").setUnlocalizedName("figgy").setTextureName(Festivities.ID + ":figgy").setCreativeTab(Festivities.foodTab);
 		this.registerItem(figgy, "figgy");
 
-		holly = new ItemFestive().setTip("Pretty...but spiky too").setShiftTip("Dropped by grass blocks, tall grass, and other plants").setUnlocalizedName("holly").setTextureName(Festivities.ID + ":holly").setCreativeTab(Festivities.matTab);
+		holly = new ItemFestive().setTip("Pretty...but spiky too").setShiftTip("Not available in survival, yet").setUnlocalizedName("holly").setTextureName(Festivities.ID + ":holly").setCreativeTab(Festivities.matTab);
 		this.registerItem(holly, "holly");
 
-		berries = new ItemFestive().setTip("Not this season").setShiftTip("Dropped by grass blocks, tall grass, and other plants").setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(Festivities.matTab);
+		berries = new ItemFestive().setTip("Not this season").setShiftTip("Not available in survival, yet").setUnlocalizedName("berries").setTextureName(Festivities.ID + ":berries").setCreativeTab(Festivities.matTab);
 		this.registerItem(berries, "berries");
 
 		bluePie = new ItemFoodFestive(8, 0.3F, false).setTip("Mmmm, sweet").setShiftTip("Can be displayed on a treat plate", "Pumpkin pies also work").setUnlocalizedName("bluPie").setTextureName(Festivities.ID + ":blu_pie").setCreativeTab(Festivities.foodTab);
@@ -206,9 +210,6 @@ public class Festivities
 		this.registerBlock(snowMachine, "snowMachine");
 		GameRegistry.registerTileEntity(TileEntitySnowMachine.class, "snowMachine");
 
-		flake = new ItemFestive().setTip("Catch one on your tongue!").setUnlocalizedName("flake").setTextureName(Festivities.ID + ":flake").setCreativeTab(Festivities.matTab);
-		this.registerItem(flake, "flake");
-
 		peppermintStick = new ItemFoodFestive(1, 0.1F, false).setTip("Not as bendy").setUnlocalizedName("peppermintStick").setTextureName(Festivities.ID + ":peppermintStick").setCreativeTab(Festivities.foodTab);
 		this.registerItem(peppermintStick, "peppermintStick");
 
@@ -225,8 +226,11 @@ public class Festivities
 		gingerbreadBlock = new BlockFestive(Material.wood).setTip("Perfect for a house!").setBlockName("gingerbreadBlock").setBlockTextureName(Festivities.ID + ":gingerbreadBlock").setCreativeTab(Festivities.blockTab);
 		this.registerBlock(gingerbreadBlock, "gingerbreadBlock");
 
-		ginger = new ItemFestive().setTip("Don't eat it raw!").setUnlocalizedName("ginger").setTextureName(Festivities.ID + ":ginger").setCreativeTab(Festivities.matTab);
+		ginger = new ItemFestive().setTip("Don't eat it raw!").setShiftTip("Not available in survival, yet").setUnlocalizedName("ginger").setTextureName(Festivities.ID + ":ginger").setCreativeTab(Festivities.matTab);
 		this.registerItem(ginger, "ginger");
+
+		flake = new ItemFlake().setUnlocalizedName("flake").setTextureName(Festivities.ID + ":flake").setCreativeTab(Festivities.miscTab);
+		this.registerItem(flake, "flake");
 
 		// mintLeaf = new
 		// ItemMintPlant().setTip("Green and Minty!").setShiftTip("Right-Click to place").setUnlocalizedName("mintLeaf").setTextureName(Festivities.ID
@@ -342,6 +346,25 @@ public class Festivities
 
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
+
+		int flakemeta = 0;
+		for (SnowglobeScene scene : SnowglobeScene.map.values())
+		{
+			flakemeta++;
+			for (Item item : scene.items)
+			{
+				ItemStack theflake = new ItemStack(Festivities.flake, 1, flakemeta);
+				NBTTagCompound flaketag = theflake.getTagCompound();
+				if (flaketag == null)
+				{
+					flaketag = new NBTTagCompound();
+				}
+				flaketag.setInteger("SceneItem", Item.getIdFromItem(item));
+				theflake.setTagCompound(flaketag);
+				GameRegistry.addShapelessRecipe(theflake, new Object[] { new ItemStack(Festivities.flake, 1, 0), item });
+				GameRegistry.addShapelessRecipe(new ItemStack(item), new Object[] { theflake });
+			}
+		}
 	}
 
 	@EventHandler
