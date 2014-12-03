@@ -10,9 +10,12 @@ item.morecookies.candy.name=Peppermint Cookie
 
 item.holly.name=Holly
 item.berries.name=Seasonal Fruit
-item.flake.name=Snow Flake
 item.ginger.name=Ginger Root
 item.magicCandy.name=Magic Candy
+
+item.flake.name=Snow Flake
+item.flake.diamond.name=Diamond Snow Flake
+item.flake.gold.name=Golden Snow Flake
 
 tile.snowglobe.name=Snowglobe
 tile.treatplate.name=Treat Plate

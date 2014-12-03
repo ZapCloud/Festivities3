@@ -1,40 +1,44 @@
 package com.zapcloudstudios.festivities3.tile;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import com.zapcloudstudios.festivities3.Festivities;
 
 public class SnowglobeScene
 {
-	public static HashMap<String, SnowglobeScene> map = new HashMap<String, SnowglobeScene>();
+	private static HashMap<String, SnowglobeScene> namemap = new HashMap<String, SnowglobeScene>();
 
-	public static SnowglobeScene empty = null;
-	public static SnowglobeScene snowTree = new SnowglobeScene("snowWorld", Items.stick, Item.getItemFromBlock(Blocks.log), Item.getItemFromBlock(Blocks.log2), Item.getItemFromBlock(Blocks.planks));
+	public static SnowglobeScene snowTree = new SnowglobeScene("snowWorld", Items.stick, Blocks.log, Item.getItemFromBlock(Blocks.log2), Item.getItemFromBlock(Blocks.planks));
 	public static SnowglobeScene candyWorld = new SnowglobeScene("candyWorld", Item.getItemFromBlock(Festivities.candyLog), Festivities.peppermintStick, Festivities.candyCane);
 	public static SnowglobeScene hillWorld = new SnowglobeScene("hillWorld", Item.getItemFromBlock(Blocks.ice), Item.getItemFromBlock(Festivities.cobbleIce));
 	public static SnowglobeScene testGrid = new SnowglobeScene("grid", Festivities.magicCandy);
 
 	public static SnowglobeScene portal = candyWorld;
 
-	public String texture;
-	public Item[] items;
+	public final String name;
+	public final Object[] items;
 
-	protected SnowglobeScene(String tex, Item... items)
+	protected SnowglobeScene(String name, Object... items)
 	{
-		this.texture = tex;
+		this.name = name;
 		this.items = items;
-		map.put(tex, this);
+		namemap.put(name, this);
 	}
 
 	public String getTexture()
 	{
-		return "scene_" + this.texture + ".png";
+		return "scene_" + this.name + ".png";
+	}
+
+	public String getUnlocalizedForTranslate()
+	{
+		return "snowscene." + this.name;
 	}
 
 	public ResourceLocation getResource()
@@ -42,19 +46,13 @@ public class SnowglobeScene
 		return new ResourceLocation(Festivities.ID, "textures/snowglobe/" + this.getTexture());
 	}
 
-	public static SnowglobeScene getFromItem(ItemStack stack)
+	public static SnowglobeScene getFromName(String name)
 	{
-		Item item = stack.getItem();
-		for (SnowglobeScene scene : map.values())
-		{
-			for (int j = 0; j < scene.items.length; j++)
-			{
-				if (scene.items[j] == item)
-				{
-					return scene;
-				}
-			}
-		}
-		return null;
+		return namemap.get(name);
+	}
+
+	public static Collection<SnowglobeScene> getScenes()
+	{
+		return namemap.values();
 	}
 }

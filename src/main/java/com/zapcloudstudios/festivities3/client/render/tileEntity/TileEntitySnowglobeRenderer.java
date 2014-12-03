@@ -4,12 +4,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.tileentity.TileEntity;
 
-import org.lwjgl.opengl.GL11;
-
 import com.zapcloudstudios.festivities3.block.BlockSnowglobe;
 import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
 import com.zapcloudstudios.utils.EnumDirection;
 import com.zapcloudstudios.utils.draw.SideDrawBasic;
+
+import org.lwjgl.opengl.GL11;
 
 public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 {
@@ -19,19 +19,19 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 		Tessellator tess = Tessellator.instance;
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
-		
+
 		TileEntitySnowglobe globe = (TileEntitySnowglobe) tile;
-		
+
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
-		
-		if (globe.scene != null)
+
+		if (globe.getScene() != null)
 		{
 			SideDrawBasic side = new SideDrawBasic();
-			side.setTexture(this, globe.scene.getResource(), 98, 40);
-			
+			side.setTexture(this, globe.getScene().getResource(), 98, 40);
+
 			tess.startDrawingQuads();
-			
+
 			for (int i = 0; i < 7; i++)
 			{
 				side.side(EnumDirection.YUp, 14, 14, 1, i * 2 + 2, 1);
@@ -39,7 +39,7 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 				side.setFlip(false, true);
 				side.draw();
 			}
-			
+
 			for (int i = 0; i < 7; i++)
 			{
 				side.side(EnumDirection.ZUp, 14, 13, 1, 2, 14 - i * 2);
@@ -47,7 +47,7 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 				side.setFlip(true, false);
 				side.draw();
 			}
-			
+
 			for (int i = 0; i < 7; i++)
 			{
 				side.side(EnumDirection.XUp, 14, 13, i * 2 + 2, 2, 1);
@@ -55,7 +55,7 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 				side.setFlip(false, false);
 				side.draw();
 			}
-			
+
 			tess.draw();
 		}
 		else
@@ -63,11 +63,11 @@ public class TileEntitySnowglobeRenderer extends TileEntityFestivitiesRenderer
 			SideDrawBasic side = new SideDrawBasic();
 			side.setTexture(this, TextureMap.locationBlocksTexture, BlockSnowglobe.baseIcon);
 			tess.startDrawingQuads();
-			
+
 			side.side(EnumDirection.YUp, 14, 14, 1, 3, 1);
 			side.selectUV(1, 1);
 			side.draw();
-			
+
 			tess.draw();
 		}
 		GL11.glPopMatrix();

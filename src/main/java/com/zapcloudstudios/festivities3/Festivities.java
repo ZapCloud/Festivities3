@@ -347,23 +347,39 @@ public class Festivities
 		DimensionManager.registerProviderType(this.kringleId, WorldProviderKringle.class, false);
 		DimensionManager.registerDimension(this.kringleId, this.kringleId);
 
-		int flakemeta = 0;
-		for (SnowglobeScene scene : SnowglobeScene.map.values())
+		for (SnowglobeScene scene : SnowglobeScene.getScenes())
 		{
-			flakemeta++;
-			for (Item item : scene.items)
+			for (Object sceneObject : scene.items)
 			{
-				ItemStack theflake = new ItemStack(Festivities.flake, 1, flakemeta);
-				NBTTagCompound flaketag = theflake.getTagCompound();
-				if (flaketag == null)
+				ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+				if (sceneObject instanceof ItemStack)
 				{
-					flaketag = new NBTTagCompound();
+					stacks.add((ItemStack) sceneObject);
 				}
-				flaketag.setInteger("SceneItem", Item.getIdFromItem(item));
-				theflake.setTagCompound(flaketag);
-				GameRegistry.addShapelessRecipe(theflake, new Object[] { new ItemStack(Festivities.flake, 1, 0), item });
-				GameRegistry.addShapelessRecipe(new ItemStack(item), new Object[] { theflake });
+				else if (sceneObject instanceof Item)
+				{
+					Item item = (Item) sceneObject;
+					item.getSubItems(item, null, stacks);
+				}
+				else if (sceneObject instanceof Block)
+				{
+					Item item = Item.getItemFromBlock((Block) sceneObject);
+					item.getSubItems(item, null, stacks);
+				}
+				for (ItemStack stack : stacks)
+				{
+					ItemStack theflake = new ItemStack(Festivities.flake, 1, 1);
+					NBTTagCompound flaketag = new NBTTagCompound();
+					NBTTagCompound itemdat = new NBTTagCompound();
+					stack.writeToNBT(itemdat);
+					flaketag.setTag("SceneItem", itemdat);
+					flaketag.setString("Scene", scene.name);
+					theflake.setTagCompound(flaketag);
+					GameRegistry.addShapelessRecipe(theflake, new Object[] { new ItemStack(Festivities.flake, 1, 0), stack });
+				}
 			}
+
+			GameRegistry.addShapelessRecipe(new ItemStack(Festivities.flake, 1, 0), new Object[] { new ItemStack(Festivities.flake, 1, 1) });
 		}
 	}
 
