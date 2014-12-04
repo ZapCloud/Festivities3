@@ -82,19 +82,19 @@ public abstract class DrawBase
 	
 	public void setTexture(ITextureBinder bind, ResourceLocation loc)
 	{
-		bind.bindTexture(loc);
+		bind.bindFestiveTexture(loc);
 	}
 	
 	public void setTexture(ITextureBinder bind, ResourceLocation loc, IIcon icon)
 	{
 		this.setTexture(icon);
-		bind.bindTexture(loc);
+		bind.bindFestiveTexture(loc);
 	}
 	
 	public void setTexture(ITextureBinder bind, ResourceLocation loc, IIcon icon, int usize, int vsize)
 	{
 		this.setTexture(icon, usize, vsize);
-		bind.bindTexture(loc);
+		bind.bindFestiveTexture(loc);
 	}
 	
 	public void setTexture(ITextureBinder bind, ResourceLocation loc, int usize, int vsize)

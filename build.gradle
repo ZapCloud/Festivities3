@@ -36,7 +36,7 @@ configFile.withReader
     project.ext.config = new ConfigSlurper().parse prop
 }
 
-version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}}"
+version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}.${config.version.mod.build}"
 
 group= "com.zapcloudstudios.festivities3"
 archivesBaseName = "festivities3"
@@ -45,6 +45,9 @@ minecraft
 {
     version = "${config.version.minecraft}-${config.version.forge}"
     runDir = "eclipse"
+	
+	replace "@VERSION@", project.version
+    replaceIn "Festivities.java"
 }
 
 dependencies 

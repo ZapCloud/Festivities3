@@ -5,7 +5,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatComponentText;
 
 import com.zapcloudstudios.festivities3.Festivities;
 import com.zapcloudstudios.festivities3.kringle.KringleTeleporter;
@@ -74,7 +74,7 @@ public class CommandKringle extends CommandBase
 		else
 		{
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
-			icommandsender.addChatMessage(new ChatComponentTranslation("chat.type.announcement", new Object[] { Festivities.CHATNAME, "Use \\gotokringle again to return to the overworld" }));
+			icommandsender.addChatMessage(new ChatComponentText("Use \\gotokringle again to return to the overworld"));
 		}
 		return true;
 	}

@@ -24,7 +24,11 @@ public class EventHooks
 	@SubscribeEvent
 	public void onEntityJoin(EntityJoinWorldEvent event)
 	{
-		
+		if (event.entity instanceof EntityPlayerMP)
+		{
+			EntityPlayerMP player = (EntityPlayerMP) event.entity;
+			Festivities.sendUpdateWarning(player);
+		}
 	}
 	
 	@SubscribeEvent

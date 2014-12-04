@@ -14,6 +14,7 @@ item.ginger.name=Ginger Root
 item.magicCandy.name=Magic Candy
 
 item.flake.name=Snow Flake
+item.flake.scene=Snow Flake
 item.flake.diamond.name=Diamond Snow Flake
 item.flake.gold.name=Golden Snow Flake
 
@@ -50,3 +51,7 @@ tile.iceBrickCracked.name=Cracked Ice Brick
 tile.cobbleIce.name=Cobble Ice
 tile.candyPlanks.name=Peppermint Planks
 tile.gingerbreadBlock.name=Gingerbread
+
+snowscene.snowWorld.name=Snowy Tree
+snowscene.candyWorld.name=The Kringle
+snowscene.hillWorld.name=Snowy Hill

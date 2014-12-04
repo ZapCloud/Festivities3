@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.zapcloudstudios.festivities3.Festivities;
 import com.zapcloudstudios.festivities3.tile.TileEntitySnowMachine;
 
 import cpw.mods.fml.relauncher.Side;
@@ -24,6 +25,7 @@ public class BlockSnowMachine extends BlockFestiveContainer
 	{
 		super(par2Material);
 		this.setShouldRender3D(false);
+		this.setBlockTextureName(Festivities.ID + ":snowMachine");
 	}
 	
 	@Override
@@ -71,10 +73,10 @@ public class BlockSnowMachine extends BlockFestiveContainer
 				snow -= 16;
 				
 				float f = 0.7F;
-				double dx = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-				double dy = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.2D + 0.6D;
-				double dz = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-				EntityItem entityitem = new EntityItem(world, (double) par2 + dx, (double) par3 + dy, (double) par4 + dz, new ItemStack(Items.snowball, size));
+				double dx = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+				double dy = world.rand.nextFloat() * f + (1.0F - f) * 0.2D + 0.6D;
+				double dz = world.rand.nextFloat() * f + (1.0F - f) * 0.5D;
+				EntityItem entityitem = new EntityItem(world, par2 + dx, par3 + dy, par4 + dz, new ItemStack(Items.snowball, size));
 				world.spawnEntityInWorld(entityitem);
 			}
 		}
