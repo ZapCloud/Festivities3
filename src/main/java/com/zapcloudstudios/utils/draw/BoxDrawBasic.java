@@ -6,7 +6,7 @@ public class BoxDrawBasic extends BoxDraw
 	{
 		super();
 	}
-	
+
 	private float getNormal()
 	{
 		if (this.inside)
@@ -18,7 +18,7 @@ public class BoxDrawBasic extends BoxDraw
 			return 1.0F;
 		}
 	}
-	
+
 	@Override
 	public void XUp()
 	{
@@ -47,8 +47,8 @@ public class BoxDrawBasic extends BoxDraw
 			v2 = this.textureV;
 		}
 		this.tess.setNormal(this.getNormal(), 0.0F, 0.0F);
-		int z1;
-		int z2;
+		float z1;
+		float z2;
 		if (this.inside)
 		{
 			z1 = this.zpos + this.length;
@@ -74,7 +74,7 @@ public class BoxDrawBasic extends BoxDraw
 			this.addVertexWithUV(this.xpos + this.width, this.ypos, z2, u2, v2);
 		}
 	}
-	
+
 	@Override
 	public void XDown()
 	{
@@ -103,8 +103,8 @@ public class BoxDrawBasic extends BoxDraw
 			v2 = this.textureV;
 		}
 		this.tess.setNormal(-this.getNormal(), 0.0F, 0.0F);
-		int z1;
-		int z2;
+		float z1;
+		float z2;
 		if (this.inside)
 		{
 			z1 = this.zpos;
@@ -130,7 +130,7 @@ public class BoxDrawBasic extends BoxDraw
 			this.addVertexWithUV(this.xpos, this.ypos, z2, u2, v2);
 		}
 	}
-	
+
 	@Override
 	public void YUp()
 	{
@@ -159,8 +159,8 @@ public class BoxDrawBasic extends BoxDraw
 			v2 = this.textureV;
 		}
 		this.tess.setNormal(0.0F, this.getNormal(), 0.0F);
-		int x1;
-		int x2;
+		float x1;
+		float x2;
 		if (this.inside)
 		{
 			x1 = this.xpos + this.width;
@@ -186,7 +186,7 @@ public class BoxDrawBasic extends BoxDraw
 			this.addVertexWithUV(x2, this.ypos + this.height, this.zpos, u2, v1);
 		}
 	}
-	
+
 	@Override
 	public void YDown()
 	{
@@ -215,8 +215,8 @@ public class BoxDrawBasic extends BoxDraw
 			v2 = this.textureV;
 		}
 		this.tess.setNormal(0.0F, -this.getNormal(), 0.0F);
-		int x1;
-		int x2;
+		float x1;
+		float x2;
 		if (this.inside)
 		{
 			x1 = this.xpos;
@@ -242,7 +242,7 @@ public class BoxDrawBasic extends BoxDraw
 			this.addVertexWithUV(x2, this.ypos, this.zpos, u2, v1);
 		}
 	}
-	
+
 	@Override
 	public void ZUp()
 	{
@@ -271,8 +271,8 @@ public class BoxDrawBasic extends BoxDraw
 			v2 = this.textureV;
 		}
 		this.tess.setNormal(0.0F, 0.0F, this.getNormal());
-		int x1;
-		int x2;
+		float x1;
+		float x2;
 		if (this.inside)
 		{
 			x1 = this.xpos;
@@ -298,7 +298,7 @@ public class BoxDrawBasic extends BoxDraw
 			this.addVertexWithUV(x2, this.ypos, this.zpos + this.length, u2, v2);
 		}
 	}
-	
+
 	@Override
 	public void ZDown()
 	{
@@ -327,8 +327,8 @@ public class BoxDrawBasic extends BoxDraw
 			v2 = this.textureV;
 		}
 		this.tess.setNormal(0.0F, 0.0F, -this.getNormal());
-		int x1;
-		int x2;
+		float x1;
+		float x2;
 		if (this.inside)
 		{
 			x1 = this.xpos + this.width;

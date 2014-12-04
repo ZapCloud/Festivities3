@@ -2,27 +2,27 @@ package com.zapcloudstudios.utils.draw;
 
 public abstract class SimpleDraw extends DrawBase
 {
-	protected int xpos;
-	protected int ypos;
-	protected int zpos;
-	
+	protected float xpos;
+	protected float ypos;
+	protected float zpos;
+
 	protected int textureU;
 	protected int textureV;
-	
+
 	protected boolean rotUVWorldMapping = false;
-	
+
 	public void setRotUVWorldMapping(boolean rot)
 	{
 		this.rotUVWorldMapping = rot;
 	}
-	
-	public void setPos(int x, int y, int z)
+
+	public void setPos(float x, float y, float z)
 	{
 		this.xpos = x;
 		this.ypos = y;
 		this.zpos = z;
 	}
-	
+
 	@Override
 	public void forwardTo(DrawBase to)
 	{
@@ -38,17 +38,17 @@ public abstract class SimpleDraw extends DrawBase
 			simpleto.rotUVWorldMapping = this.rotUVWorldMapping;
 		}
 	}
-	
+
 	public void selectV(int v)
 	{
 		this.textureV = v;
 	}
-	
+
 	public void selectU(int u)
 	{
 		this.textureU = u;
 	}
-	
+
 	public void selectUV(int u, int v)
 	{
 		this.textureU = u;

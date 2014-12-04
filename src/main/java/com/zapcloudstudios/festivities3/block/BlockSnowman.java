@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -15,13 +18,25 @@ import net.minecraft.world.World;
 import com.zapcloudstudios.festivities3.Festivities;
 import com.zapcloudstudios.festivities3.client.render.block.RenderBlockSnowman;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockSnowman extends BlockFestiveComplex
 {
+	public static IIcon partsIcon;
+
 	public BlockSnowman()
 	{
 		super(Material.craftedSnow);
 		this.setRenderer(RenderBlockSnowman.class);
 		this.setBlockTextureName("snow");
+		this.setBlockBounds(3 / 16.0F, 0.0F, 3 / 16.0F, 13 / 16.0F, 1.0F, 13 / 16.0F);
+	}
+
+	@Override
+	public boolean canHarvestBlock(EntityPlayer player, int meta)
+	{
+		return true;
 	}
 
 	@Override
@@ -40,6 +55,13 @@ public class BlockSnowman extends BlockFestiveComplex
 	public boolean renderAsNormalBlock()
 	{
 		return false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg)
+	{
+		BlockSnowman.partsIcon = reg.registerIcon(Festivities.ID + ":snowman");
 	}
 
 	@Override
