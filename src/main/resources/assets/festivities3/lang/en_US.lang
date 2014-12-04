@@ -18,6 +18,9 @@ item.flake.scene=Snow Flake
 item.flake.diamond.name=Diamond Snow Flake
 item.flake.gold.name=Golden Snow Flake
 
+item.snowmanParts.name=Snowman Accessories
+item.mintLeaf.name=Mint
+
 tile.snowglobe.name=Snowglobe
 tile.treatplate.name=Treat Plate
 tile.fireplace.name=Fireplace
