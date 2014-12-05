@@ -9,8 +9,6 @@ import net.minecraft.world.IBlockAccess;
 import com.zapcloudstudios.festivities3.block.BlockSnowman;
 import com.zapcloudstudios.utils.draw.BoxDrawBasic;
 
-import org.lwjgl.opengl.GL11;
-
 public class RenderBlockSnowman extends RenderBlockFestivites
 {
 	@Override
@@ -39,16 +37,29 @@ public class RenderBlockSnowman extends RenderBlockFestivites
 			offsety -= 6;
 			renderer.clearOverrideBlockTexture();
 
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-
 			BoxDrawBasic box = new BoxDrawBasic();
 
 			box.setTexture(BlockSnowman.partsIcon);
 
 			box.setDomain(6, 6, 6);
-			box.setScale(6 / 16.0F, 6 / 16.0F, 6 / 16.0F);
-			box.setOffset(5F / 16.0F, offsety / 16.0F, 5F / 16.0F);
+			box.setOffsetMatrixPre(-0.5F, 0.0F, -0.5F);
+			switch (meta)
+			{
+				case 0:
+					box.setMatrix(new float[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
+					break;
+				case 1:
+					box.setMatrix(new float[][] { { 0, 0, -1 }, { 0, 1, 0 }, { 1, 0, 0 } });
+					break;
+				case 2:
+					box.setMatrix(new float[][] { { -1, 0, 0 }, { 0, 1, 0 }, { 0, 0, -1 } });
+					break;
+				case 3:
+					box.setMatrix(new float[][] { { 0, 0, 1 }, { 0, 1, 0 }, { -1, 0, 0 } });
+					break;
+			}
+			box.scaleMatrix(6 / 16.0F);
+			box.setOffsetMatrixPost((3 + 5) / 16.0F + x, offsety / 16.0F + y, (3 + 5) / 16.0F + z);
 
 			box.cube(-1, 6, -1, 8, 2, 8);
 			box.selectUV(8, 8);
@@ -73,16 +84,6 @@ public class RenderBlockSnowman extends RenderBlockFestivites
 			box.setRotUVWorldMapping(false);
 			box.XUp();
 			box.XDown();
-
-			GL11.glPushMatrix();
-			GL11.glTranslated(-0.5D, 0.0D, -0.5D);
-			GL11.glRotatef(meta * 90, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslated(x + 0.5D, y, z + 0.5D);
-
-			tessellator.draw();
-			GL11.glPopMatrix();
-
-			tessellator.startDrawingQuads();
 
 			return true;
 		}

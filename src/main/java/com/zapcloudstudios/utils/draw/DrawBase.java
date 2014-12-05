@@ -20,13 +20,10 @@ public abstract class DrawBase
 	protected boolean flipU = false;
 	protected boolean flipV = false;
 
-	protected float offx = 0.0F;
-	protected float offy = 0.0F;
-	protected float offz = 0.0F;
+	protected float[] matrixPreOff = new float[3];
+	protected float[] matrixPostOff = new float[3];
 
-	protected float scalex = 1.0F;
-	protected float scaley = 1.0F;
-	protected float scalez = 1.0F;
+	protected float[][] matrix = new float[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
 
 	public DrawBase()
 	{
@@ -45,18 +42,30 @@ public abstract class DrawBase
 		to.textureDomainV = this.textureDomainV;
 	}
 
-	public void setOffset(float x, float y, float z)
+	public void setOffsetMatrixPre(float x, float y, float z)
 	{
-		this.offx = x;
-		this.offy = y;
-		this.offz = z;
+		this.matrixPreOff = new float[] { x, y, z };
 	}
 
-	public void setScale(float x, float y, float z)
+	public void setOffsetMatrixPost(float x, float y, float z)
 	{
-		this.scalex = x;
-		this.scaley = y;
-		this.scalez = z;
+		this.matrixPostOff = new float[] { x, y, z };
+	}
+
+	public void setMatrix(float[][] matrix)
+	{
+		this.matrix = matrix;
+	}
+
+	public void scaleMatrix(float scale)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				this.matrix[i][j] *= scale;
+			}
+		}
 	}
 
 	public void addVertexWithUV(double x, double y, double z, int u, int v)
@@ -70,7 +79,14 @@ public abstract class DrawBase
 			U = this.icon.getInterpolatedU(U * 16);
 			V = this.icon.getInterpolatedV(V * 16);
 		}
-		this.tess.addVertexWithUV((x / this.domainX) * this.scalex + this.offx, (y / this.domainY) * this.scaley + this.offy, (z / this.domainZ) * this.scalez + this.offz, U, V);
+		x /= this.domainX;
+		x += this.matrixPreOff[0];
+		y /= this.domainY;
+		y += this.matrixPreOff[1];
+		z /= this.domainZ;
+		z += this.matrixPreOff[2];
+		float[][] m = this.matrix;
+		this.tess.addVertexWithUV(m[0][0] * x + m[0][1] * y + m[0][2] * z + this.matrixPostOff[0], m[1][0] * x + m[1][1] * y + m[1][2] * z + this.matrixPostOff[1], m[2][0] * x + m[2][1] * y + m[2][2] * z + this.matrixPostOff[2], U, V);
 	}
 
 	public void setDomain(int xsize, int ysize, int zsize)

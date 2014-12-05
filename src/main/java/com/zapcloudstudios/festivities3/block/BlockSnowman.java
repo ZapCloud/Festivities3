@@ -114,7 +114,7 @@ public class BlockSnowman extends BlockFestiveComplex
 	{
 		if (world.getBlockMetadata(x, y, z) < 4)
 		{
-			int l = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			int l = (MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) + 2) & 3;
 			world.setBlockMetadataWithNotify(x, y, z, l, 2);
 			world.setBlock(x, y + 1, z, this, 4, 3);
 		}
