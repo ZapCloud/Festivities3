@@ -1,5 +1,8 @@
 package com.zapcloudstudios.utils.draw;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.zapcloudstudios.utils.EnumDirection;
 
 public abstract class BoxDraw extends SimpleDraw
@@ -7,37 +10,37 @@ public abstract class BoxDraw extends SimpleDraw
 	protected int width;
 	protected int height;
 	protected int length;
-
+	
 	protected boolean inside = false;
-
+	
 	public BoxDraw()
 	{
 		super();
 	}
-
+	
 	public void faceOut()
 	{
 		this.inside = false;
 	}
-
+	
 	public void faceIn()
 	{
 		this.inside = true;
 	}
-
+	
 	public void cube(float x, float y, float z, int width, int height, int length)
 	{
 		this.setPos(x, y, z);
 		this.cube(width, height, length);
 	}
-
+	
 	public void cube(int width, int height, int length)
 	{
 		this.width = width;
 		this.height = height;
 		this.length = length;
 	}
-
+	
 	@Override
 	public void forwardTo(DrawBase to)
 	{
@@ -51,7 +54,7 @@ public abstract class BoxDraw extends SimpleDraw
 			boxto.inside = this.inside;
 		}
 	}
-
+	
 	public void drawSide(EnumDirection dir)
 	{
 		switch (dir)
@@ -76,19 +79,19 @@ public abstract class BoxDraw extends SimpleDraw
 				break;
 		}
 	}
-
+	
 	public abstract void XUp();
-
+	
 	public abstract void XDown();
-
+	
 	public abstract void YUp();
-
+	
 	public abstract void YDown();
-
+	
 	public abstract void ZUp();
-
+	
 	public abstract void ZDown();
-
+	
 	public void drawAll()
 	{
 		this.XUp();
@@ -98,7 +101,30 @@ public abstract class BoxDraw extends SimpleDraw
 		this.ZUp();
 		this.ZDown();
 	}
-
+	
+	public void drawAllBut(EnumDirection dir)
+	{
+		for (EnumDirection d : EnumDirection.values())
+		{
+			if (d != dir)
+			{
+				this.drawSide(d);
+			}
+		}
+	}
+	
+	public void drawAllButMulti(EnumDirection... dirs)
+	{
+		List<EnumDirection> list = Arrays.asList(dirs);
+		for (EnumDirection d : EnumDirection.values())
+		{
+			if (!list.contains(d))
+			{
+				this.drawSide(d);
+			}
+		}
+	}
+	
 	public void drawSidesSameTexture()
 	{
 		this.XUp();
@@ -106,7 +132,7 @@ public abstract class BoxDraw extends SimpleDraw
 		this.ZUp();
 		this.ZDown();
 	}
-
+	
 	public void drawSidesGroupedTexture()
 	{
 		int u = this.textureU;
@@ -121,7 +147,7 @@ public abstract class BoxDraw extends SimpleDraw
 		this.textureU = u;
 		this.textureV = v;
 	}
-
+	
 	public void drawAllNormalTextureShape()
 	{
 		int u = this.textureU;
@@ -137,7 +163,7 @@ public abstract class BoxDraw extends SimpleDraw
 		this.textureU = u;
 		this.textureV = v;
 	}
-
+	
 	public void drawAllLeftJustTextureShape(boolean topfirst)
 	{
 		int u = this.textureU;
