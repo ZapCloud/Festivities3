@@ -35,7 +35,7 @@ public class EventHooks
 		float fov = event.fov;
 		EntityPlayer player = event.entity;
 		PlayerClientData data = (PlayerClientData) player.getExtendedProperties(Festivities.PLAYERDATA);
-		event.newfov = data.updateSnowglobeFov(event.fov, this.renderTickTime, player.dimension == Festivities.kringleId);
+		event.newfov = data.updateFov(event.fov, this.renderTickTime, player.dimension == Festivities.kringleId);
 	}
 
 	@SubscribeEvent
@@ -73,6 +73,7 @@ public class EventHooks
 			EntityPlayer player = (EntityPlayer) entity;
 			PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
 			data.tickSnowglobe(player);
+			data.tickSnowglobeExit(player);
 		}
 	}
 

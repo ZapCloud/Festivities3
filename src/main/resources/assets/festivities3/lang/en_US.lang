@@ -27,7 +27,7 @@ tile.fireplace.name=Fireplace
 tile.snowMachine.name=Snow Machine
 
 tile.garland.spruce.name=Garland
-tile.garland.bell.name=Garland
+tile.garland.bell.name=Bell Garland
 
 tile.ornament.clear.name=Ornament
 tile.ornament.black.name=Black Ornament
@@ -56,5 +56,5 @@ tile.candyPlanks.name=Peppermint Planks
 tile.gingerbreadBlock.name=Gingerbread
 
 snowscene.snowWorld.name=Snowy Tree
-snowscene.candyWorld.name=The Kringle
+snowscene.candyWorld.name=Candy World
 snowscene.hillWorld.name=Snowy Hill

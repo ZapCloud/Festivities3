@@ -5,7 +5,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 
 import com.zapcloudstudios.festivities3.Festivities;
 import com.zapcloudstudios.festivities3.kringle.KringleTeleporter;
@@ -17,13 +16,13 @@ public class CommandKringle extends CommandBase
 	{
 		return "/" + this.getCommandName();
 	}
-	
+
 	@Override
 	public String getCommandName()
 	{
 		return "gotokringle";
 	}
-	
+
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
@@ -58,7 +57,7 @@ public class CommandKringle extends CommandBase
 			}
 		}
 	}
-	
+
 	protected boolean runCommand(ICommandSender icommandsender, String username)
 	{
 		EntityPlayerMP player = (EntityPlayerMP) icommandsender.getEntityWorld().getPlayerEntityByName(username);
@@ -74,7 +73,6 @@ public class CommandKringle extends CommandBase
 		else
 		{
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player, Festivities.kringleId, new KringleTeleporter(mServer.worldServerForDimension(Festivities.kringleId)));
-			icommandsender.addChatMessage(new ChatComponentText("Use \\gotokringle again to return to the overworld"));
 		}
 		return true;
 	}

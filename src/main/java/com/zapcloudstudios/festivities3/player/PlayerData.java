@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
@@ -19,21 +20,71 @@ import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
 public class PlayerData implements IExtendedEntityProperties
 {
 	public static final int timeToPortal = 80;
+	public static final int timeToExit = 80;
 
+	public boolean hasGlobe = false;
 	public int globex;
 	public int globey;
 	public int globez;
+	public int globeDimention;
+
+	public boolean hasExit = false;
+	public int exitx;
+	public int exitz;
+
+	private int failSnowglobeTime;
 
 	protected boolean isLookingAtSnowglobePortal = false;
 	private int snowglobeTime;
-
 	protected float snowglobeTimeFraction;
+
+	protected boolean isExiting = false;
+	private int exitTime;
+	protected float exitTimeFraction;
 
 	public long santaCooldown = 0;
 
 	public boolean isLookingAtSnowglobePortal()
 	{
 		return this.isLookingAtSnowglobePortal;
+	}
+
+	public void tickSnowglobeExit(EntityPlayer player)
+	{
+		this.isExiting = false;
+		if (player.dimension == Festivities.kringleId && player.isSneaking())
+		{
+			if (Vec3.createVectorHelper(0, 1, 0).dotProduct(player.getLookVec()) > 0.95F)
+			{
+				this.isExiting = true;
+			}
+		}
+
+		if (this.isExiting)
+		{
+			this.exitTime++;
+		}
+		else
+		{
+			this.exitTime = 0;
+		}
+
+		this.exitTimeFraction = this.exitTime / (float) timeToExit;
+
+		if (this.exitTimeFraction > 1.0F)
+		{
+			this.exitTime = 0;
+			if (!player.worldObj.isRemote && player instanceof EntityPlayerMP)
+			{
+				MinecraftServer mcserver = ((EntityPlayerMP) player).mcServer;
+				int d = 0;
+				if (this.hasGlobe)
+				{
+					d = this.globeDimention;
+				}
+				mcserver.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP) player, d, new KringleTeleporter(mcserver.worldServerForDimension(d)));
+			}
+		}
 	}
 
 	public void tickSnowglobe(EntityPlayer player)
@@ -56,8 +107,22 @@ public class PlayerData implements IExtendedEntityProperties
 
 		if (player.dimension == Festivities.kringleId)
 		{
+			if (this.isLookingAtSnowglobePortal)
+			{
+				this.failSnowglobeTime++;
+				if (this.failSnowglobeTime > 60)
+				{
+					if (!player.worldObj.isRemote && player instanceof EntityPlayerMP)
+					{
+						player.addChatComponentMessage(new ChatComponentText("Look up and hold shift to exit the kringle."));
+					}
+					this.failSnowglobeTime = -200;
+				}
+			}
 			return;
 		}
+
+		this.failSnowglobeTime = 0;
 
 		if (this.isLookingAtSnowglobePortal)
 		{
@@ -100,6 +165,12 @@ public class PlayerData implements IExtendedEntityProperties
 		compound.setInteger("globex", this.globex);
 		compound.setInteger("globey", this.globey);
 		compound.setInteger("globez", this.globez);
+		compound.setInteger("globeworld", this.globeDimention);
+		compound.setBoolean("hasglobe", this.hasGlobe);
+
+		compound.setInteger("exitx", this.exitx);
+		compound.setInteger("exitz", this.exitz);
+		compound.setBoolean("hasexit", this.hasExit);
 
 		//compound.setBoolean("isLookingAtSnowglobePortal", this.isLookingAtSnowglobePortal);
 		//compound.setFloat("poralFraction", this.snowglobeTimeFraction);
@@ -111,6 +182,12 @@ public class PlayerData implements IExtendedEntityProperties
 		this.globex = compound.getInteger("globex");
 		this.globey = compound.getInteger("globey");
 		this.globez = compound.getInteger("globez");
+		this.globeDimention = compound.getInteger("globeworld");
+		this.hasGlobe = compound.getBoolean("hasglobe");
+
+		this.exitx = compound.getInteger("exitx");
+		this.exitz = compound.getInteger("exitz");
+		this.hasExit = compound.getBoolean("hasexit");
 	}
 
 	@Override

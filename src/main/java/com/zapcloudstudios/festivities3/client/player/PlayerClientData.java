@@ -7,15 +7,17 @@ import com.zapcloudstudios.festivities3.player.PlayerData;
 
 public class PlayerClientData extends PlayerData
 {
-	public final static float endFovMult = 0.2F;
+	public final static float endFovMult = 0.1F;
+	public final static float endFovMultExit = 1.5F;
 
 	public float unchangedFov = Float.NaN;
 
 	private float lastPortalTime;
+	private float lastExitTime;
 
-	public float updateSnowglobeFov(float currentfov, float partialTime, boolean isInKringle)
+	public float updateFov(float currentfov, float partialTime, boolean isInKringle)
 	{
-		if (this.isLookingAtSnowglobePortal() && !isInKringle && !Float.isNaN(this.unchangedFov))
+		if (!Float.isNaN(this.unchangedFov))
 		{
 			return this.unchangedFov * this.getFovMult(partialTime);
 		}
@@ -33,10 +35,26 @@ public class PlayerClientData extends PlayerData
 		super.tickSnowglobe(player);
 	}
 
+	@Override
+	public void tickSnowglobeExit(EntityPlayer player)
+	{
+		this.lastExitTime = this.exitTimeFraction;
+		super.tickSnowglobeExit(player);
+	}
+
 	public float getFovMult(float partialTime)
 	{
 		float portal = this.getPortalTimeFraction(partialTime);
-		return (1.0F - portal) + (endFovMult * portal);
+		float exit = this.getExitTimeFraction(partialTime);
+		float fov = 1.0F;
+		fov *= (1.0F - portal) + (endFovMult * portal);
+		fov *= (1.0F - exit) + (endFovMultExit * exit);
+		return fov;
+	}
+
+	private float getExitTimeFraction(float partialTime)
+	{
+		return this.lastExitTime + (this.exitTimeFraction - this.lastExitTime) * partialTime;
 	}
 
 	public float getPortalTimeFraction(float partialTime)

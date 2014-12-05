@@ -2,6 +2,7 @@ package com.zapcloudstudios.festivities3.kringle;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
@@ -26,19 +27,38 @@ public class KringleTeleporter extends Teleporter
 			dat.globex = (int) x;
 			dat.globey = (int) y;
 			dat.globez = (int) z;
+			dat.hasGlobe = true;
 			entity.fallDistance = -1000.0F;
-			entity.setPosition(x, 200, z);
-		}
-		else
-		{
-			if (dat.globex == 0 && dat.globey == 0 && dat.globez == 0)
+			if (dat.hasExit)
 			{
-				ChunkCoordinates spawn = player.worldObj.getSpawnPoint();
-				entity.setPosition(spawn.posX, spawn.posY, spawn.posZ);
+				entity.setPosition(dat.exitx, 200, dat.exitz);
 			}
 			else
 			{
+				entity.setPosition(x, 200, z);
+			}
+			if (player.capabilities.isCreativeMode)
+			{
+				player.addChatComponentMessage(new ChatComponentText("Use \\gotokringle to exit the snowglobe."));
+			}
+			else
+			{
+				player.addChatComponentMessage(new ChatComponentText("Look up and hold shift to exit the snowglobe."));
+			}
+		}
+		else
+		{
+			dat.exitx = (int) x;
+			dat.exitz = (int) z;
+			dat.hasExit = true;
+			if (dat.hasGlobe)
+			{
 				entity.setPosition(dat.globex, dat.globey, dat.globez);
+			}
+			else
+			{
+				ChunkCoordinates spawn = player.worldObj.getSpawnPoint();
+				entity.setPosition(spawn.posX, spawn.posY, spawn.posZ);
 			}
 		}
 	}

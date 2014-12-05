@@ -140,12 +140,12 @@ public class BlockSnowglobe extends BlockFestiveContainer
 	@Override
 	public String[] getShiftTip(EntityPlayer player, ItemStack stack)
 	{
-		return new String[] { "Look into snowglobe to go to the Kringle!", "Right-Click with certain items to change the interior" };
+		return new String[] { "Right-Click with certain items to change the interior", "Use magic candy to create the Kringle inside" };
 	}
 
 	@Override
 	public String[] getTip(EntityPlayer player, ItemStack stack)
 	{
-		return new String[] { "A magical snowglobe..." };
+		return new String[] { "Shake it up!" };
 	}
 }
