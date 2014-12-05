@@ -1,7 +1,6 @@
 package com.zapcloudstudios.festivities3.events;
 
 import net.minecraft.block.BlockFlower;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,9 +17,27 @@ import com.zapcloudstudios.festivities3.client.player.PlayerClientData;
 import com.zapcloudstudios.festivities3.player.PlayerData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 public class EventHooks
 {
+	private float renderTickTime;
+
+	@SubscribeEvent
+	public void onClientTick(RenderTickEvent event)
+	{
+		this.renderTickTime = event.renderTickTime;
+	}
+
+	@SubscribeEvent
+	public void getOffsetFOV(FOVUpdateEvent event)
+	{
+		float fov = event.fov;
+		EntityPlayer player = event.entity;
+		PlayerClientData data = (PlayerClientData) player.getExtendedProperties(Festivities.PLAYERDATA);
+		event.newfov = data.updateSnowglobeFov(event.fov, this.renderTickTime, player.dimension == Festivities.kringleId);
+	}
+
 	@SubscribeEvent
 	public void onEntityJoin(EntityJoinWorldEvent event)
 	{
@@ -30,7 +47,7 @@ public class EventHooks
 			Festivities.sendUpdateWarning(player);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event)
 	{
@@ -45,44 +62,20 @@ public class EventHooks
 			player.registerExtendedProperties(Festivities.PLAYERDATA, new PlayerClientData());
 		}
 	}
-	
-	@SubscribeEvent
-	public void getOffsetFOV(FOVUpdateEvent event)
-	{
-		float fov = event.fov;
-		EntityPlayerSP player = event.entity;
-		PlayerClientData data = (PlayerClientData) player.getExtendedProperties(Festivities.PLAYERDATA);
-		if (player.dimension == Festivities.kringleId)
-		{
-			fov += data.getSnowgobePortal(player.worldObj.getWorldTime()) * 0.6F;
-		}
-		else
-		{
-			fov -= data.getSnowgobePortal(player.worldObj.getWorldTime()) * 0.6F;
-		}
-		event.newfov = fov;
-	}
-	
+
 	@SubscribeEvent
 	public void entityUpdateEvent(LivingUpdateEvent event)
 	{
 		EntityLivingBase entity = event.entityLiving;
-		
-		if (entity.ticksExisted % 5 == 0 && entity instanceof EntityPlayer)
+
+		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) entity;
-			
 			PlayerData data = (PlayerData) player.getExtendedProperties(Festivities.PLAYERDATA);
-			
-			if (data.santaCooldown > 0)
-			{
-				data.santaCooldown -= 5;
-			}
-			
-			data.testTimeOut(player.worldObj.getWorldTime());
+			data.tickSnowglobe(player);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onBlockHarvest(HarvestDropsEvent event)
 	{

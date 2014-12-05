@@ -1,67 +1,97 @@
 package com.zapcloudstudios.festivities3.player;
 
-import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
-
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
+import com.zapcloudstudios.festivities3.Festivities;
+import com.zapcloudstudios.festivities3.kringle.KringleTeleporter;
+import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
+
 public class PlayerData implements IExtendedEntityProperties
 {
+	public static final int timeToPortal = 80;
+
 	public int globex;
 	public int globey;
 	public int globez;
 
+	protected boolean isLookingAtSnowglobePortal = false;
+	private int snowglobeTime;
+
+	protected float snowglobeTimeFraction;
+
 	public long santaCooldown = 0;
 
-	protected int snowgobePortalTime = 0;
-	protected long lastWorldTime = -1;
-	protected boolean snowglobe = false;
-
-	public static final int snowglobeTimeOut = TileEntitySnowglobe.lookTick + 1;
-
-	public int incrementSnowglobe(long worldTime)
+	public boolean isLookingAtSnowglobePortal()
 	{
-		this.snowglobe = true;
-		if (lastWorldTime >= 0)
-		{
-			this.snowgobePortalTime += worldTime - this.lastWorldTime;
-		}
-		this.lastWorldTime = worldTime;
-		return this.getSnowgobePortalTime();
+		return this.isLookingAtSnowglobePortal;
 	}
 
-	public void testTimeOut(long worldTime)
+	public void tickSnowglobe(EntityPlayer player)
 	{
-		if (this.lastWorldTime >= 0)
+		MovingObjectPosition look = this.serverRayTrace(player, 5);
+
+		this.isLookingAtSnowglobePortal = false;
+		if (look != null && look.typeOfHit == MovingObjectType.BLOCK)
 		{
-			if (worldTime - this.lastWorldTime > this.snowglobeTimeOut)
+			Block block = player.worldObj.getBlock(look.blockX, look.blockY, look.blockZ);
+			if (block == Festivities.snowglobe)
 			{
-				this.resetSnowglobePortal();
+				TileEntitySnowglobe tile = (TileEntitySnowglobe) player.worldObj.getTileEntity(look.blockX, look.blockY, look.blockZ);
+				if (tile.isPortal())
+				{
+					this.isLookingAtSnowglobePortal = true;
+				}
 			}
+		}
+
+		if (player.dimension == Festivities.kringleId)
+		{
+			return;
+		}
+
+		if (this.isLookingAtSnowglobePortal)
+		{
+			this.snowglobeTime++;
 		}
 		else
 		{
-			this.lastWorldTime = worldTime;
+			this.snowglobeTime = 0;
+		}
+
+		this.snowglobeTimeFraction = this.snowglobeTime / (float) timeToPortal;
+
+		if (this.snowglobeTimeFraction > 1.0F)
+		{
+			this.snowglobeTime = 0;
+			if (!player.worldObj.isRemote && player instanceof EntityPlayerMP)
+			{
+				MinecraftServer mcserver = ((EntityPlayerMP) player).mcServer;
+				mcserver.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP) player, Festivities.kringleId, new KringleTeleporter(mcserver.worldServerForDimension(Festivities.kringleId)));
+			}
 		}
 	}
 
-	public int getSnowgobePortalTime()
+	public MovingObjectPosition serverRayTrace(EntityPlayer player, double distance)
 	{
-		return this.snowgobePortalTime;
+		float eye = player.worldObj.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight();
+		return this.serverRayTrace(player.worldObj, Vec3.createVectorHelper(player.posX, player.posY + eye, player.posZ), player.getLookVec(), distance);
 	}
 
-	public float getSnowgobePortal()
+	public MovingObjectPosition serverRayTrace(World world, Vec3 position, Vec3 vector, double distance)
 	{
-		return this.getSnowgobePortalTime() / (float) TileEntitySnowglobe.portalTime;
-	}
-
-	public void resetSnowglobePortal()
-	{
-		this.lastWorldTime = -1;
-		this.snowgobePortalTime = 0;
-		this.snowglobe = false;
+		vector = vector.normalize();
+		Vec3 ray = position.addVector(vector.xCoord * distance, vector.yCoord * distance, vector.zCoord * distance);
+		return world.rayTraceBlocks(position, ray, false);
 	}
 
 	@Override
@@ -71,7 +101,8 @@ public class PlayerData implements IExtendedEntityProperties
 		compound.setInteger("globey", this.globey);
 		compound.setInteger("globez", this.globez);
 
-		compound.setInteger("snowglobePortal", this.snowgobePortalTime);
+		//compound.setBoolean("isLookingAtSnowglobePortal", this.isLookingAtSnowglobePortal);
+		//compound.setFloat("poralFraction", this.snowglobeTimeFraction);
 	}
 
 	@Override

@@ -1,29 +1,53 @@
 package com.zapcloudstudios.festivities3.client.player;
 
-import com.zapcloudstudios.festivities3.player.PlayerData;
-import com.zapcloudstudios.festivities3.tile.TileEntitySnowglobe;
-
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.zapcloudstudios.festivities3.player.PlayerData;
 
 public class PlayerClientData extends PlayerData
 {
-	public float getSnowgobePortal(long worldTime)
+	public final static float endFovMult = 0.2F;
+
+	public float unchangedFov = Float.NaN;
+
+	private float lastPortalTime;
+
+	public float updateSnowglobeFov(float currentfov, float partialTime, boolean isInKringle)
 	{
-		if (this.snowglobe)
+		if (this.isLookingAtSnowglobePortal() && !isInKringle && !Float.isNaN(this.unchangedFov))
 		{
-			int t = this.snowgobePortalTime + (int) (worldTime - this.lastWorldTime);
-			return t / (float) TileEntitySnowglobe.portalTime;
+			return this.unchangedFov * this.getFovMult(partialTime);
 		}
 		else
 		{
-			return 0.0F;
+			this.unchangedFov = currentfov;
+			return this.unchangedFov;
 		}
+	}
+
+	@Override
+	public void tickSnowglobe(EntityPlayer player)
+	{
+		this.lastPortalTime = this.snowglobeTimeFraction;
+		super.tickSnowglobe(player);
+	}
+
+	public float getFovMult(float partialTime)
+	{
+		float portal = this.getPortalTimeFraction(partialTime);
+		return (1.0F - portal) + (endFovMult * portal);
+	}
+
+	public float getPortalTimeFraction(float partialTime)
+	{
+		return this.lastPortalTime + (this.snowglobeTimeFraction - this.lastPortalTime) * partialTime;
 	}
 
 	@Override
 	public void saveNBTData(NBTTagCompound compound)
 	{
-		// super.saveNBTData(compound);
+
 	}
 
 	@Override
@@ -31,6 +55,7 @@ public class PlayerClientData extends PlayerData
 	{
 		super.loadNBTData(compound);
 
-		this.snowgobePortalTime = compound.getInteger("snowglobePortal");
+		//this.isLookingAtSnowglobePortal = compound.getBoolean("isLookingAtSnowglobePortal");
+		//this.snowglobeTimeFraction = compound.getFloat("poralFraction");
 	}
 }
