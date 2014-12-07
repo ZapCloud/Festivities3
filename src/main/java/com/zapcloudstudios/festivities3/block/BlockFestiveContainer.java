@@ -81,7 +81,11 @@ public abstract class BlockFestiveContainer extends BlockContainer implements IT
 				{
 					this.render = rclass.newInstance();
 				}
-				catch (InstantiationException | IllegalAccessException e)
+				catch (InstantiationException e)
+				{
+					
+				}
+				catch (IllegalAccessException e)
 				{
 					
 				}
