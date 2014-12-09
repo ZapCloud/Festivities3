@@ -1,0 +1,11 @@
+{
+  "records.WeWishYouAMerryChristmas": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "records/WeWishYouAMerryChristmas",
+        "stream": true
+      }
+    ]
+  }
+}
