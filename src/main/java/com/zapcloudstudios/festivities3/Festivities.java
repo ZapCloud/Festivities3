@@ -40,6 +40,7 @@ import com.zapcloudstudios.festivities3.block.BlockSnowman;
 import com.zapcloudstudios.festivities3.block.BlockTreatPlate;
 import com.zapcloudstudios.festivities3.command.CommandKringle;
 import com.zapcloudstudios.festivities3.events.EventHooks;
+import com.zapcloudstudios.festivities3.item.ItemChristmasRecord;
 import com.zapcloudstudios.festivities3.item.ItemFestive;
 import com.zapcloudstudios.festivities3.item.ItemFestiveBlock;
 import com.zapcloudstudios.festivities3.item.ItemFlake;
@@ -113,7 +114,7 @@ public class Festivities
 	public static Item snowmanParts;
 
 	public static Item flake;
-	// public static Item WeWishYouAMerryChristmas;
+	public static Item WeWishYouAMerryChristmas;
 
 	public static Block candyLog;
 	public static Block snowglobe;
@@ -239,6 +240,9 @@ public class Festivities
 
 		flake = new ItemFlake().setUnlocalizedName("flake").setTextureName(Festivities.ID + ":flake").setCreativeTab(Festivities.miscTab);
 		this.registerItem(flake, "flake");
+                
+                WeWishYouAMerryChristmas = new ItemChristmasRecord("WeWishYouAMerryChristmas").setTip("We Wish You A Merry Christmas").setUnlocalizedName("WeWishYouAMerryChristmas").setTextureName(Festivities.ID + ":WeWishYouAMerryChristmas").setCreativeTab(Festivities.miscTab);
+                this.registerItem(WeWishYouAMerryChristmas, "WeWishYouAMerryChristmas");
 
 		mintLeaf = new ItemFestive().setTip("Green and Minty!").setUnlocalizedName("mintLeaf").setTextureName(Festivities.ID + ":mintLeaf").setCreativeTab(Festivities.miscTab);
 		this.registerItem(mintLeaf, "mintLeaf");
